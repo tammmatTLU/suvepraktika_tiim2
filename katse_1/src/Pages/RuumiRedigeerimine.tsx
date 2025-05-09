@@ -10,7 +10,7 @@ function RuumiRedigeerimine() {
         const componentMap: { [key: string]: React.ElementType } = {
             "A-001": Kujundus_A001,
             "A-002": Kujundus_A002,
-            "A-003": Kujundus_A003,
+            "A-003": Kujundus_A003
         };
     
         // Dynamically select the component
@@ -20,7 +20,7 @@ function RuumiRedigeerimine() {
   return (
     <>
     <Tagasi/>
-    <SelectedComponent/>
+    <SelectedComponent isDraggable={true} isClickable={false}/>
     </>
   )
 }

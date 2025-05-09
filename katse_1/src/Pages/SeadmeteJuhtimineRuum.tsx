@@ -21,7 +21,7 @@ function SeadmeteJuhtimineRuum(){
     return(
         <>
         <Tagasi/>
-        <SelectedComponent/>
+        <SelectedComponent isClickable={true} isDraggable={false}/>
         </>
     )
 }

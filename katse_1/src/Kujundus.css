@@ -3,6 +3,11 @@
     display:flex;
     flex-direction: row;
     justify-content: center;
+    position: relative; /* Allows child elements to be positioned relative to this container */
+    width: 100%; /* Adjust as needed */
+    height: 500px; /* Ensure enough height for dragging */
+    border: 1px solid #ccc; /* Optional: Visualize the container */
+    overflow: hidden; /* Prevent elements from going outside the container */
 }
 
 #roomName{
@@ -17,11 +22,15 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    width: 100%;
+    height: 100%;
 }
 
 .controlButton{
     font-size: 32pt;
     width: 25vw;
+    height: auto;
+    cursor: pointer;
 }
 
 .indicator{
