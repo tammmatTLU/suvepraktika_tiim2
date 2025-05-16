@@ -23,3 +23,14 @@
   ```
   npm run dev
   ```
+### Projekt hostitud vercel lehel
+
+https://vaikotuul-github-io-vaikotuuls-projects.vercel.app/
+
+admin paneel:
+kasutajanimi: admin
+parool: admin123
+
+user paneel (vastavalt auditooriumile saad selle kasutajavaate):
+kasutajanimi: A-001 / A-002 / A-003
+parool: user123
