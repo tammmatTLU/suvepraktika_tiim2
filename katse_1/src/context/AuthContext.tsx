@@ -1,11 +1,6 @@
 
-import React, { createContext, useState, useContext, ReactNode } from "react";
-
-type User = {
-  id: string;
-  username: string;
-  role: "admin" | "user";
-};
+import React, { createContext, useState, useContext, ReactNode, useEffect } from "react";
+import { User } from "../userModel";
 
 interface AuthContextType {
   user: User | null;
@@ -28,7 +23,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [user, setUser] = useState<User | null>(null);
   
   // Check if user is stored in localStorage on initial load
-  React.useEffect(() => {
+  useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
       setUser(JSON.parse(storedUser));
@@ -64,6 +59,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   );
 };
 
+//hook
 export const useAuth = (): AuthContextType => {
   const context = useContext(AuthContext);
   if (context === undefined) {

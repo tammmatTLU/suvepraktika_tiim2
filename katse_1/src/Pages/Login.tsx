@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState, FormEvent, useEffect } from 'react'
 import {useNavigate} from 'react-router-dom'
 import "../Login.css"
 import { useAuth } from '../context/AuthContext';
@@ -12,20 +12,24 @@ function Login() {
   const { login, user } = useAuth();
   const navigate = useNavigate();
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (user) {
       if (user.role === "admin") {
         navigate("/admin");
+
       } else if (user.role === "user") {
         navigate(`/user/${username}`);
       }
     }
   }, [user, navigate]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     const success = await login(username, password);
     if (success) {
+      const storedCount = localStorage.getItem(`${username}-Login:`);
+      const count = storedCount ? parseInt(storedCount) + 1 : 1;
+      localStorage.setItem(`${username}-Login:`, String(count));
     }
   };
 
