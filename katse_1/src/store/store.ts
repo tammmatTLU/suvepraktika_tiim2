@@ -1,8 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import deviceStateReducer from './deviceStateSlice';
-import controlPanelReducer from './controlPanelSlice';
-import deviceListSliceReducer from './deviceListSlice';
-import roomColorsReducer from './roomColorsSlice';
+import undoableRootReducer from './undoableRootReducer';
 
 // Import your reducers here (example: roomReducer)
 // import roomReducer from '../features/room/roomSlice';
@@ -37,13 +34,11 @@ const preloadedState = loadStateFromLocalStorage();
 
 const store = configureStore({
   reducer: {
-    deviceState: deviceStateReducer,
-    controlPanel: controlPanelReducer,
-    deviceList: deviceListSliceReducer,
-    roomColors: roomColorsReducer,
+    undoableRoot: undoableRootReducer,
   },
   preloadedState, // Use the loaded state as the initial state
 });
+
 
 // Subscribe to store changes and save to localStorage
 store.subscribe(() => {

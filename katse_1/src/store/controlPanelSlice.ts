@@ -22,7 +22,7 @@ type ControlPanelState = {
 };
 
 const initialState: ControlPanelState = {
-    "A-001": {
+  "A-001": {
     lights: { position: { x: 50, y: 0 }, size: { width: 320, height: 420 } },
     screen: { position: { x: 450, y: 0 }, size: { width: 320, height: 420 } },
     projector: { position: { x: 850, y: 0 }, size: { width: 320, height: 420 } },
