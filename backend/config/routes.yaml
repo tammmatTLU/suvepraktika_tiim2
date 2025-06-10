@@ -1,5 +1,14 @@
-controllers:
-    resource:
-        path: ../src/Controller/
-        namespace: App\Controller
-    type: attribute
+route1:
+    path: /route1
+    controller: App\Controller\Route1Controller::index
+    methods: [GET]
+
+route2:
+    path: /route2
+    controller: App\Controller\Route2Controller::index
+    methods: [GET]
+
+route3:
+    path: /route3
+    controller: App\Controller\Route3Controller::index
+    methods: [GET]
