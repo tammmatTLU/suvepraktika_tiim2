@@ -16,7 +16,7 @@ class GroupInstanceController extends AbstractController
         $this->groupInstanceRepository = $groupInstanceRepository;
     }
 
-    public function index(): Response
+    public function findAllGroupInstances(): Response
     {
         $groupinstances = $this->groupInstanceRepository->findAll();
         

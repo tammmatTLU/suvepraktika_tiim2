@@ -16,7 +16,7 @@ class ButtonTemplateController extends AbstractController
         $this->buttonTemplateRepository = $buttonTemplateRepository;
     }
 
-    public function index(): Response
+    public function findAllButtonTemplates(): Response
     {
         $buttontemplates = $this->buttonTemplateRepository->findAll();
         

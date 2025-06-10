@@ -16,7 +16,7 @@ class DeviceController extends AbstractController
         $this->deviceRepository = $deviceRepository;
     }
 
-    public function index(): Response
+    public function findAllDevices(): Response
     {
         $devices = $this->deviceRepository->findAll();
         

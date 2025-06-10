@@ -17,7 +17,7 @@ class RoomController extends AbstractController
     }
 
     #[Route('/rooms', name: 'app_rooms', methods: ['GET'])]
-    public function index(): Response
+    public function findAllRooms(): Response
     {
         $rooms = $this->roomRepository->findAll();
         

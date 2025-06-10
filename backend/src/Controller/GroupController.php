@@ -16,7 +16,7 @@ class GroupController extends AbstractController
         $this->groupRepository = $groupRepository;
     }
 
-    public function index(): Response
+    public function findAllGroups(): Response
     {
         $groups = $this->groupRepository->findAll();
         

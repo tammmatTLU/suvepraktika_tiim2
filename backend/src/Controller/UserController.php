@@ -16,7 +16,7 @@ class UserController extends AbstractController
         $this->userRepository = $userRepository;
     }
 
-    public function index(): Response
+    public function findAllUsers(): Response
     {
         $users = $this->userRepository->findAll();
         

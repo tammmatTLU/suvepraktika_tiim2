@@ -16,7 +16,7 @@ class ButtonInstanceController extends AbstractController
         $this->buttonInstanceRepository = $buttonInstanceRepository;
     }
 
-    public function index(): Response
+    public function findAllButtonInstances(): Response
     {
         $buttoninstances = $this->buttonInstanceRepository->findAll();
         
