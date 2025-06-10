@@ -16,7 +16,7 @@ class GroupInstance
     #[ORM\Column]
     private array $redux_state = [];
 
-    #[ORM\ManyToOne(inversedBy: 'groupInsances')]
+    #[ORM\ManyToOne(inversedBy: 'groupInstances')]
     #[ORM\JoinColumn(nullable: false)]
     private ?group $group_ID = null;
 
