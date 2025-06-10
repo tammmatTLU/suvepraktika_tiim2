@@ -1,14 +1,39 @@
-route1:
-    path: /route1
-    controller: App\Controller\Route1Controller::index
+users:
+    path: /users
+    controller: App\Controller\UserController::index
     methods: [GET]
 
-route2:
-    path: /route2
-    controller: App\Controller\Route2Controller::index
+rooms:
+    path: /rooms
+    controller: App\Controller\RoomController::index
     methods: [GET]
 
-route3:
-    path: /route3
-    controller: App\Controller\Route3Controller::index
+group-instances:
+    path: /group-instances
+    controller: App\Controller\GroupInstanceController::index
+    methods: [GET]
+
+groups:
+    path: /groups
+    controller: App\Controller\GroupController::index
+    methods: [GET]
+
+devices:
+    path: /devices
+    controller: App\Controller\DeviceController::index
+    methods: [GET]
+
+button-templates:
+    path: /button-templates
+    controller: App\Controller\ButtonTemplateController::index
+    methods: [GET]
+
+button-instances:
+    path: /button-instances
+    controller: App\Controller\ButtonInstanceController::index
+    methods: [GET]
+
+belongs:
+    path: /belongs
+    controller: App\Controller\BelongsController::index
     methods: [GET]

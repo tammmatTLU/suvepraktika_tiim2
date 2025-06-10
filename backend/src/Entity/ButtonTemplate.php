@@ -119,7 +119,6 @@ class ButtonTemplate
     public function removeBelong(Belongs $belong): static
     {
         if ($this->belongs->removeElement($belong)) {
-            // set the owning side to null (unless already changed)
             if ($belong->getButtonTemplateID() === $this) {
                 $belong->setButtonTemplateID(null);
             }
