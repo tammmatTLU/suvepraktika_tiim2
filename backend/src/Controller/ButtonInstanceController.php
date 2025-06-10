@@ -3,10 +3,11 @@
 namespace App\Controller;
 
 use App\Repository\ButtonInstanceRepository;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
-class ButtonInstanceController
+class ButtonInstanceController extends AbstractController
 {
     private ButtonInstanceRepository $buttonInstanceRepository;
 

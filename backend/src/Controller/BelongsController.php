@@ -3,10 +3,11 @@
 namespace App\Controller;
 
 use App\Repository\BelongsRepository;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
-class BelongsController
+class BelongsController extends AbstractController
 {
     private BelongsRepository $belongsRepository;
 
