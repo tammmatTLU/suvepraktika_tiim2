@@ -16,7 +16,7 @@ class BelongsController extends AbstractController
         $this->belongsRepository = $belongsRepository;
     }
 
-    public function index(): Response
+    public function findAllBelongs(): Response
     {
         $belongs = $this->belongsRepository->findAll();
         
