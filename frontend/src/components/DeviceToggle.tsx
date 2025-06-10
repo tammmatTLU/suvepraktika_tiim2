@@ -11,46 +11,25 @@ export default function DeviceToggle(device: any){
     return (
         <div
         key={device.id}
-        style={{
-            padding: '10px',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-            width: '20%',
-            height: '100%',
-        }}
+        className="device-toggle"
         >
         <span
-            className={deviceState ? 'indicator indicator-on' : 'indicator'}
-            style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            width: '100%',
-            height: '100%',
-            color: 'black',
-            }}
+            className= "device-name"
         >
             {device.name}
         </span>
         <button
             onClick={() => handleDeviceToggle(true)}
-            className="controlButton"
-            style={{
-            width: '100%',
-            height: '30%',
-            }}
+            className="btn-grad"
         >
+            <span
+            className={deviceState ? 'indicator indicator-on' : 'indicator'}
+            />
             ON
         </button>
         <button
             onClick={() => handleDeviceToggle(false)}
-            className="controlButton"
-            style={{
-            width: '100%',
-            height: '30%',
-            }}
+            className="btn-grad"
         >
             OFF
         </button>

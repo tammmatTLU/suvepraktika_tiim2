@@ -4,7 +4,7 @@ export default function HeaderBar(){
 
     return(
         <header>
-            <h1>Device Control</h1>
+            <h1>Puldi/vaate nimi</h1>
         </header>
     )
 }
