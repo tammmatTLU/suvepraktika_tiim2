@@ -3,10 +3,11 @@
 namespace App\Controller;
 
 use App\Repository\GroupInstanceRepository;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
-class GroupInstanceController
+class GroupInstanceController extends AbstractController
 {
     private GroupInstanceRepository $groupInstanceRepository;
 

@@ -1,39 +1,39 @@
 users:
-    path: /users
+    path: api/users
     controller: App\Controller\UserController::index
     methods: [GET]
 
 rooms:
-    path: /rooms
+    path: api/rooms
     controller: App\Controller\RoomController::index
     methods: [GET]
 
 group-instances:
-    path: /group-instances
+    path: api/group-instances
     controller: App\Controller\GroupInstanceController::index
     methods: [GET]
 
 groups:
-    path: /groups
+    path: api/groups
     controller: App\Controller\GroupController::index
     methods: [GET]
 
 devices:
-    path: /devices
+    path: api/devices
     controller: App\Controller\DeviceController::index
     methods: [GET]
 
 button-templates:
-    path: /button-templates
+    path: api/button-templates
     controller: App\Controller\ButtonTemplateController::index
     methods: [GET]
 
 button-instances:
-    path: /button-instances
+    path: api/button-instances
     controller: App\Controller\ButtonInstanceController::index
     methods: [GET]
 
 belongs:
-    path: /belongs
+    path: api/belongs
     controller: App\Controller\BelongsController::index
     methods: [GET]

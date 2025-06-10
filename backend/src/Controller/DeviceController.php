@@ -3,10 +3,11 @@
 namespace App\Controller;
 
 use App\Repository\DeviceRepository;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
-class DeviceController
+class DeviceController extends AbstractController
 {
     private DeviceRepository $deviceRepository;
 
