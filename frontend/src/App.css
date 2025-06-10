@@ -11,7 +11,6 @@ html{
     background: #870000;  /* fallback for old browsers */
     background: -webkit-linear-gradient(to right, #190A05, #870000);  /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(to right, #190A05, #870000); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
 }
 
 body{
@@ -21,8 +20,11 @@ body{
 
 .control-panel{
     grid-row: 2/3;
-    display: flex;
-    justify-content: space-evenly;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    justify-items: center;
+    align-items: center;
+    gap: 10px;
 }
 
 .control-panel > div button{
@@ -56,20 +58,6 @@ header{
         0 0 20px rgba(0, 255, 34, 0.6),
         0 0 30px rgba(0, 255, 34, 0.41);
 }
-
-/*button{
-    border-radius: 10px;
-    background-color: rgb(17, 120, 204)
-}
-
-button:hover {
-    background-color: rgba(17, 120, 204, 0.2);
-    cursor: pointer;
-    transform: scale(1.05);
-    transition: all 0.2s ease-in-out;
-}
-*/
-
 
 .btn-grad {background-image: linear-gradient(to right, #870000 0%, #9b0012  51%, #6d0713  100%)}
 .btn-grad {

@@ -8,6 +8,9 @@ export default function DeviceControlPage(){
             { id: 'lights', name: 'Tuled' },
             { id: 'screen', name: 'Ekraan' },
             { id: 'projector', name: 'Projektor' },
+            { id: 'seade1', name: 'seade' },
+            { id: 'seade2', name: 'seade' },
+            { id: 'seade3', name: 'seade' },
         ]}
     return(
         <>
