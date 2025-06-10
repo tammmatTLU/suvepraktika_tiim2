@@ -90,7 +90,6 @@ class User
     public function removeGroupInstance(GroupInstance $groupInstance): static
     {
         if ($this->groupInstances->removeElement($groupInstance)) {
-            // set the owning side to null (unless already changed)
             if ($groupInstance->getUserID() === $this) {
                 $groupInstance->setUserID(null);
             }

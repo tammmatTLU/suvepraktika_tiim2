@@ -75,7 +75,6 @@ class Group
     public function removeGroupInsance(GroupInstance $groupInsance): static
     {
         if ($this->groupInsances->removeElement($groupInsance)) {
-            // set the owning side to null (unless already changed)
             if ($groupInsance->getGroupID() === $this) {
                 $groupInsance->setGroupID(null);
             }
@@ -105,7 +104,6 @@ class Group
     public function removeBelong(Belongs $belong): static
     {
         if ($this->belongs->removeElement($belong)) {
-            // set the owning side to null (unless already changed)
             if ($belong->getGroupID() === $this) {
                 $belong->setGroupID(null);
             }

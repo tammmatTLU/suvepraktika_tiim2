@@ -1,0 +1,27 @@
+<?php
+
+namespace App\Controller;
+
+use App\Repository\UserRepository;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
+
+class UserController
+{
+    private UserRepository $userRepository;
+
+    public function __construct(UserRepository $userRepository)
+    {
+        $this->userRepository = $userRepository;
+    }
+
+    public function index(): Response
+    {
+        $users = $this->userRepository->findAll();
+        
+        return new JsonResponse([
+            'data' => $users,
+            'status' => 'success'
+        ]);
+    }
+}

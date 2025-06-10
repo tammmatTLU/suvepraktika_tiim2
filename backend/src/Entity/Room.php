@@ -67,7 +67,6 @@ class Room
     public function removeDevice(Device $device): static
     {
         if ($this->devices->removeElement($device)) {
-            // set the owning side to null (unless already changed)
             if ($device->getRoomID() === $this) {
                 $device->setRoomID(null);
             }
