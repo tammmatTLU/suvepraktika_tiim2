@@ -24,9 +24,16 @@ class Room
     #[ORM\OneToMany(targetEntity: Device::class, mappedBy: 'room_ID')]
     private Collection $devices;
 
+    /**
+     * @var Collection<int, ButtonTemplate>
+     */
+    #[ORM\OneToMany(targetEntity: ButtonTemplate::class, mappedBy: 'room_ID')]
+    private Collection $buttonTemplates;
+
     public function __construct()
     {
         $this->devices = new ArrayCollection();
+        $this->buttonTemplates = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -69,6 +76,36 @@ class Room
         if ($this->devices->removeElement($device)) {
             if ($device->getRoomID() === $this) {
                 $device->setRoomID(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ButtonTemplate>
+     */
+    public function getButtonTemplates(): Collection
+    {
+        return $this->buttonTemplates;
+    }
+
+    public function addButtonTemplate(ButtonTemplate $buttonTemplate): static
+    {
+        if (!$this->buttonTemplates->contains($buttonTemplate)) {
+            $this->buttonTemplates->add($buttonTemplate);
+            $buttonTemplate->setRoomID($this);
+        }
+
+        return $this;
+    }
+
+    public function removeButtonTemplate(ButtonTemplate $buttonTemplate): static
+    {
+        if ($this->buttonTemplates->removeElement($buttonTemplate)) {
+            // set the owning side to null (unless already changed)
+            if ($buttonTemplate->getRoomID() === $this) {
+                $buttonTemplate->setRoomID(null);
             }
         }
 
