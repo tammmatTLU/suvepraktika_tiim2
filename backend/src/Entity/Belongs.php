@@ -31,7 +31,7 @@ class Belongs
         return $this->button_template_ID;
     }
 
-    public function setButtonTemplateID(?ButtonTemplate $button_template_ID): static
+    public function setButtonTemplateID(?ButtonTemplate $button_template_ID): self
     {
         $this->button_template_ID = $button_template_ID;
 
@@ -43,7 +43,7 @@ class Belongs
         return $this->group_ID;
     }
 
-    public function setGroupID(?Group $group_ID): static
+    public function setGroupID(?Group $group_ID): self
     {
         $this->group_ID = $group_ID;
 

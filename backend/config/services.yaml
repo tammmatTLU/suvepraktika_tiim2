@@ -8,3 +8,5 @@ services:
     App\:
         resource: '../src/'
 
+    Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface: '@security.password_hasher'
+
