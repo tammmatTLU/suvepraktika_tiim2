@@ -1,0 +1,58 @@
+services:
+  db:
+    image: mariadb:11.4.7
+    container_name: suvepraktika-database
+    restart: unless-stopped
+    env_file:
+      - ./backend/.env
+    volumes:
+      - db-data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      start_period: 2s
+      interval: 5s
+      timeout: 20s
+      retries: 3
+
+  backend:
+    build:
+      context: ./backend/
+      dockerfile: backend.Dockerfile
+    container_name: suvepraktika-backend
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    working_dir: /backend
+    env_file:
+      - ./backend/.env
+    ports:
+      - "3006:3006"
+    command: sh -c "php bin/console doctrine:migrations:migrate -n && symfony server:start --port=3006 --allow-all-ip"
+
+  frontend:
+    build:
+      context: ./frontend/
+      dockerfile: frontend.Dockerfile
+    container_name: suvepraktika-frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    env_file:
+      - ./frontend/.env
+    working_dir: /frontend
+    ports:
+      - "3000:3000"
+    command: npm run dev
+    develop: 
+      watch:
+        - action: sync
+          path: ./frontend
+          target: /frontend
+          ignore: 
+            - node_modules/
+    
+volumes:
+  db-data:
