@@ -8,7 +8,7 @@
 - Tee kindlaks, et seadmes on olemas Node ja NPM ning PHP ja Composer
     - Node ja NPM on mugavaim laadida endale NVM (Node Version Manager) kaudu, aga saab ka teisiti
     - [PHP](https://www.php.net/manual/en/install.php) ja [Composeri](https://getcomposer.org/)
-    alla laadimisel soovime teile kolektiivselt edu
+    alla laadimisel soovime teile kollektiivselt edu
 - Ava terminal meie projekti kaustas ja jooksuta:
 ```bash
 cd frontend
