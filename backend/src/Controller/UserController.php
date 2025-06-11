@@ -19,10 +19,16 @@ class UserController extends AbstractController
     public function findAllUsers(): Response
     {
         $users = $this->userRepository->findAll();
-        
+        $userData = array_map(function($user) {
+            return [
+                'id' => $user->getId(),
+                'name' => $user->getUserName()
+        ];
+    }, $users);
+
         return new JsonResponse([
-            'data' => $users,
+            'data' => $userData,
             'status' => 'success'
-        ]);
+    ]);
     }
 }

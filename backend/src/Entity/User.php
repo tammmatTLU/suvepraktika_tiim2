@@ -6,10 +6,11 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
-class User
+class User implements PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -34,6 +35,9 @@ class User
     #[ORM\OneToMany(targetEntity: ButtonInstance::class, mappedBy: 'user_ID')]
     private Collection $buttonInstances;
 
+    #[ORM\Column(length: 25)]
+    private ?string $role = null;
+
     public function __construct()
     {
         $this->groupInstances = new ArrayCollection();
@@ -57,7 +61,7 @@ class User
         return $this;
     }
 
-    public function getPwdHash(): ?string
+    public function getPassword(): ?string
     {
         return $this->pwd_hash;
     }
@@ -119,11 +123,22 @@ class User
     public function removeButtonInstance(ButtonInstance $buttonInstance): static
     {
         if ($this->buttonInstances->removeElement($buttonInstance)) {
-            // set the owning side to null (unless already changed)
             if ($buttonInstance->getUserID() === $this) {
                 $buttonInstance->setUserID(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getRole(): ?string
+    {
+        return $this->role;
+    }
+
+    public function setRole(string $role): static
+    {
+        $this->role = $role;
 
         return $this;
     }
