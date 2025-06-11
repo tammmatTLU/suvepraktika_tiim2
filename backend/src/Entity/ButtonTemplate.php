@@ -33,6 +33,10 @@ class ButtonTemplate
     #[ORM\OneToMany(targetEntity: Belongs::class, mappedBy: 'button_template_ID')]
     private Collection $belongs;
 
+    #[ORM\ManyToOne(inversedBy: 'buttonTemplates')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Room $room_ID = null;
+
     public function __construct()
     {
         $this->buttonInstances = new ArrayCollection();
@@ -123,6 +127,18 @@ class ButtonTemplate
                 $belong->setButtonTemplateID(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getRoomID(): ?Room
+    {
+        return $this->room_ID;
+    }
+
+    public function setRoomID(?Room $room_ID): static
+    {
+        $this->room_ID = $room_ID;
 
         return $this;
     }
