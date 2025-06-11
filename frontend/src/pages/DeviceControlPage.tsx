@@ -1,27 +1,20 @@
-import HeaderBar from '../components/HeaderBar'
-import DeviceToggle from '../components/DeviceToggle'
+import ControlPanel from '../components/ControlPanel'
+import { useParams } from 'react-router-dom';
 
-export default function DeviceControlPage(){
-    const roomId = "A-001"
-    const devices = {
-        'A-001': [
-            { id: 'lights', name: 'Tuled' },
-            { id: 'screen', name: 'Ekraan' },
-            { id: 'projector', name: 'Projektor' },
-            { id: 'seade1', name: 'seade' },
-            { id: 'seade2', name: 'seade' },
-            { id: 'seade3', name: 'seade' },
-        ]}
+export default function DeviceControlPage() {
+    const remoteName = useParams<{ remoteName: any }>().remoteName || 'A-001';
+    const devices = [
+        { id: 'device1', name: 'Seade 1' },
+        { id: 'device2', name: 'Seade 2' },
+        { id: 'device3', name: 'Seade 3' },
+        { id: 'device4', name: 'Seade 4' }
+    ];
     return(
-        <>
-        <HeaderBar/>
-        <div className="control-panel">
-            {devices[roomId].map((device) => {
-                return(
-                    <DeviceToggle key={device.id} name={device.name}/>
-                )
-            })}
+        <div className="grid-layout">
+            <header>
+                <h1>{remoteName}</h1>
+            </header>
+            <ControlPanel devices={devices}/>
         </div>
-        </>
     )
 }

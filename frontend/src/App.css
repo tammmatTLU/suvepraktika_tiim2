@@ -4,13 +4,21 @@ html{
 }
 
 #root{
-    display: grid;
-    grid-template-rows: 15% 70% 15%;
+    display: flex;
+    justify-content: center;
+    align-items: center;;
     color: rgb(225, 225, 225);
     min-height: 100vh;
     background: #870000;  /* fallback for old browsers */
     background: -webkit-linear-gradient(to right, #190A05, #870000);  /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(to right, #190A05, #870000); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.grid-layout{
+    min-height: 100vh;
+    width: 100%;
+    display: grid;
+    grid-template-rows: 15% 70% 15%;
 }
 
 body{
@@ -91,4 +99,30 @@ header{
     justify-content: center;
     align-items: center;
     width: 20%;
+}
+
+.login-form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.form-group{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.pretty-dropdown{
+    background-color: rgb(221, 239, 255);
+    color: black;
+    border-radius: 5px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
 }
