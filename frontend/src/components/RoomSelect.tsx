@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 
 
-export default function RoomSelection() {
+export default function RoomSelect() {
     const { action } = useParams<{ action: string }>();
     if (!action) {
         return <p>Tegevus puudub</p>;

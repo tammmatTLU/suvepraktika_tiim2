@@ -1,4 +1,4 @@
-import RoomSelection from '../components/RoomSelection'
+import RoomSelection from '../components/RoomSelect'
 
 export default function UIConfigPage(){
     const rooms = [
