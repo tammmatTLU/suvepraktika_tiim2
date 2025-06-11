@@ -1,6 +1,6 @@
 services:
   db:
-    image: mariadb:11.5
+    image: mariadb:11.4.7
     container_name: suvepraktika-database
     restart: unless-stopped
     env_file:
@@ -30,7 +30,7 @@ services:
       - ./backend/.env
     ports:
       - "3006:3006"
-    command: symfony server:start --port=3006 --allow-all-ip
+    command: sh -c "php bin/console doctrine:migrations:migrate -n && symfony server:start --port=3006 --allow-all-ip"
 
   frontend:
     build:
@@ -54,11 +54,5 @@ services:
           ignore: 
             - node_modules/
     
-# Mercure is installed as a Caddy module, prevent the Flex recipe from installing another service
-###> symfony/mercure-bundle ###
-###< symfony/mercure-bundle ###
-
 volumes:
   db-data:
-###> symfony/mercure-bundle ###
-###< symfony/mercure-bundle ###
