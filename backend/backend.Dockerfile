@@ -13,16 +13,6 @@ RUN curl -1sLf 'https://dl.cloudsmith.io/public/symfony/stable/setup.deb.sh' | b
     && apt-get update \
     && apt-get install -y symfony-cli
 
-WORKDIR /backend
-
-COPY composer.json composer.lock symfony.lock ./
-
-RUN composer install --optimize-autoloader --no-scripts
-
-COPY . .
-
-RUN composer run-script post-install-cmd --no-interaction || true
-
 RUN mkdir -p var/cache var/log \
     && chmod -R 777 var
 

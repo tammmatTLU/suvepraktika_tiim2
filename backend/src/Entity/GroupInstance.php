@@ -16,13 +16,13 @@ class GroupInstance
     #[ORM\Column]
     private array $redux_state = [];
 
-    #[ORM\ManyToOne(inversedBy: 'groupInstances')]
+   #[ORM\ManyToOne(targetEntity: Group::class, inversedBy: 'groupInstances')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Group $group_ID = null;
+    private ?Group $group = null;
 
-    #[ORM\ManyToOne(inversedBy: 'groupInstances')]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'groupInstances')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?user $user_ID = null;
+    private ?User $user = null;
 
     public function getId(): ?int
     {
@@ -41,24 +41,24 @@ class GroupInstance
         return $this;
     }
 
-    public function getGroupID(): ?group
+    public function getGroupID(): ?Group
     {
         return $this->group_ID;
     }
 
-    public function setGroupID(?group $group_ID): static
+    public function setGroupID(?Group $group_ID): static
     {
         $this->group_ID = $group_ID;
 
         return $this;
     }
 
-    public function getUserID(): ?user
+    public function getUserID(): ?User
     {
         return $this->user_ID;
     }
 
-    public function setUserID(?user $user_ID): static
+    public function setUserID(?User $user_ID): static
     {
         $this->user_ID = $user_ID;
 

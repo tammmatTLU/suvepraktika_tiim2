@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Repository\BelongsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
 
 class BelongsController extends AbstractController
 {
@@ -16,13 +15,13 @@ class BelongsController extends AbstractController
         $this->belongsRepository = $belongsRepository;
     }
 
-    public function findAllBelongs(): Response
+    public function findAllBelongs(): JsonResponse
     {
         $belongs = $this->belongsRepository->findAll();
-        
+
         return new JsonResponse([
             'data' => $belongs,
-            'status' => 'success'
+            'status' => 200
         ]);
     }
 }
