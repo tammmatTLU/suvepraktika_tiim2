@@ -14,6 +14,13 @@ class UserFixtures extends Fixture
     {
         $this->passwordHasher = $passwordHasher;
     }
+
+        public function getDependencies(): array
+    {
+        return [
+            GroupFixtures::class
+        ];
+    }
     
     public function load(ObjectManager $manager) : void
     {
@@ -27,7 +34,7 @@ class UserFixtures extends Fixture
         
         foreach ($users as $index => $userData) {
             $user = new User();
-            $user->setUserName($userData['user_name']);
+            $user->setName($userData['user_name']);
             $user->setRole($userData['role']);
             
             // Set password to "root" for all users

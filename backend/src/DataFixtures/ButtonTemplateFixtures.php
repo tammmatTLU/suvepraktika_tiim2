@@ -18,6 +18,11 @@ class ButtonTemplateFixtures extends Fixture implements DependentFixtureInterfac
 
     ];
 
+    public function getDependencies(): array
+    {
+        return [RoomFixtures::class];
+    }
+
     public function load(ObjectManager $manager): void
     {
         $faker = Factory::create();
@@ -50,13 +55,8 @@ class ButtonTemplateFixtures extends Fixture implements DependentFixtureInterfac
         $button = new ButtonTemplate();
         $button->setName($name);
         $button->setCommand($command);
-        $button->setRoomID($room);
+        $button->setRoom($room);
         
         return $button;
-    }
-
-    public function getDependencies(): array
-    {
-        return [RoomFixtures::class];
     }
 }

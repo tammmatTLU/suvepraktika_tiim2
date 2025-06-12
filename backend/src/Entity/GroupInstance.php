@@ -14,15 +14,15 @@ class GroupInstance
     private ?int $id = null;
 
     #[ORM\Column]
-    private array $redux_state = [];
+    private array $reduxState = [];
 
-   #[ORM\ManyToOne(targetEntity: Group::class, inversedBy: 'groupInstances')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Group $group = null;
-
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'groupInstances')]
+    #[ORM\ManyToOne(inversedBy: 'groupInstances')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
+
+    #[ORM\ManyToOne(inversedBy: 'groupInstance')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?ButtonGroup $buttonGroup = null;
 
     public function getId(): ?int
     {
@@ -31,36 +31,36 @@ class GroupInstance
 
     public function getReduxState(): array
     {
-        return $this->redux_state;
+        return $this->reduxState;
     }
 
-    public function setReduxState(array $redux_state): static
+    public function setReduxState(array $reduxState): static
     {
-        $this->redux_state = $redux_state;
+        $this->reduxState = $reduxState;
 
         return $this;
     }
 
-    public function getGroupID(): ?Group
+    public function getUser(): ?User
     {
-        return $this->group_ID;
+        return $this->user;
     }
 
-    public function setGroupID(?Group $group_ID): static
+    public function setUser(?User $user): static
     {
-        $this->group_ID = $group_ID;
+        $this->user = $user;
 
         return $this;
     }
 
-    public function getUserID(): ?User
+    public function getButtonGroup(): ?ButtonGroup
     {
-        return $this->user_ID;
+        return $this->buttonGroup;
     }
 
-    public function setUserID(?User $user_ID): static
+    public function setButtonGroup(?ButtonGroup $buttonGroup): static
     {
-        $this->user_ID = $user_ID;
+        $this->buttonGroup = $buttonGroup;
 
         return $this;
     }

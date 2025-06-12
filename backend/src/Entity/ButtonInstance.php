@@ -14,14 +14,15 @@ class ButtonInstance
     private ?int $id = null;
 
     #[ORM\Column]
-    private array $redux_state = [];
+    private array $reduxState = [];
 
     #[ORM\ManyToOne(inversedBy: 'buttonInstances')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?user $user_ID = null;
+    private ?User $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'buttonInstances')]
-    private ?ButtonTemplate $button_template_ID = null;
+    #[ORM\JoinColumn(nullable: false)]
+    private ?ButtonTemplate $buttonTemplate = null;
 
     public function getId(): ?int
     {
@@ -30,36 +31,36 @@ class ButtonInstance
 
     public function getReduxState(): array
     {
-        return $this->redux_state;
+        return $this->reduxState;
     }
 
-    public function setReduxState(array $redux_state): static
+    public function setReduxState(array $reduxState): static
     {
-        $this->redux_state = $redux_state;
+        $this->reduxState = $reduxState;
 
         return $this;
     }
 
-    public function getUserID(): ?user
+    public function getUser(): ?User
     {
-        return $this->user_ID;
+        return $this->user;
     }
 
-    public function setUserID(?user $user_ID): static
+    public function setUser(?User $user): static
     {
-        $this->user_ID = $user_ID;
+        $this->user = $user;
 
         return $this;
     }
 
-    public function getButtonTemplateID(): ?ButtonTemplate
+    public function getButtonTemplate(): ?ButtonTemplate
     {
-        return $this->button_template_ID;
+        return $this->buttonTemplate;
     }
 
-    public function setButtonTemplateID(?ButtonTemplate $button_template_ID): static
+    public function setButtonTemplate(?ButtonTemplate $buttonTemplate): static
     {
-        $this->button_template_ID = $button_template_ID;
+        $this->buttonTemplate = $buttonTemplate;
 
         return $this;
     }

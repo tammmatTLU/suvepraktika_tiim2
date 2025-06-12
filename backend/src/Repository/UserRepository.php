@@ -17,7 +17,7 @@ class UserRepository extends ServiceEntityRepository
     {
         $conn = $this->getEntityManager()->getConnection();
 
-        $sql = 'SELECT id, user_name FROM user';
+        $sql = 'SELECT id, name FROM user';
 
         $result = $conn->executeQuery($sql);
 
@@ -28,7 +28,7 @@ class UserRepository extends ServiceEntityRepository
     {
         $conn = $this->getEntityManager()->getConnection();
 
-        $sql = 'SELECT id, user_name FROM user WHERE id = :id';
+        $sql = 'SELECT id, name FROM user WHERE id = :id';
 
         $result = $conn->executeQuery($sql, ['id' => $id]);
 

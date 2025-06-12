@@ -10,6 +10,11 @@ use Faker\Factory;
 
 class DeviceFixtures extends Fixture implements DependentFixtureInterface
 {
+        public function getDependencies(): array
+    {
+        return [RoomFixtures::class];
+    }
+
     public function load(ObjectManager $manager): void
     {
         $faker = Factory::create();
@@ -20,7 +25,7 @@ class DeviceFixtures extends Fixture implements DependentFixtureInterface
             $device->setStatus($faker->boolean);
             $device->setType($faker->randomElement($types));
             
-            $device->setRoomID($this->getReference(
+            $device->setRoom($this->getReference(
                 'room-'.$faker->numberBetween(0, 4), 
                 Room::class
             ));
@@ -30,10 +35,5 @@ class DeviceFixtures extends Fixture implements DependentFixtureInterface
         }
         
         $manager->flush();
-    }
-
-    public function getDependencies(): array
-    {
-        return [RoomFixtures::class];
     }
 }

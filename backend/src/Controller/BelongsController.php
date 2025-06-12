@@ -19,8 +19,14 @@ class BelongsController extends AbstractController
     {
         $belongs = $this->belongsRepository->findAll();
 
-        return new JsonResponse([
-            'data' => $belongs,
+        $data = array_map(function($belong) {
+            return [
+                'id' => $belong->getId(),
+            ];
+    }, $belongs);
+
+        return $this-> Json([
+            'data' => $data,
             'status' => 200
         ]);
     }
