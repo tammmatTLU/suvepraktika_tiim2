@@ -1,11 +1,12 @@
+import BackButton  from "../components/BackButton";
 
-
-export default function DeviceControlPage(){
+export default function AutomationConfigPage(){
     return(
-        <>
-        <header>
-            <h1>Ajapõhine automatiseerimine</h1>
-        </header>
-        </>
+        <div className="grid-layout">
+            <header>
+                <BackButton />
+                <h1>Ajapõhine automatiseerimine</h1>
+            </header>
+        </div>
     )
 }

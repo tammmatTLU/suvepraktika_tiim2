@@ -1,4 +1,5 @@
 import { useState } from "react";
+import BackButton from "../components/BackButton";
 
 export default function CreateAccountPage() {
     const [password, setPassword] = useState("");
@@ -13,9 +14,10 @@ export default function CreateAccountPage() {
     
     }
     return (
-        <>
+        <div className="grid-layout">
             <header>
                 <h1>Lisa uus pult</h1>
+                <BackButton />
             </header>
             <div className="login-form">
                 <form action={"localhost:3006/register"} method="post">
@@ -57,6 +59,6 @@ export default function CreateAccountPage() {
                     </button>
                 </form>
             </div>
-        </>
+        </div>
     );
 }

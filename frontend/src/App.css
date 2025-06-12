@@ -12,6 +12,7 @@ html{
     background: #870000;  /* fallback for old browsers */
     background: -webkit-linear-gradient(to right, #190A05, #870000);  /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(to right, #190A05, #870000); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
 }
 
 .grid-layout{
@@ -45,6 +46,20 @@ header{
     align-items: center;
     color: rgb(225, 225, 225);
     grid-row: 1/2;
+    min-height: 60px;
+}
+
+.back-btn{
+    padding: 8px 16px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background: #f5f5f5;
+    cursor: pointer;
+    font-size: 16px;
+    position: absolute;
+    left: 0;
+    z-index: 2;
+    margin: 1%;
 }
 
 .indicator{
@@ -79,6 +94,7 @@ header{
     background-size: 200% auto;
     color: white;            
     border-radius: 10px;
+    cursor: pointer;
 }
 
 .btn-grad:hover {
@@ -106,7 +122,7 @@ header{
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: 100%;
 }
 
 .form-group{

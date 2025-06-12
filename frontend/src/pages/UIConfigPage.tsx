@@ -1,3 +1,4 @@
+import BackButton from '../components/BackButton'
 import RoomSelect from '../components/RoomSelect'
 
 export default function UIConfigPage(){
@@ -6,6 +7,7 @@ export default function UIConfigPage(){
         <div className="grid-layout">
             <header>
                 <h1>Kasutajavaate redigeerimine</h1>
+                <BackButton />
             </header>
             <RoomSelect />
         </div>
