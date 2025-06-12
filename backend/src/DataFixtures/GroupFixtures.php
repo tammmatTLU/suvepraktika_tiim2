@@ -1,7 +1,7 @@
 <?php
 namespace App\DataFixtures;
 
-use App\Entity\Group;
+use App\Entity\ButtonGroup;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
@@ -15,7 +15,7 @@ class GroupFixtures extends Fixture
         ];
         
         for ($i = 0; $i < 2; $i++) {
-            $group = new Group();
+            $group = new ButtonGroup();
             $group->setName("Macro-button-$i");
             $manager->persist($group);
             $this->addReference("Macro-button-$i", $group);

@@ -21,13 +21,13 @@ class Room
     /**
      * @var Collection<int, Device>
      */
-    #[ORM\OneToMany(targetEntity: Device::class, mappedBy: 'room_ID')]
+    #[ORM\OneToMany(targetEntity: Device::class, mappedBy: 'room')]
     private Collection $devices;
 
     /**
      * @var Collection<int, ButtonTemplate>
      */
-    #[ORM\OneToMany(targetEntity: ButtonTemplate::class, mappedBy: 'room_ID')]
+    #[ORM\OneToMany(targetEntity: ButtonTemplate::class, mappedBy: 'room')]
     private Collection $buttonTemplates;
 
     public function __construct()
@@ -65,7 +65,7 @@ class Room
     {
         if (!$this->devices->contains($device)) {
             $this->devices->add($device);
-            $device->setRoomID($this);
+            $device->setRoom($this);
         }
 
         return $this;
@@ -74,8 +74,9 @@ class Room
     public function removeDevice(Device $device): static
     {
         if ($this->devices->removeElement($device)) {
-            if ($device->getRoomID() === $this) {
-                $device->setRoomID(null);
+            // set the owning side to null (unless already changed)
+            if ($device->getRoom() === $this) {
+                $device->setRoom(null);
             }
         }
 
@@ -94,7 +95,7 @@ class Room
     {
         if (!$this->buttonTemplates->contains($buttonTemplate)) {
             $this->buttonTemplates->add($buttonTemplate);
-            $buttonTemplate->setRoomID($this);
+            $buttonTemplate->setRoom($this);
         }
 
         return $this;
@@ -104,8 +105,8 @@ class Room
     {
         if ($this->buttonTemplates->removeElement($buttonTemplate)) {
             // set the owning side to null (unless already changed)
-            if ($buttonTemplate->getRoomID() === $this) {
-                $buttonTemplate->setRoomID(null);
+            if ($buttonTemplate->getRoom() === $this) {
+                $buttonTemplate->setRoom(null);
             }
         }
 

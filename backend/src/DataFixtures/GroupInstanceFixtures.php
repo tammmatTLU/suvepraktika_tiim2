@@ -3,7 +3,7 @@ namespace App\DataFixtures;
 
 use App\Entity\GroupInstance;
 use App\Entity\User;
-use App\Entity\Group;
+use App\Entity\ButtonGroup;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -11,8 +11,13 @@ use Faker\Factory;
 
 class GroupInstanceFixtures extends Fixture implements DependentFixtureInterface
 {
+    public function getDependencies(): array
+    {
+        return [UserFixtures::class, GroupFixtures::class];
+    }
     public function load(ObjectManager $manager): void
     {
+
         $faker = Factory::create();
 
         //$this->verifyReferencesExist();
@@ -24,10 +29,10 @@ class GroupInstanceFixtures extends Fixture implements DependentFixtureInterface
                 $instance->setReduxState(['active' => false]);
                 
                 $macroButtonIndex = $faker->numberBetween(0, 4);
-                $instance->setUserID($this->getReference("user-$userNum", User::class));
-                $instance->setGroupID($this->getReference(
+                $instance->setUser($this->getReference("user-$userNum", User::class));
+                $instance->setButtonGroup($this->getReference(
                     "Macro-button-".$faker->numberBetween(0, 1),
-                    Group::class
+                    ButtonGroup::class
                 ));
                 
                 $manager->persist($instance);
@@ -35,10 +40,5 @@ class GroupInstanceFixtures extends Fixture implements DependentFixtureInterface
         }
         
         $manager->flush();
-    }
-
-    public function getDependencies(): array
-    {
-        return [UserFixtures::class, GroupFixtures::class];
     }
 }

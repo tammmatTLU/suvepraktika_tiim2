@@ -18,29 +18,28 @@ class ButtonTemplate
     #[ORM\Column(length: 255)]
     private ?string $command = null;
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column(length: 25)]
     private ?string $name = null;
-
-    /**
-     * @var Collection<int, ButtonInstance>
-     */
-    #[ORM\OneToMany(targetEntity: ButtonInstance::class, mappedBy: 'button_template_ID')]
-    private Collection $buttonInstances;
 
     /**
      * @var Collection<int, Belongs>
      */
-    #[ORM\OneToMany(targetEntity: Belongs::class, mappedBy: 'button_template_ID')]
+    #[ORM\OneToMany(targetEntity: Belongs::class, mappedBy: 'buttonTemplate')]
     private Collection $belongs;
 
+    /**
+     * @var Collection<int, ButtonInstance>
+     */
+    #[ORM\OneToMany(targetEntity: ButtonInstance::class, mappedBy: 'buttonTemplate')]
+    private Collection $buttonInstances;
+
     #[ORM\ManyToOne(inversedBy: 'buttonTemplates')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Room $room_ID = null;
+    private ?Room $room = null;
 
     public function __construct()
     {
-        $this->buttonInstances = new ArrayCollection();
         $this->belongs = new ArrayCollection();
+        $this->buttonInstances = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -73,36 +72,6 @@ class ButtonTemplate
     }
 
     /**
-     * @return Collection<int, ButtonInstance>
-     */
-    public function getButtonInstances(): Collection
-    {
-        return $this->buttonInstances;
-    }
-
-    public function addButtonInstance(ButtonInstance $buttonInstance): static
-    {
-        if (!$this->buttonInstances->contains($buttonInstance)) {
-            $this->buttonInstances->add($buttonInstance);
-            $buttonInstance->setButtonTemplateID($this);
-        }
-
-        return $this;
-    }
-
-    public function removeButtonInstance(ButtonInstance $buttonInstance): static
-    {
-        if ($this->buttonInstances->removeElement($buttonInstance)) {
-            // set the owning side to null (unless already changed)
-            if ($buttonInstance->getButtonTemplateID() === $this) {
-                $buttonInstance->setButtonTemplateID(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection<int, Belongs>
      */
     public function getBelongs(): Collection
@@ -114,7 +83,7 @@ class ButtonTemplate
     {
         if (!$this->belongs->contains($belong)) {
             $this->belongs->add($belong);
-            $belong->setButtonTemplateID($this);
+            $belong->setButtonTemplate($this);
         }
 
         return $this;
@@ -123,22 +92,53 @@ class ButtonTemplate
     public function removeBelong(Belongs $belong): static
     {
         if ($this->belongs->removeElement($belong)) {
-            if ($belong->getButtonTemplateID() === $this) {
-                $belong->setButtonTemplateID(null);
+            // set the owning side to null (unless already changed)
+            if ($belong->getButtonTemplate() === $this) {
+                $belong->setButtonTemplate(null);
             }
         }
 
         return $this;
     }
 
-    public function getRoomID(): ?Room
+    /**
+     * @return Collection<int, ButtonInstance>
+     */
+    public function getButtonInstances(): Collection
     {
-        return $this->room_ID;
+        return $this->buttonInstances;
     }
 
-    public function setRoomID(?Room $room_ID): static
+    public function addButtonInstance(ButtonInstance $buttonInstance): static
     {
-        $this->room_ID = $room_ID;
+        if (!$this->buttonInstances->contains($buttonInstance)) {
+            $this->buttonInstances->add($buttonInstance);
+            $buttonInstance->setButtonTemplate($this);
+        }
+
+        return $this;
+    }
+
+    public function removeButtonInstance(ButtonInstance $buttonInstance): static
+    {
+        if ($this->buttonInstances->removeElement($buttonInstance)) {
+            // set the owning side to null (unless already changed)
+            if ($buttonInstance->getButtonTemplate() === $this) {
+                $buttonInstance->setButtonTemplate(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getRoom(): ?Room
+    {
+        return $this->room;
+    }
+
+    public function setRoom(?Room $room): static
+    {
+        $this->room = $room;
 
         return $this;
     }

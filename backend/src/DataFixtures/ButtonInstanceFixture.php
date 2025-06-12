@@ -10,13 +10,17 @@ use Faker\Factory;
 
 class ButtonInstanceFixtures extends Fixture implements DependentFixtureInterface
 {
+    public function getDependencies() : array
+    {
+        return [UserFixtures::class, ButtonTemplateFixtures::class];
+    }
+
     public function load(ObjectManager $manager) : void
     {
         $faker = Factory::create();
         
         for ($i = 0; $i < 30; $i++) {
             $instance = new ButtonInstance();
-            $instance->setBrightness($faker->numberBetween(0, 100));
             $instance->setReduxState(['state' => $faker->word]);
             $instance->setUser($this->getReference('user-'.$faker->numberBetween(1, 10)));
             $instance->setButtonTemplate($this->getReference('template-'.$faker->numberBetween(0, 19)));
@@ -24,10 +28,5 @@ class ButtonInstanceFixtures extends Fixture implements DependentFixtureInterfac
         }
         
         $manager->flush();
-    }
-
-    public function getDependencies() : array
-    {
-        return [UserFixtures::class, ButtonTemplateFixtures::class];
     }
 }

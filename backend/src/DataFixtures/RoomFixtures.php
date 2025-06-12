@@ -7,6 +7,14 @@ use Doctrine\Persistence\ObjectManager;
 
 class RoomFixtures extends Fixture
 {
+
+        public function getDependencies(): array
+    {
+        return [
+            RoomFixtures::class,
+        ];
+    }
+    
     public function load(ObjectManager $manager) : void
     {
         $rooms = ['A-001', 'A-002', 'A-003', 'A-004', 'A-005'];
@@ -19,12 +27,5 @@ class RoomFixtures extends Fixture
         }
         
         $manager->flush();
-    }
-
-    public function getDependencies(): array
-    {
-        return [
-            RoomFixtures::class,
-        ];
     }
 }

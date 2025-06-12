@@ -2,14 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\GroupRepository;
+use App\Repository\ButtonGroupRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: GroupRepository::class)]
-#[ORM\Table(name: '`group`')]
-class Group
+#[ORM\Entity(repositoryClass: ButtonGroupRepository::class)]
+class ButtonGroup
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -22,18 +21,18 @@ class Group
     /**
      * @var Collection<int, GroupInstance>
      */
-    #[ORM\OneToMany(targetEntity: GroupInstance::class, mappedBy: 'group_ID')]
-    private Collection $groupInstances;
+    #[ORM\OneToMany(targetEntity: GroupInstance::class, mappedBy: 'buttonGroup')]
+    private Collection $groupInstance;
 
     /**
      * @var Collection<int, Belongs>
      */
-    #[ORM\OneToMany(targetEntity: Belongs::class, mappedBy: 'group_ID')]
+    #[ORM\OneToMany(targetEntity: Belongs::class, mappedBy: 'buttonGroup')]
     private Collection $belongs;
 
     public function __construct()
     {
-        $this->groupInstances = new ArrayCollection();
+        $this->groupInstance = new ArrayCollection();
         $this->belongs = new ArrayCollection();
     }
 
@@ -57,16 +56,16 @@ class Group
     /**
      * @return Collection<int, GroupInstance>
      */
-    public function getGroupInstances(): Collection
+    public function getGroupInstance(): Collection
     {
-        return $this->groupInstances;
+        return $this->groupInstance;
     }
 
     public function addGroupInstance(GroupInstance $groupInstance): static
     {
-        if (!$this->groupInstances->contains($groupInstance)) {
-            $this->groupInstances->add($groupInstance);
-            $groupInstance->setGroupID($this);
+        if (!$this->groupInstance->contains($groupInstance)) {
+            $this->groupInstance->add($groupInstance);
+            $groupInstance->setButtonGroup($this);
         }
 
         return $this;
@@ -74,9 +73,10 @@ class Group
 
     public function removeGroupInstance(GroupInstance $groupInstance): static
     {
-        if ($this->groupInstances->removeElement($groupInstance)) {
-            if ($groupInstance->getGroupID() === $this) {
-                $groupInstance->setGroupID(null);
+        if ($this->groupInstance->removeElement($groupInstance)) {
+            // set the owning side to null (unless already changed)
+            if ($groupInstance->getButtonGroup() === $this) {
+                $groupInstance->setButtonGroup(null);
             }
         }
 
@@ -95,7 +95,7 @@ class Group
     {
         if (!$this->belongs->contains($belong)) {
             $this->belongs->add($belong);
-            $belong->setGroupID($this);
+            $belong->setButtonGroup($this);
         }
 
         return $this;
@@ -104,8 +104,9 @@ class Group
     public function removeBelong(Belongs $belong): static
     {
         if ($this->belongs->removeElement($belong)) {
-            if ($belong->getGroupID() === $this) {
-                $belong->setGroupID(null);
+            // set the owning side to null (unless already changed)
+            if ($belong->getButtonGroup() === $this) {
+                $belong->setButtonGroup(null);
             }
         }
 

@@ -18,9 +18,15 @@ class RoomController extends AbstractController
     public function findAllRooms(): JsonResponse
     {
         $rooms = $this->roomRepository->findAll();
+        $data = array_map(function($room) {
+            return [
+                'id' => $room->getId(),
+                'name' => $room->getName(),
+            ];
+    }, $rooms);
 
         return new JsonResponse([
-            'data' => $rooms,
+            'data' => $data,
             'status' => 200
         ]);
     }

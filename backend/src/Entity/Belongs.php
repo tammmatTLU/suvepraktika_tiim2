@@ -15,37 +15,37 @@ class Belongs
 
     #[ORM\ManyToOne(inversedBy: 'belongs')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?ButtonTemplate $button_template_ID = null;
+    private ?ButtonTemplate $buttonTemplate = null;
 
     #[ORM\ManyToOne(inversedBy: 'belongs')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Group $group_ID = null;
+    private ?ButtonGroup $buttonGroup = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getButtonTemplateID(): ?ButtonTemplate
+    public function getButtonTemplate(): ?ButtonTemplate
     {
-        return $this->button_template_ID;
+        return $this->buttonTemplate;
     }
 
-    public function setButtonTemplateID(?ButtonTemplate $button_template_ID): self
+    public function setButtonTemplate(?ButtonTemplate $buttonTemplate): static
     {
-        $this->button_template_ID = $button_template_ID;
+        $this->buttonTemplate = $buttonTemplate;
 
         return $this;
     }
 
-    public function getGroupID(): ?Group
+    public function getButtonGroup(): ?ButtonGroup
     {
-        return $this->group_ID;
+        return $this->buttonGroup;
     }
 
-    public function setGroupID(?Group $group_ID): self
+    public function setButtonGroup(?ButtonGroup $buttonGroup): static
     {
-        $this->group_ID = $group_ID;
+        $this->buttonGroup = $buttonGroup;
 
         return $this;
     }

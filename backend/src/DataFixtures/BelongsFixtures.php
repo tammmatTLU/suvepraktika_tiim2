@@ -5,7 +5,7 @@ use App\Entity\Belongs;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use App\Entity\Group;
+use App\Entity\ButtonGroup;
 use App\Entity\ButtonTemplate;
 
 class BelongsFixtures extends Fixture implements DependentFixtureInterface
@@ -31,8 +31,8 @@ class BelongsFixtures extends Fixture implements DependentFixtureInterface
     {
         foreach ($buttonRefs as $buttonRef) {
             $belongs = new Belongs();
-            $belongs->setGroupID($this->getReference($groupRef, Group::class));
-            $belongs->setButtonTemplateID($this->getReference($buttonRef, ButtonTemplate::class));
+            $belongs->setButtonGroup($this->getReference($groupRef, ButtonGroup::class));
+            $belongs->setButtonTemplate($this->getReference($buttonRef, ButtonTemplate::class));
             $manager->persist($belongs);
         }
     }

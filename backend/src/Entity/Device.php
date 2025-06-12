@@ -16,12 +16,12 @@ class Device
     #[ORM\Column]
     private ?int $status = null;
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column(length: 20)]
     private ?string $type = null;
 
     #[ORM\ManyToOne(inversedBy: 'devices')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Room $room_ID = null;
+    private ?Room $room = null;
 
     public function getId(): ?int
     {
@@ -52,14 +52,14 @@ class Device
         return $this;
     }
 
-    public function getRoomID(): ?room
+    public function getRoom(): ?Room
     {
-        return $this->room_ID;
+        return $this->room;
     }
 
-    public function setRoomID(?room $room_ID): static
+    public function setRoom(?Room $room): static
     {
-        $this->room_ID = $room_ID;
+        $this->room = $room;
 
         return $this;
     }
