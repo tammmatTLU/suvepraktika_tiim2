@@ -1,38 +1,69 @@
 import '../App.css'
-import { useState } from 'react';
+import { useAppDispatch } from '../store/hooks';
+import { updateElementState } from '../store/slices/elementsSlice';
+//import { useState } from 'react';
+import type { Element } from '../types/Element';
 
-export default function DeviceToggle(device: any){
-    const [deviceState, setDeviceState] = useState(false);
+type DeviceToggleProps = {
+    key: number;
+    parameters: Element;
+}
 
-    const handleDeviceToggle = (turnOn: boolean) => {
-        setDeviceState(turnOn);
+export default function DeviceToggle(element: DeviceToggleProps){
+    //const [deviceState, setDeviceState] = useState(false);
+    const dispatch = useAppDispatch();
+
+    const handleDeviceToggle = (newState: boolean) => {
+        //setDeviceState(turnOn);
+        dispatch(updateElementState({ id: element.parameters.id, state: newState}));
     };
 
     return (
         <div
-        key={device.id}
+        key={element.parameters.id}
         className="device-toggle"
-        >
-        <span
-            className= "device-name"
-        >
-            {device.name}
-        </span>
-        <button
-            onClick={() => handleDeviceToggle(true)}
-            className="btn-grad"
+        style={{
+            left: element.parameters.position.x,
+            top: element.parameters.position.y,
+            width: element.parameters.size.width,
+            height: element.parameters.size.height,
+            fontSize: element.parameters.fontSize,
+            fontFamily: element.parameters.fontFamily,
+            color: element.parameters.color,
+        }}
         >
             <span
-            className={deviceState ? 'indicator indicator-on' : 'indicator'}
-            />
-            ON
-        </button>
-        <button
-            onClick={() => handleDeviceToggle(false)}
-            className="btn-grad"
-        >
-            OFF
-        </button>
+                className= "device-name"
+            >
+                {element.parameters.name}
+            </span>
+            <button
+                onClick={() => handleDeviceToggle(true)}
+                className="btn-grad"
+                style={{
+                    fontSize: element.parameters.fontSize,
+                    fontFamily: element.parameters.fontFamily,
+                    color: element.parameters.color,
+                    backgroundColor: element.parameters.backgroundColor
+                }}
+            >
+                <span
+                className={element.parameters.state.on ? 'indicator indicator-on' : 'indicator'}
+                />
+                ON
+            </button>
+            <button
+                onClick={() => handleDeviceToggle(false)}
+                className="btn-grad"
+                style={{
+                    fontSize: element.parameters.fontSize,
+                    fontFamily: element.parameters.fontFamily,
+                    color: element.parameters.color,
+                    backgroundColor: element.parameters.backgroundColor
+                }}
+            >
+                OFF
+            </button>
         </div>
     );
 }

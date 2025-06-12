@@ -1,15 +1,17 @@
 import DeviceToggle from '../components/DeviceToggle'
+import type { Element } from '../types/Element';
 
-type Device = { id: string, name: string };
-type Props = { devices: Device[]};
+interface ControlPanelProps {
+  elements: Record<number, Element>;
+}
 
-export default function ControlPanel( { devices }: Props ) {
+export default function ControlPanel( { elements }: ControlPanelProps ) {
     
     return(
         <div className="control-panel">
-            {devices.map((device) => {
+            {Object.values(elements).map((element: Element) => {
                 return(
-                    <DeviceToggle key={device.id} name={device.name}/>
+                    <DeviceToggle key={element.id} parameters={element} />
                 )
             })}
         </div>

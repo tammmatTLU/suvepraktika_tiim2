@@ -15,7 +15,7 @@ function App() {
         <Route path='/' element={<LoginPage/>}/>
         <Route path='/action-select' element={<ActionSelectPage/>}/>
         <Route path='/room-selection/:action' element={<RoomSelectPage/>}/>
-        <Route path='/device-control/:remoteName' element={<DeviceControlPage />}/>
+        <Route path='/device-control/:userName' element={<DeviceControlPage />}/>
         <Route path='/ui-config' element={<UIConfigPage/>}/>
         <Route path='/automation-config' element={<AutomationConfigPage/>}/>
         <Route path='/view-creation' element={<CreateAccountPage/>}/>

@@ -5,7 +5,7 @@ interface BackButtonProps {
     label?: string;
 }
 
-const BackButton: React.FC<BackButtonProps> = ({ onClick, label = 'Back' }) => {
+const BackButton: React.FC<BackButtonProps> = ({ onClick, label = 'Tagasi' }) => {
     const handleClick = () => {
         if (onClick) {
             onClick();
