@@ -23,7 +23,7 @@ class Group
      * @var Collection<int, GroupInstance>
      */
     #[ORM\OneToMany(targetEntity: GroupInstance::class, mappedBy: 'group_ID')]
-    private Collection $groupInsances;
+    private Collection $groupInstances;
 
     /**
      * @var Collection<int, Belongs>
@@ -33,7 +33,7 @@ class Group
 
     public function __construct()
     {
-        $this->groupInsances = new ArrayCollection();
+        $this->groupInstances = new ArrayCollection();
         $this->belongs = new ArrayCollection();
     }
 
@@ -65,14 +65,14 @@ class Group
     public function addGroupInstance(GroupInstance $groupInstance): static
     {
         if (!$this->groupInstances->contains($groupInstance)) {
-            $this->groupInstances->add($groupIntsance);
+            $this->groupInstances->add($groupInstance);
             $groupInstance->setGroupID($this);
         }
 
         return $this;
     }
 
-    public function removeGroupInstance(GroupInstance $groupInsance): static
+    public function removeGroupInstance(GroupInstance $groupInstance): static
     {
         if ($this->groupInstances->removeElement($groupInstance)) {
             if ($groupInstance->getGroupID() === $this) {

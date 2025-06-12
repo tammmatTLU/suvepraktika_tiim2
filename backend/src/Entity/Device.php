@@ -21,7 +21,7 @@ class Device
 
     #[ORM\ManyToOne(inversedBy: 'devices')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?room $room_ID = null;
+    private ?Room $room_ID = null;
 
     public function getId(): ?int
     {
