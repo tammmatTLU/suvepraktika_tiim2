@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 
 export default function RoomSelect() {
@@ -13,11 +13,12 @@ export default function RoomSelect() {
         { id: 'A-002', name: 'Ruum A-002' },
         { id: 'A-003', name: 'Ruum A-003' },
         { id: 'A-004', name: 'Ruum A-004' },
-    ];
+    ]; 
+    // API päring siia xd
     const [selectedRoom, setSelectedRoom] = useState(rooms[0]?.id || "");
 
     return (
-        <form action={`/${action}/${selectedRoom}`} method="post" className="form-group">
+        <form /*action={`/${action}/${selectedRoom}`} method="post"*/ className="form-group">
             <select
                 id="roomSelect"
                 className="pretty-dropdown"
@@ -29,7 +30,7 @@ export default function RoomSelect() {
                     <option key={room.id} value={room.id}>{room.name}</option>
                 ))}
             </select>
-            <button type="submit" className="btn-grad">Kinnita valik</button>
+            <Link to={`/${action}/${selectedRoom}`}><button type="submit" className="btn-grad">Kinnita valik</button></Link>
         </form>
     );
 }
