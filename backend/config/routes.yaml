@@ -1,39 +1,88 @@
-users:
+all-users:
     path: api/users
     controller: App\Controller\UserController::findAllUsers
     methods: [GET]
 
-rooms:
+one-user:
+    path: api/user/{id}
+    controller: App\Controller\UserController::findUserById
+    requirements:
+        id: '\d+'
+    methods: [GET]
+
+all-rooms:
     path: api/rooms
     controller: App\Controller\RoomController::findAllRooms
     methods: [GET]
 
-group-instances:
+one-room:
+    path: api/room/{id}
+    controller: App\Controller\RoomController::findRoomById
+    requirements:
+        id: '\d+'
+    methods: [GET]
+
+all-group-instances:
     path: api/group-instances
     controller: App\Controller\GroupInstanceController::findAllGroupInstances
     methods: [GET]
 
-groups:
+one-group-instance:
+    path: api/group-instance/{id}
+    controller: App\Controller\GroupInstanceController::findGroupInstanceById
+    requirements:
+        id: '\d+'
+    methods: [GET]
+
+all-groups:
     path: api/groups
     controller: App\Controller\GroupController::findAllGroups
     methods: [GET]
 
-devices:
+one-group:
+    path: api/group/{id}
+    controller: App\Controller\GroupController::findGroupById
+    requirements:
+        id: '\d+'
+    methods: [GET]
+
+all-devices:
     path: api/devices
     controller: App\Controller\DeviceController::findAllDevices
     methods: [GET]
 
-button-templates:
+one-device:
+    path: api/device/{id}
+    controller: App\Controller\DeviceController::findDeviceById
+    requirements:
+        id: '\d+'
+    methods: [GET]
+
+all-button-templates:
     path: api/button-templates
     controller: App\Controller\ButtonTemplateController::findAllButtonTemplates
     methods: [GET]
 
-button-instances:
+one-button-template:
+    path: api/button-template/{id}
+    controller: App\Controller\ButtonTemplateController::findButtonTemplateById
+    requirements:
+        id: '\d+'
+    methods: [GET]
+
+all-button-instances:
     path: api/button-instances
     controller: App\Controller\ButtonInstanceController::findAllButtonInstances
     methods: [GET]
 
-belongs:
+one-button-instance:
+    path: api/button-instance/{id}
+    controller: App\Controller\ButtonInstanceController::findButtonInstanceById
+    requirements:
+        id: '\d+'
+    methods: [GET]
+
+all-belongs:
     path: api/belongs
     controller: App\Controller\BelongsController::findAllBelongs
     methods: [GET]

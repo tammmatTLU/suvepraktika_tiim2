@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Repository\GroupInstanceRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
 
 class GroupInstanceController extends AbstractController
 {
@@ -16,13 +15,23 @@ class GroupInstanceController extends AbstractController
         $this->groupInstanceRepository = $groupInstanceRepository;
     }
 
-    public function findAllGroupInstances(): Response
+    public function findAllGroupInstances(): JsonResponse
     {
         $groupinstances = $this->groupInstanceRepository->findAll();
-        
+
         return new JsonResponse([
             'data' => $groupinstances,
-            'status' => 'success'
+            'status' => 200
+        ]);
+    }
+
+    public function findGroupInstanceById(int $id): JsonResponse
+    {
+        $groupInstance = $this->groupInstanceRepository->find($id);
+
+        return new JsonResponse([
+            'data' => $groupInstance,
+            'status' => 200
         ]);
     }
 }
