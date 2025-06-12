@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends AbstractController
 {
@@ -16,19 +15,23 @@ class UserController extends AbstractController
         $this->userRepository = $userRepository;
     }
 
-    public function findAllUsers(): Response
+    public function findAllUsers(): JsonResponse
     {
-        $users = $this->userRepository->findAll();
-        $userData = array_map(function($user) {
-            return [
-                'id' => $user->getId(),
-                'name' => $user->getUserName()
-        ];
-    }, $users);
+        $users = $this->userRepository->findAllWithoutPwd();
 
         return new JsonResponse([
-            'data' => $userData,
-            'status' => 'success'
-    ]);
+            'data' => $users,
+            'status' => 200
+        ]);
+    }
+
+    public function findUserById(int $id): JsonResponse
+    {
+        $user = $this->userRepository->findWithoutPwd($id);
+
+        return new JsonResponse([
+            'data' => $user,
+            'status' => 200
+        ]);
     }
 }
