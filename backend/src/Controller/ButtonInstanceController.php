@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Repository\ButtonInstanceRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
 
 class ButtonInstanceController extends AbstractController
 {
@@ -16,13 +15,23 @@ class ButtonInstanceController extends AbstractController
         $this->buttonInstanceRepository = $buttonInstanceRepository;
     }
 
-    public function findAllButtonInstances(): Response
+    public function findAllButtonInstances(): JsonResponse
     {
         $buttoninstances = $this->buttonInstanceRepository->findAll();
-        
+
         return new JsonResponse([
             'data' => $buttoninstances,
-            'status' => 'success'
+            'status' => 200
+        ]);
+    }
+
+    public function FindButtonInstanceById(int $id): JsonResponse
+    {
+        $buttonInstance = $this->buttonInstanceRepository->find($id);
+
+        return new JsonResponse([
+            'data' => $buttonInstance,
+            'status' => 200
         ]);
     }
 }

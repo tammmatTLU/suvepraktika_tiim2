@@ -12,4 +12,26 @@ class UserRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, User::class);
     }
+
+    public function findAllWithoutPwd()
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = 'SELECT id, user_name FROM user';
+
+        $result = $conn->executeQuery($sql);
+
+        return $result->fetchAllAssociative();
+    }
+
+    public function findWithoutPwd(int $id)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = 'SELECT id, user_name FROM user WHERE id = :id';
+
+        $result = $conn->executeQuery($sql, ['id' => $id]);
+
+        return $result->fetchAllAssociative();
+    }
 }

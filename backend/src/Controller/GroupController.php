@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Repository\GroupRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
 
 class GroupController extends AbstractController
 {
@@ -16,13 +15,23 @@ class GroupController extends AbstractController
         $this->groupRepository = $groupRepository;
     }
 
-    public function findAllGroups(): Response
+    public function findAllGroups(): JsonResponse
     {
         $groups = $this->groupRepository->findAll();
-        
+
         return new JsonResponse([
             'data' => $groups,
-            'status' => 'success'
+            'status' => 200
+        ]);
+    }
+
+    public function findGroupById(int $id): JsonResponse
+    {
+        $group = $this->groupRepository->find($id);
+
+        return new JsonResponse([
+            'data' => $group,
+            'status' => 200
         ]);
     }
 }
