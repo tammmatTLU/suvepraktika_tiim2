@@ -57,26 +57,26 @@ class Group
     /**
      * @return Collection<int, GroupInstance>
      */
-    public function getGroupInsances(): Collection
+    public function getGroupInstances(): Collection
     {
-        return $this->groupInsances;
+        return $this->groupInstances;
     }
 
-    public function addGroupInsance(GroupInstance $groupInsance): static
+    public function addGroupInstance(GroupInstance $groupInstance): static
     {
-        if (!$this->groupInsances->contains($groupInsance)) {
-            $this->groupInsances->add($groupInsance);
-            $groupInsance->setGroupID($this);
+        if (!$this->groupInstances->contains($groupInstance)) {
+            $this->groupInstances->add($groupIntsance);
+            $groupInstance->setGroupID($this);
         }
 
         return $this;
     }
 
-    public function removeGroupInsance(GroupInstance $groupInsance): static
+    public function removeGroupInstance(GroupInstance $groupInsance): static
     {
-        if ($this->groupInsances->removeElement($groupInsance)) {
-            if ($groupInsance->getGroupID() === $this) {
-                $groupInsance->setGroupID(null);
+        if ($this->groupInstances->removeElement($groupInstance)) {
+            if ($groupInstance->getGroupID() === $this) {
+                $groupInstance->setGroupID(null);
             }
         }
 

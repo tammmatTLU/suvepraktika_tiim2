@@ -18,7 +18,7 @@ class GroupInstance
 
     #[ORM\ManyToOne(inversedBy: 'groupInstances')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?group $group_ID = null;
+    private ?Group $group_ID = null;
 
     #[ORM\ManyToOne(inversedBy: 'groupInstances')]
     #[ORM\JoinColumn(nullable: false)]

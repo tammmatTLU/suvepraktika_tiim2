@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250611113041 extends AbstractMigration
+final class Version20250612065111 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -21,28 +21,28 @@ final class Version20250611113041 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql(<<<'SQL'
-            CREATE TABLE belongs (id INT AUTO_INCREMENT NOT NULL, button_template_id_id INT NOT NULL, group_id_id INT NOT NULL, INDEX IDX_47025A8E9A5BC465 (button_template_id_id), INDEX IDX_47025A8E2F68B530 (group_id_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci`
+            CREATE TABLE belongs (id INT AUTO_INCREMENT NOT NULL, button_template_id_id INT NOT NULL, group_id_id INT NOT NULL, INDEX IDX_47025A8E9A5BC465 (button_template_id_id), INDEX IDX_47025A8E2F68B530 (group_id_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB
         SQL);
         $this->addSql(<<<'SQL'
-            CREATE TABLE button_instance (id INT AUTO_INCREMENT NOT NULL, redux_state JSON NOT NULL, user_id_id INT NOT NULL, button_template_id_id INT DEFAULT NULL, INDEX IDX_885D30099D86650F (user_id_id), INDEX IDX_885D30099A5BC465 (button_template_id_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci`
+            CREATE TABLE button_instance (id INT AUTO_INCREMENT NOT NULL, user_id_id INT NOT NULL, button_template_id_id INT DEFAULT NULL, redux_state JSON NOT NULL COMMENT '(DC2Type:json)', INDEX IDX_885D30099D86650F (user_id_id), INDEX IDX_885D30099A5BC465 (button_template_id_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB
         SQL);
         $this->addSql(<<<'SQL'
-            CREATE TABLE button_template (id INT AUTO_INCREMENT NOT NULL, command VARCHAR(255) NOT NULL, name VARCHAR(50) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci`
+            CREATE TABLE button_template (id INT AUTO_INCREMENT NOT NULL, room_id_id INT NOT NULL, command VARCHAR(255) NOT NULL, name VARCHAR(50) NOT NULL, INDEX IDX_5D0D9E5435F83FFC (room_id_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB
         SQL);
         $this->addSql(<<<'SQL'
-            CREATE TABLE device (id INT AUTO_INCREMENT NOT NULL, status INT NOT NULL, type VARCHAR(50) NOT NULL, room_id_id INT NOT NULL, INDEX IDX_92FB68E35F83FFC (room_id_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci`
+            CREATE TABLE device (id INT AUTO_INCREMENT NOT NULL, room_id_id INT NOT NULL, status INT NOT NULL, type VARCHAR(50) NOT NULL, INDEX IDX_92FB68E35F83FFC (room_id_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB
         SQL);
         $this->addSql(<<<'SQL'
-            CREATE TABLE `group` (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(25) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci`
+            CREATE TABLE `group` (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(25) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB
         SQL);
         $this->addSql(<<<'SQL'
-            CREATE TABLE group_instance (id INT AUTO_INCREMENT NOT NULL, redux_state JSON NOT NULL, group_id_id INT NOT NULL, user_id_id INT NOT NULL, INDEX IDX_4B00FDA12F68B530 (group_id_id), INDEX IDX_4B00FDA19D86650F (user_id_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci`
+            CREATE TABLE group_instance (id INT AUTO_INCREMENT NOT NULL, group_id_id INT NOT NULL, user_id_id INT NOT NULL, redux_state JSON NOT NULL COMMENT '(DC2Type:json)', INDEX IDX_4B00FDA12F68B530 (group_id_id), INDEX IDX_4B00FDA19D86650F (user_id_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB
         SQL);
         $this->addSql(<<<'SQL'
-            CREATE TABLE room (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(25) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci`
+            CREATE TABLE room (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(25) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB
         SQL);
         $this->addSql(<<<'SQL'
-            CREATE TABLE `user` (id INT AUTO_INCREMENT NOT NULL, user_name VARCHAR(25) NOT NULL, pwd_hash VARCHAR(100) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci`
+            CREATE TABLE `user` (id INT AUTO_INCREMENT NOT NULL, user_name VARCHAR(25) NOT NULL, pwd_hash VARCHAR(100) NOT NULL, role VARCHAR(25) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB
         SQL);
         $this->addSql(<<<'SQL'
             ALTER TABLE belongs ADD CONSTRAINT FK_47025A8E9A5BC465 FOREIGN KEY (button_template_id_id) REFERENCES button_template (id)
@@ -55,6 +55,9 @@ final class Version20250611113041 extends AbstractMigration
         SQL);
         $this->addSql(<<<'SQL'
             ALTER TABLE button_instance ADD CONSTRAINT FK_885D30099A5BC465 FOREIGN KEY (button_template_id_id) REFERENCES button_template (id)
+        SQL);
+        $this->addSql(<<<'SQL'
+            ALTER TABLE button_template ADD CONSTRAINT FK_5D0D9E5435F83FFC FOREIGN KEY (room_id_id) REFERENCES room (id)
         SQL);
         $this->addSql(<<<'SQL'
             ALTER TABLE device ADD CONSTRAINT FK_92FB68E35F83FFC FOREIGN KEY (room_id_id) REFERENCES room (id)
@@ -81,6 +84,9 @@ final class Version20250611113041 extends AbstractMigration
         SQL);
         $this->addSql(<<<'SQL'
             ALTER TABLE button_instance DROP FOREIGN KEY FK_885D30099A5BC465
+        SQL);
+        $this->addSql(<<<'SQL'
+            ALTER TABLE button_template DROP FOREIGN KEY FK_5D0D9E5435F83FFC
         SQL);
         $this->addSql(<<<'SQL'
             ALTER TABLE device DROP FOREIGN KEY FK_92FB68E35F83FFC
