@@ -19,10 +19,10 @@ class BelongsFixtures extends Fixture implements DependentFixtureInterface
     public function load(ObjectManager $manager) : void
     {
         // All Lights On group (contains 3 light buttons)
-        $this->createBelongs($manager, 'Macro-button-0', ['button-room0-0', 'button-room0-1', 'button-room0-2']);
+        $this->createBelongs($manager, 'Macro-button-0', ['template-1', 'template-2', 'template-3']);
         
         // All Lights Off group
-        $this->createBelongs($manager, 'Macro-button-1', ['button-room1-0', 'button-room1-1', 'button-room1-2']);
+        $this->createBelongs($manager, 'Macro-button-1', ['template-6', 'template-7', 'template-8']);
         
         $manager->flush();
     }

@@ -26,6 +26,7 @@ class ButtonTemplateFixtures extends Fixture implements DependentFixtureInterfac
     public function load(ObjectManager $manager): void
     {
         $faker = Factory::create();
+        $globalIndex = 0;
         
         // Create buttons for each room
         for ($roomIndex = 0; $roomIndex < 5; $roomIndex++) {
@@ -42,7 +43,8 @@ class ButtonTemplateFixtures extends Fixture implements DependentFixtureInterfac
                 );
                 
                 // Add reference for potential use in other fixtures
-                $this->addReference("button-room{$roomIndex}-{$buttonIndex}", $button);
+                $this->addReference("template-$globalIndex", $button);
+                $globalIndex++;
                 $manager->persist($button);
             }
         }

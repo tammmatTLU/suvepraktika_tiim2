@@ -84,7 +84,7 @@ one-button-template:
 
 all-button-instances:
     path: api/button-instances
-    controller: App\Controller\ButtonInstanceController::findAllButtonInstances
+    controller: App\Controller\ButtonInstanceController::findAllButtons
     methods: [GET]
 
 one-button-instance:
