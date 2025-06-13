@@ -21,6 +21,11 @@ composer install
 
 ### Projekti käivitamine Dockeriga
 - Ava oma lemmik terminal
+- Loo vajalikud failid:
+```bash
+cd frontend
+cp .env.example .env
+```
 - Tee kindlaks, et Docker ja Docker Compose on seadmes olemas
     - Testimiseks jooskuta `docker version` ja `docker compose version` ning hinda ise ;)
 - Lõpetuseks jooksuta lihtsalt `docker compose up` või `docker compose up -d`, kui tekstisein sind häirib

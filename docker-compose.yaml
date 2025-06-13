@@ -32,7 +32,7 @@ services:
       - ./backend/.env
     ports:
       - "3006:3006"
-    command: sh -c "composer install && php bin/console doctrine:migrations:migrate -n && php bin/console doctrine:fixtures:load -n && symfony server:start --port=3006 --allow-all-ip"
+    command: sh -c "composer install && php bin/console doctrine:migrations:migrate -n && php bin/console doctrine:fixtures:load -n && symfony server:start --port=3006 --allow-all-ip --no-tls"
 
   frontend:
     build:

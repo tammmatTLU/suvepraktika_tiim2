@@ -21,6 +21,7 @@ class ButtonInstanceFixture extends Fixture implements DependentFixtureInterface
     {
         $faker = Factory::create();
 
+
         $reduxStateObj = (object) array(
             $faker->word => $faker -> word,
             $faker->word => (object) array(
@@ -41,7 +42,7 @@ class ButtonInstanceFixture extends Fixture implements DependentFixtureInterface
             $manager->persist($instance);
             #echo "added buttonInstance";
         }
-        
+
         $manager->flush();
     }
 }

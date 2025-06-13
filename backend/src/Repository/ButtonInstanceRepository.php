@@ -16,28 +16,17 @@ class ButtonInstanceRepository extends ServiceEntityRepository
         parent::__construct($registry, ButtonInstance::class);
     }
 
-    //    /**
-    //     * @return ButtonInstance[] Returns an array of ButtonInstance objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('b')
-    //            ->andWhere('b.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('b.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    public function findButtonInstancesByUserId(int $userId)
+    {
+        $conn = $this->getEntityManager()->getConnection();
 
-    //    public function findOneBySomeField($value): ?ButtonInstance
-    //    {
-    //        return $this->createQueryBuilder('b')
-    //            ->andWhere('b.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+        $sql = '
+        SELECT * FROM button_instance
+        WHERE user_id = :userId
+        ';
+
+        $result = $conn->executeQuery($sql, ['userId' => $userId]);
+
+        return $result->fetchAllAssociative();
+    }
 }
