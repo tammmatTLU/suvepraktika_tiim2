@@ -18,15 +18,15 @@ class ButtonInstanceFixtures extends Fixture implements DependentFixtureInterfac
     public function load(ObjectManager $manager) : void
     {
         $faker = Factory::create();
-        
+
         for ($i = 0; $i < 30; $i++) {
             $instance = new ButtonInstance();
             $instance->setReduxState(['state' => $faker->word]);
-            $instance->setUser($this->getReference('user-'.$faker->numberBetween(1, 10)));
-            $instance->setButtonTemplate($this->getReference('template-'.$faker->numberBetween(0, 19)));
+            $instance->setUser($this->getReference('user-'.$faker->numberBetween(1, 10), 'User'));
+            $instance->setButtonTemplate($this->getReference('template-'.$faker->numberBetween(0, 19), 'ButtonTemplate'));
             $manager->persist($instance);
         }
-        
+
         $manager->flush();
     }
 }

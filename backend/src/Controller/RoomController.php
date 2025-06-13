@@ -6,7 +6,7 @@ use App\Repository\RoomRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-class RoomController extends AbstractController
+final class RoomController extends AbstractController
 {
     private RoomRepository $roomRepository;
 
@@ -18,15 +18,9 @@ class RoomController extends AbstractController
     public function findAllRooms(): JsonResponse
     {
         $rooms = $this->roomRepository->findAll();
-        $data = array_map(function($room) {
-            return [
-                'id' => $room->getId(),
-                'name' => $room->getName(),
-            ];
-    }, $rooms);
 
         return new JsonResponse([
-            'data' => $data,
+            'data' => $rooms,
             'status' => 200
         ]);
     }
