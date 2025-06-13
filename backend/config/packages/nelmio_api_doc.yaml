@@ -4,6 +4,70 @@ nelmio_api_doc:
             title: Suvepraktika
             description: Suvepraktika rühm 2.
             version: 1.0.0
+        paths:
+            /api/users:
+                get:
+                    summary: "Get all users"
+                    responses:
+                        200:
+                            description: "Returns all users without passwords"
+                        default:
+                            description: "Unexpected error"
+            /api/user/{id}:
+                get:
+                    summary: "Find user by id"
+                    responses:
+                        200:
+                            description: "Returns one user based on id"
+                        default:
+                            description: "unexpected error"
+            /api/user/{userName}/button-instances:
+                get:
+                    summary: "find buttons for a user"
+                    responses:
+                        200:
+                            description: "Returns all buttons, and button templates for a single user"
+                        default:
+                            description: "unexpected error"
+            /api/rooms:
+                get:
+                    summary: "Find all rooms"
+                    responses:
+                        200:
+                            description: "Returns all rooms from the database"
+                        default:
+                            description: "unexpected error"
+            /api/room/{id}:
+                get:
+                    summary: "Find one room"
+                    responses:
+                        200:
+                            description: "Returns one room based on id"
+                        default:
+                            description: "unexpected error"
+            /api/room/{id}/devices:
+                get:
+                    summary: "Find all devices in a single room"
+                    responses:
+                        200:
+                            description: "Returns all devices in a single room, based on room id"
+                        default:
+                            description: "unexpected error"
+            /api/group-instances:
+                get:
+                    summary: "Find all group-instances"
+                    responses:
+                        200:
+                            description: "Return all group instances"
+                        default:
+                            description: "unexpected error"
+            /api/group-instance/{id}:
+                get:
+                    summary: "Find one group instance"
+                    responses:
+                        200:
+                            description: "Return one group instance "
+            
     areas: # to filter documented areas
         path_patterns:
             - ^/api(?!/doc$) # Accepts routes under /api except /api/doc
