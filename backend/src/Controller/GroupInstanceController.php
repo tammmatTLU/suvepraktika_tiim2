@@ -17,16 +17,27 @@ class GroupInstanceController extends AbstractController
 
     public function findAllGroupInstances(): JsonResponse
     {
-        $groups = $this->groupInstanceRepository->findAll();
-
-        $data = array_map(function($group) {
+        $groupInstances = $this->groupInstanceRepository->findAll();
+        $data = array_map(function($groupInstance) {
             return [
-                'id' => $group->getId(),
+                'id' => $groupInstance->getId(),
+                'status' => $groupInstance->getStatus(),
+                'type' => $groupInstance->getType()
             ];
-    }, $groups);
+    }, $groupInstances);
 
-        return $this-> Json([
+        return new JsonResponse([
             'data' => $data,
+            'status' => 200
+        ]);
+    }
+
+    public function findGroupInstanceById(int $id): JsonResponse
+    {
+        $groupInstance = $this->groupInstanceRepository->find($id);
+
+        return new JsonResponse([
+            'data' => $groupInstance,
             'status' => 200
         ]);
     }

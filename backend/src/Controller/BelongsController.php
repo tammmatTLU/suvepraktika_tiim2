@@ -30,4 +30,14 @@ class BelongsController extends AbstractController
             'status' => 200
         ]);
     }
+
+    public function findBelongsById(int $id): JsonResponse
+    {
+        $belongs = $this->belongsRepository->find($id);
+
+        return new JsonResponse([
+            'data' => $belongs,
+            'status' => 200
+        ]);
+    }
 }
