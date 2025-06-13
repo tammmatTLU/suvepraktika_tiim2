@@ -47,6 +47,7 @@ header{
     color: rgb(225, 225, 225);
     grid-row: 1/2;
     min-height: 60px;
+    flex-direction: column;
 }
 
 .back-btn{
@@ -141,4 +142,52 @@ header{
     border: 1px solid #ccc;
     font-size: 16px;
     transition: background-color 0.3s ease;
+}
+
+.edit-panel{
+    grid-row: 2/3;
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+    position: relative;
+}
+
+.editable-button {
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.toolbar {
+    width: 80%;
+    justify-content: center;
+    display: flex;
+    flex-direction: row;
+}
+
+.modal-backdrop {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.5); /* dim effect */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+/* Modal window centered */
+.modal-content {
+    background: #530808;
+    border-radius: 8px;
+    padding: 32px 24px;
+    min-width: 320px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-content *{
+    padding: 1%;
+    margin: 1%;
 }
