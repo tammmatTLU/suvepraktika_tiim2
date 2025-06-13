@@ -7,8 +7,13 @@ one-user:
     path: api/user/{id}
     controller: App\Controller\UserController::findUserById
     requirements:
-        id: '\d+'
+        id: !php/const Symfony\Component\Routing\Requirement\Requirement::DIGITS
     methods: [GET]
+
+user-button-instances:
+  path: api/user/{userName}/button-instances
+  controller: App\Controller\UserController::findButtonInstancesByUserName
+  methods: [GET]
 
 all-rooms:
     path: api/rooms
@@ -19,7 +24,7 @@ one-room:
     path: api/room/{id}
     controller: App\Controller\RoomController::findRoomById
     requirements:
-        id: '\d+'
+        id: !php/const Symfony\Component\Routing\Requirement\Requirement::DIGITS
     methods: [GET]
 
 all-group-instances:
@@ -31,7 +36,7 @@ one-group-instance:
     path: api/group-instance/{id}
     controller: App\Controller\GroupInstanceController::findGroupInstanceById
     requirements:
-        id: '\d+'
+        id: !php/const Symfony\Component\Routing\Requirement\Requirement::DIGITS
     methods: [GET]
 
 all-groups:
@@ -43,7 +48,7 @@ one-group:
     path: api/group/{id}
     controller: App\Controller\GroupController::findGroupById
     requirements:
-        id: '\d+'
+        id: !php/const Symfony\Component\Routing\Requirement\Requirement::DIGITS
     methods: [GET]
 
 all-devices:
@@ -55,7 +60,7 @@ one-device:
     path: api/device/{id}
     controller: App\Controller\DeviceController::findDeviceById
     requirements:
-        id: '\d+'
+        id: !php/const Symfony\Component\Routing\Requirement\Requirement::DIGITS
     methods: [GET]
 
 all-button-templates:
@@ -67,7 +72,7 @@ one-button-template:
     path: api/button-template/{id}
     controller: App\Controller\ButtonTemplateController::findButtonTemplateById
     requirements:
-        id: '\d+'
+        id: !php/const Symfony\Component\Routing\Requirement\Requirement::DIGITS
     methods: [GET]
 
 all-button-instances:
@@ -79,7 +84,7 @@ one-button-instance:
     path: api/button-instance/{id}
     controller: App\Controller\ButtonInstanceController::findButtonInstanceById
     requirements:
-        id: '\d+'
+        id: !php/const Symfony\Component\Routing\Requirement\Requirement::DIGITS
     methods: [GET]
 
 all-belongs:
