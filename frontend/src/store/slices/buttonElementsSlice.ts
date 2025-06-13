@@ -32,8 +32,8 @@ const initialState: ElementsState = {
       id: 1,
       name: 'Lamp',
       type: 'button',
-      position: { x: 200, y: 600 },
-      state: { on: false },
+      position: { x: 200, y: 0 },
+      state: false,
       size: { width: 400, height: 400 },
       fontSize: 16,
       fontFamily: 'Arial',
@@ -44,8 +44,8 @@ const initialState: ElementsState = {
       id: 2,
       name: 'Fan',
       type: 'button',
-      position: { x: 800, y: 600 },
-      state: { on: false },
+      position: { x: 800, y: 0 },
+      state: false ,
       size: { width: 200, height: 400 },
       fontSize: 16,
       fontFamily: 'Times New Roman',
@@ -70,7 +70,7 @@ const elementsSlice = createSlice({
     updateElementState: (state, action: PayloadAction<{ id: number; state: boolean }>) => {
       const { id, state: newState } = action.payload;
       if (state.elements[id]) {
-        state.elements[id].state.on = newState;
+        state.elements[id].state = newState;
       }
     },
     setPosition: (
@@ -85,7 +85,7 @@ const elementsSlice = createSlice({
           name: 'New Element',
           type: 'button',
           position: { x: 100, y: 100 }, // Default position
-          state: { on: false },
+          state: false,
           size: { width: 320, height: 420 }, // Default size
           fontSize: 16,
           fontFamily: 'Arial',
@@ -108,7 +108,7 @@ const elementsSlice = createSlice({
           name: 'New Element',
           type: 'button',
           position: { x: 100, y: 100 }, // Default position
-          state: { on: false },
+          state: false,
           size: { width: 320, height: 420 }, // Default size
           fontSize: 16,
           fontFamily: 'Arial',

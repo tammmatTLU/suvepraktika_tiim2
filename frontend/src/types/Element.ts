@@ -8,9 +8,6 @@ export interface Size {
   height: number;
 }
 
-export interface State {
-  on: boolean;
-}
 
 export interface Element {
   id: number;
@@ -28,7 +25,7 @@ export interface ButtonElement extends Element{
   name: string;
   type: 'button';
   position: Position;
-  state: State;
+  state: boolean;
   size: Size;
   fontSize: number;
   fontFamily: string;

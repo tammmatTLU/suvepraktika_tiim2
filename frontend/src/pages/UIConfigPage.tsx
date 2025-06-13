@@ -11,9 +11,15 @@ export default function UIConfigPage(){
     //const { userName: userName = 'A-001' } = useParams<{ userName?: string }>();
 
     //const dispatch = useAppDispatch();
-    const elements = useAppSelector(state => state.buttonElements.elements);
+    const buttonElements = useAppSelector(state => state.buttonElements.elements);
+    const spanElements = useAppSelector(state => state.spanElements.elements);
     const loading = useAppSelector(state => state.buttonElements.loading);
     const error = useAppSelector(state => state.buttonElements.error);
+
+    const allElements = [
+  ...Object.values(buttonElements),
+  ...Object.values(spanElements)
+];
 /*
     useEffect(() => {
         dispatch(loadElements(userName));
@@ -30,7 +36,7 @@ export default function UIConfigPage(){
                 <BackButton />
                 <Toolbar />
             </header>
-            <EditPanel elements={elements}/>
+            <EditPanel elements={allElements} />
         </div>
     )
 }
