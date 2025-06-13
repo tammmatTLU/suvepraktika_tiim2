@@ -48,7 +48,7 @@ export default function DeviceToggle(element: DeviceToggleProps){
                 }}
             >
                 <span
-                className={element.parameters.state.on ? 'indicator indicator-on' : 'indicator'}
+                className={element.parameters.state ? 'indicator indicator-on' : 'indicator'}
                 />
                 ON
             </button>

@@ -38,7 +38,8 @@ const initialState: ElementsState = {
       fontSize: 16,
       fontFamily: 'Arial',
       color: '#000000',
-      backgroundColor: '#00FF00'
+      backgroundColor: '#00FF00',
+      templateId: 1
     },
     2: {
       id: 2,
@@ -50,7 +51,8 @@ const initialState: ElementsState = {
       fontSize: 16,
       fontFamily: 'Times New Roman',
       color: '#000000',
-      backgroundColor: '#0000FF'
+      backgroundColor: '#0000FF',
+      templateId: 2
     }
   },
   loading: false,
@@ -73,6 +75,20 @@ const elementsSlice = createSlice({
         state.elements[id].state = newState;
       }
     },
+    addButton: (state, action: PayloadAction<ButtonElement>) => {
+      const newElement = action.payload;
+      if (!state.elements[newElement.id]) {
+        state.elements[newElement.id] = {
+          ...newElement,
+          position: { x: 0, y: 0 },
+          size: { width: 320, height: 420 },
+          fontSize: 14,
+          fontFamily: 'Arial',
+          color: '#000000',
+          backgroundColor: '#FFFFFF'
+        };
+      }
+    },
     setPosition: (
       state,
       action: PayloadAction<{ id: number; position: { x: number; y: number } }>
@@ -90,7 +106,8 @@ const elementsSlice = createSlice({
           fontSize: 16,
           fontFamily: 'Arial',
           color: '#000000',
-          backgroundColor: '#FFFFFF'
+          backgroundColor: '#FFFFFF',
+          templateId: 0
         };
       }
 
@@ -113,7 +130,8 @@ const elementsSlice = createSlice({
           fontSize: 16,
           fontFamily: 'Arial',
           color: '#000000',
-          backgroundColor: '#FFFFFF'
+          backgroundColor: '#FFFFFF',
+          templateId: 0
         };
       }
 

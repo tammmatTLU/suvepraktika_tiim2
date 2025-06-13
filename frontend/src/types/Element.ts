@@ -31,6 +31,7 @@ export interface ButtonElement extends Element{
   fontFamily: string;
   color: string;
   backgroundColor: string;
+  templateId: number;
 }
 
 export interface SpanElement extends Element{
