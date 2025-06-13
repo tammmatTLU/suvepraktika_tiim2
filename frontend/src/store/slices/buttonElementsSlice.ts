@@ -78,15 +78,7 @@ const elementsSlice = createSlice({
     addButton: (state, action: PayloadAction<ButtonElement>) => {
       const newElement = action.payload;
       if (!state.elements[newElement.id]) {
-        state.elements[newElement.id] = {
-          ...newElement,
-          position: { x: 0, y: 0 },
-          size: { width: 320, height: 420 },
-          fontSize: 14,
-          fontFamily: 'Arial',
-          color: '#000000',
-          backgroundColor: '#FFFFFF'
-        };
+        state.elements[newElement.id] = newElement;
       }
     },
     setPosition: (
@@ -161,6 +153,6 @@ const elementsSlice = createSlice({
   */
 });
 
-export const { setElements, updateElementState, setPosition, setSize } = elementsSlice.actions;
+export const { setElements, updateElementState, setPosition, setSize, addButton } = elementsSlice.actions;
 
 export default elementsSlice.reducer;
