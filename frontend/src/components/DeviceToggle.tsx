@@ -1,12 +1,12 @@
 import '../App.css'
 import { useAppDispatch } from '../store/hooks';
-import { updateElementState } from '../store/slices/elementsSlice';
+import { updateElementState } from '../store/slices/buttonElementsSlice';
 //import { useState } from 'react';
-import type { Element } from '../types/Element';
+import type { ButtonElement } from '../types/Element';
 
 type DeviceToggleProps = {
     key: number;
-    parameters: Element;
+    parameters: ButtonElement;
 }
 
 export default function DeviceToggle(element: DeviceToggleProps){

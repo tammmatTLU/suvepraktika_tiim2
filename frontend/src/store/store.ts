@@ -1,11 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
-import elementsReducer from './slices/elementsSlice';
-
+import buttonElementsReducer from './slices/buttonElementsSlice';
+import spanElementsReducer from './slices/spanElementsSlice';
 
 
 export const store = configureStore({
   reducer: {
-    elements: elementsReducer
+    buttonElements: buttonElementsReducer,
+    spanElements: spanElementsReducer,
   },
 });
 
