@@ -21,22 +21,32 @@ class ButtonInstanceFixture extends Fixture implements DependentFixtureInterface
     {
         $faker = Factory::create();
 
-
         $reduxStateObj = (object) array(
-            $faker->word => $faker -> word,
-            $faker->word => (object) array(
-                $faker->word => $faker -> word,
-                $faker->word => $faker -> word,
+            'id' => $faker->numberBetween(1, 10),
+            'name' => '',
+            'type' => 'button',
+            'position' => (object) array(
+                'x' => 100,
+                'y' => 0
             ),
-            $faker->word => $faker -> word,
-            $faker->word => $faker -> word,
+            'state' => $faker->boolean(0.5),
+            'size' => (object) array(
+                'width' => $faker->numberBetween(12,20),
+                'height' => $faker->numberBetween(12,20)
+            ),
+            'fontSize' => $faker->numberBetween(10,20),
+            'fontFamily' => 'Arial, Helvetica, sans-serif',
+            'color' => $faker->hexColor(),
+            'backgroundColor' => $faker->hexColor()
         );
+
+
 
         echo json_encode($reduxStateObj);
         
         for ($i = 0; $i < 30; $i++) {
             $instance = new ButtonInstance();
-            $instance->setReduxState(['state' => $reduxStateObj]);
+            $instance->setReduxState(['ButtonElement' => $reduxStateObj]);
             $instance->setUser($this->getReference('user-'.$faker->numberBetween(1, 5), User::class));
             $instance->setButtonTemplate($this->getReference('template-'.$faker->numberBetween(0, 19), ButtonTemplate::class));
             $manager->persist($instance);
