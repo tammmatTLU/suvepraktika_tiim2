@@ -31,4 +31,9 @@ class DeviceController extends AbstractController
             'status' => 200
         ]);
     }
+
+    public function addDevice(): JsonResponse
+    {
+        
+    }
 }
