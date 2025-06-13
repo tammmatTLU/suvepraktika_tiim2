@@ -72,8 +72,55 @@ const elementsSlice = createSlice({
       if (state.elements[id]) {
         state.elements[id].state.on = newState;
       }
+    },
+    setPosition: (
+      state,
+      action: PayloadAction<{ id: number; position: { x: number; y: number } }>
+    ) => {
+      const { id, position } = action.payload;
+
+      if (!state.elements[id]) {
+        state.elements[id] = {
+          id,
+          name: 'New Element',
+          type: 'button',
+          position: { x: 100, y: 100 }, // Default position
+          state: { on: false },
+          size: { width: 320, height: 420 }, // Default size
+          fontSize: 16,
+          fontFamily: 'Arial',
+          color: '#000000',
+          backgroundColor: '#FFFFFF'
+        };
+      }
+
+      state.elements[id].position = position;
+    },
+    setSize: (
+      state,
+      action: PayloadAction<{ id: number; size: { width: number; height: number } }>
+    ) => {
+      const { id, size } = action.payload;
+
+      if (!state.elements[id]) {
+        state.elements[id] = {
+          id,
+          name: 'New Element',
+          type: 'button',
+          position: { x: 100, y: 100 }, // Default position
+          state: { on: false },
+          size: { width: 320, height: 420 }, // Default size
+          fontSize: 16,
+          fontFamily: 'Arial',
+          color: '#000000',
+          backgroundColor: '#FFFFFF'
+        };
+      }
+
+      state.elements[id].size = size;
     }
   },
+  
   /*
   extraReducers: (builder) => {
     builder
@@ -96,6 +143,6 @@ const elementsSlice = createSlice({
   */
 });
 
-export const { setElements, updateElementState } = elementsSlice.actions;
+export const { setElements, updateElementState, setPosition, setSize } = elementsSlice.actions;
 
 export default elementsSlice.reducer;
