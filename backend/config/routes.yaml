@@ -1,5 +1,3 @@
-# GET PÄRINGUD
-
 all-users:
     path: api/users
     controller: App\Controller\UserController::findAllUsers
@@ -13,9 +11,9 @@ one-user:
     methods: [GET]
 
 user-button-instances:
-    path: api/user/{userName}/button-instances
-    controller: App\Controller\UserController::findButtonInstancesByUserName
-    methods: [GET]
+  path: api/user/{userName}/button-instances
+  controller: App\Controller\UserController::findButtonInstancesByUserName
+  methods: [GET]
 
 all-rooms:
     path: api/rooms
@@ -100,10 +98,3 @@ all-belongs:
     path: api/belongs
     controller: App\Controller\BelongsController::findAllBelongs
     methods: [GET]
-
-# POST PÄRINGUD
-
-create-button-template:
-    path: api/create-button-template
-    controller: App\Controller\ButtonTemplateController::createButtonTemplate
-    methods: [POST]
