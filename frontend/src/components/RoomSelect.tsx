@@ -9,10 +9,10 @@ export default function RoomSelect() {
     }
 
     const rooms= [
-        { id: 'A-001', name: 'Ruum A-001' },
-        { id: 'A-002', name: 'Ruum A-002' },
-        { id: 'A-003', name: 'Ruum A-003' },
-        { id: 'A-004', name: 'Ruum A-004' },
+        { id: 'user-1', name: 'Ruum A-001' },
+        { id: 'user-2', name: 'Ruum A-002' },
+        { id: 'user-3', name: 'Ruum A-003' },
+        { id: 'user-4', name: 'Ruum A-004' },
     ]; 
     // API päring siia xd
     const [selectedRoom, setSelectedRoom] = useState(rooms[0]?.id || "");
