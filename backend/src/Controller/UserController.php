@@ -2,17 +2,23 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
+use App\Repository\ButtonInstanceRepository;
 use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-class UserController extends AbstractController
+final class UserController extends AbstractController
 {
     private UserRepository $userRepository;
+    private ButtonInstanceRepository $buttonInstanceRepository;
 
-    public function __construct(UserRepository $userRepository)
+    public function __construct(UserRepository $userRepository, ButtonInstanceRepository $buttonInstanceRepository)
     {
         $this->userRepository = $userRepository;
+        $this->buttonInstanceRepository = $buttonInstanceRepository;
     }
 
     public function findAllUsers(): JsonResponse
@@ -25,12 +31,21 @@ class UserController extends AbstractController
         ]);
     }
 
-    public function findUserById(int $id): JsonResponse
+    public function findUserById(User $user): JsonResponse
     {
-        $user = $this->userRepository->findWithoutPwd($id);
+        return new JsonResponse([
+            'data' => (object)$user,
+            'status' => 200
+        ]);
+    }
+
+    public function findButtonInstancesByUserName(string $userName): JsonResponse
+    {
+        $user = $this->userRepository->findOneBy(['name' => $userName]);
+        $buttonInstances = $this->buttonInstanceRepository->findButtonInstancesByUserId($user->getId());
 
         return new JsonResponse([
-            'data' => $user,
+            'data' => $buttonInstances,
             'status' => 200
         ]);
     }

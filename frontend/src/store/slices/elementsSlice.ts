@@ -1,18 +1,24 @@
-import { createSlice, /*createAsyncThunk*/ } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import type { Element } from '../../types/Element';
 
 // API thunk to load elements for a room
-/*
+
 export const loadElements = createAsyncThunk<Element[], string>(
   'elements/loadElements',
-  async (userName) => {
-    const response = await fetch(`/api/user/${userName}/button-instances`);
-    const data: Element[] = await response.json();
-    return data;
+  async (userName, { rejectWithValue }) => {
+    const response: Response = await fetch(`http://localhost:3006/api/user/${userName}/button-instances`);
+    const result = await response.json();
+    if (result.status !== 200) {
+      return rejectWithValue(
+        `Failed to fetch elements for user ${userName}: ${result.message || 'Unknown error'}`);
+    } else{
+      console.log(`Successfully fetched elements for user ${userName}`);
+      return result.data as Element[];
+    }
   }
 );
-*/
+
 
 interface ElementsState {
   elements: Record<number, Element>;
@@ -22,7 +28,7 @@ interface ElementsState {
 
 const initialState: ElementsState = {
   elements: {
-    1: {
+    /*1: {
       id: 1,
       name: 'Lamp',
       position: { x: 200, y: 600 },
@@ -43,7 +49,7 @@ const initialState: ElementsState = {
       fontFamily: 'Times New Roman',
       color: '#000000',
       backgroundColor: '#0000FF'
-    }
+    }*/
   },
   loading: false,
   error: null
@@ -66,7 +72,7 @@ const elementsSlice = createSlice({
       }
     }
   },
-  /*
+  
   extraReducers: (builder) => {
     builder
       .addCase(loadElements.pending, (state) => {
@@ -85,7 +91,7 @@ const elementsSlice = createSlice({
         state.error = action.error.message || 'Unknown error';
       });
   }
-  */
+  
 });
 
 export const { setElements, updateElementState } = elementsSlice.actions;

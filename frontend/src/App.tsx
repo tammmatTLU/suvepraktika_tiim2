@@ -19,7 +19,6 @@ function App() {
         <Route path='/ui-config/:userName' element={<UIConfigPage/>}/>
         <Route path='/automation-config' element={<AutomationConfigPage/>}/>
         <Route path='/view-creation' element={<CreateAccountPage/>}/>
-
       </Routes>
     </>
   )
