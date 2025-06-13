@@ -19,7 +19,7 @@ class GroupFixtures extends Fixture
             $group->setName("Macro-button-$i");
             $manager->persist($group);
             $this->addReference("Macro-button-$i", $group);
-            echo "Added reference Macro-button-$i\n"; 
+            #echo "Added reference Macro-button-$i\n"; 
         }
         
         $manager->flush();
