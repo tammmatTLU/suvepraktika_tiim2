@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 //import type { ButtonElement, SpanElement } from '../types/Element';
 import { addButton as addButtonElement} from '../store/slices/buttonElementsSlice';
@@ -21,30 +21,37 @@ function ToolbarModal({ action, onClose }: { action: string, onClose: () => void
     const dispatch = useDispatch();
     const [newElementType, setNewElementType] = useState<string>('button');
     const [elementName, setElementName] = useState<string>('');
-    let content;
-    let templateOptions;
+    const [templates, setTemplates] = useState<{id: number, name: string, command: string}[]>([]);
+    const [templatesLoaded, setTemplatesLoaded] = useState(false);
+
+    useEffect(() => {
+        if (action === 'add') {
+            setTemplatesLoaded(false);
+            setTemplates([]);
+        }
+    }, [action]);
+
     async function fetchTemplates() {
+        if (templatesLoaded) return;
         try {
-            const response = await fetch('/api/btn-templates');
+            const response = await fetch('http://localhost:3006/api/button-templates');
             if (!response.ok) {
                 throw new Error('Failed to fetch templates');
             }
             const result = await response.json();
-            const templates = result.data || null;
-            console.log(result);
-            templateOptions = templates.map((template: any) => (
-                <option key={template.id} value={template.id}>
-                    {template.name}
-                </option>
-            ));
+            console.log(result.data);
+            setTemplates(result.data || []);
+            setTemplatesLoaded(true);
         } catch (error) {
             console.error('Error fetching templates:', error);
-            templateOptions = null;
+            setTemplates([]);
+            setTemplatesLoaded(true);
         }
     }
 
+
+        let content;
     if (action === 'add') {
-        fetchTemplates();
         content = 
         <div className="modal-content">
             <label htmlFor='newElementType'>Vali uus seadme tüüp:</label>
@@ -59,8 +66,17 @@ function ToolbarModal({ action, onClose }: { action: string, onClose: () => void
                 />
                 Uus Nupp
             </div>
-            <select name="btnTemplateSelect" id="btnTemplateSelect" disabled={newElementType !== 'button'}>
-                {templateOptions}
+            <select
+                name="btnTemplateSelect"
+                id="btnTemplateSelect"
+                disabled={newElementType !== 'button'}
+                onClick={fetchTemplates}
+            >
+                {templates.map(template => (
+                    <option key={template.id} value={template.id}>
+                        {template.name}
+                    </option>
+                ))}
             </select>
             <div>
                 <input
@@ -84,7 +100,7 @@ function ToolbarModal({ action, onClose }: { action: string, onClose: () => void
                 // add new element to redux store
                 if(newElementType === 'button') {
                     dispatch(addButtonElement({
-                        id: 0, // id will be set by the backend
+                        id: 0, // placeholder. needs to be replaced with actual id from backend
                         type: 'button',
                         name: elementName,
                         state: false,
