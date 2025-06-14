@@ -11,6 +11,8 @@ nelmio_api_doc:
                     responses:
                         200:
                             description: "Returns all users without passwords"
+                        404:
+                            description: "No users found from database"
                         default:
                             description: "Unexpected error"
             /api/user/{id}:
@@ -19,6 +21,8 @@ nelmio_api_doc:
                     responses:
                         200:
                             description: "Returns one user based on id"
+                        404:
+                            description: "user not found from database"
                         default:
                             description: "unexpected error"
             /api/user/{userName}/button-instances:
@@ -27,6 +31,8 @@ nelmio_api_doc:
                     responses:
                         200:
                             description: "Returns all buttons, and button templates for a single user"
+                        404:
+                            description: "user not found from database"
                         default:
                             description: "unexpected error"
             /api/rooms:
@@ -66,7 +72,43 @@ nelmio_api_doc:
                     summary: "Find one group instance"
                     responses:
                         200:
-                            description: "Return one group instance "
+                            description: "Return one group instance based on group instance id"
+                        default:
+                            description: "unexpected error"
+            /api/button-groups:
+                get:
+                    summary: "Find all button groups"
+                    responses:
+                        200:
+                            description: "Returns all button groups"
+                        default:
+                            description: "unexpected error"
+            /api/button-group/{id}:
+                get:
+                    summary: "Find a button-group by id"
+                    responses:
+                        200:
+                            description: "Returns button-group based on button-group id"
+                        default:
+                            description: "unexpected error"
+            /api/devices:
+                get:
+                    summary: "Find all devices"
+                    responses:
+                        200:
+                            description: "Returns all devices from database"
+                        default:
+                            description: "unexpected error"
+            /api/device/{id}:
+                get:
+                    summary: "Find one device by id"
+                    responses:
+                        200:
+                            description: "Returns all devices based on device id"
+                        default:
+                            description: "unexpected error"
+            
+
             
     areas: # to filter documented areas
         path_patterns:

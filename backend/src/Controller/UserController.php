@@ -25,6 +25,10 @@ final class UserController extends AbstractController
     {
         $users = $this->userRepository->findAllWithoutPwd();
 
+        if (!$users){
+            return new JsonResponse (['status' => 'no users found' ], 404);
+        }
+
         return new JsonResponse([
             'data' => $users,
             'status' => 200
@@ -33,6 +37,10 @@ final class UserController extends AbstractController
 
     public function findUserById(User $user): JsonResponse
     {
+        if (!$user){
+            return new JsonResponse (['status' => 'user not found' ], 404);
+        }
+
         return new JsonResponse([
             'data' => (object)$user,
             'status' => 200
@@ -42,7 +50,16 @@ final class UserController extends AbstractController
     public function findButtonInstancesByUserName(string $userName): JsonResponse
     {
         $user = $this->userRepository->findOneBy(['name' => $userName]);
+
+        if (!$user){
+            return new JsonResponse (['status' => 'No user by that name found'], 404);
+        }
+
         $buttonInstances = $this->buttonInstanceRepository->findButtonInstancesByUserId($user->getId());
+
+        if(!$buttonInstances){
+            
+        }
 
         return new JsonResponse([
             'data' => $buttonInstances,
