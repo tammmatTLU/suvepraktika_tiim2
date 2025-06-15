@@ -16,7 +16,7 @@ class Token
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $value = null;
 
-    #[ORM\OneToOne(inversedBy: 'token', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'token')]
     private ?User $user = null;
 
     public function getId(): ?int
