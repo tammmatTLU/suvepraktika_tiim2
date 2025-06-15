@@ -2,9 +2,9 @@
 
 namespace App\Service;
 
-class GenerateToken
+class TokenService
 {
-    public function generateToken(): string
+    public function generate(): string
     {
         return bin2hex(random_bytes(32));
     }
