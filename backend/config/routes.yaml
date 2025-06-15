@@ -31,7 +31,7 @@ room-devices:
     path: api/room/{id}/devices
     controller: App\Controller\RoomController::getDevicesByRoom
     requirements:
-        id: '\d+'
+        id: !php/const Symfony\Component\Routing\Requirement\Requirement::DIGITS
     methods: [GET]
 
 all-group-instances:
@@ -103,3 +103,23 @@ one-belongs:
     path: api/belongs/{id}
     controller: App\Controller\BelongsController::findBelongsById
     methods: [GET]
+
+register:
+    path: api/register
+    controller: App\Controller\AuthenticationController::register
+    methods: [POST]
+
+login:
+    path: api/login
+    controller: App\Controller\AuthenticationController::login
+    methods: [POST]
+
+logout:
+    path: api/logout
+    controller: App\Controller\AuthenticationController::logout
+    methods: [POST]
+
+verify:
+    path: api/verify
+    controller: App\Controller\AuthenticationController::verify
+    methods: [POST]
