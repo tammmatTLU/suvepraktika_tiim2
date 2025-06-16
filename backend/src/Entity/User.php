@@ -37,7 +37,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $groupInstances;
 
     #[ORM\Column(length: 25)]
-    private ?string $role = null;
+    private string $role = 'ROLE_USER';
 
     /**
      * @var Collection<int, Token>
