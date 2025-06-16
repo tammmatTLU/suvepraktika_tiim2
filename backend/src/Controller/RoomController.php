@@ -40,7 +40,7 @@ final class RoomController extends AbstractController
     {
         $room = $this->roomRepository->find($id);
 
-        if ($room -> isEmpty()) {
+        if (!$room) {
             return new JsonResponse([
                 'error' => [
                     'message' => 'room not found',

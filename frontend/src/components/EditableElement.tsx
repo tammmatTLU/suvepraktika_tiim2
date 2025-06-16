@@ -1,24 +1,26 @@
 import { Rnd } from 'react-rnd';
 import type { ButtonElement, SpanElement } from '../types/Element';
 import { useDispatch } from 'react-redux';
-import { setPosition as setButtonPosition, setSize as setButtonSize} from '../store/slices/buttonElementsSlice';
-import { setPosition as setSpanPosition, setSize as setSpanSize} from '../store/slices/spanElementsSlice';
-
+import { setPosition as setButtonPosition, setSize as setButtonSize, deleteButton} from '../store/slices/buttonElementsSlice';
+import { setPosition as setSpanPosition, setSize as setSpanSize, deleteSpan} from '../store/slices/spanElementsSlice';
 
 type EditableElementProps = {
     key: number;
     parameters: ButtonElement | SpanElement;
+    onEdit: (id: number, type: string) => void;
+    gridEnabled: boolean;
+    gridSize: [number, number];
 }
 
-export default function EditableElement(element: EditableElementProps){
+export default function EditableElement({ parameters, onEdit, gridEnabled, gridSize}: EditableElementProps){
     const dispatch = useDispatch();
-    const handleButtonDragStop = (d: any) => {
-        console.log('Element dragged to:', d.x, d.y);
+    const handleButtonDragStop = (_e: any, d: any) => {
         dispatch(setButtonPosition({
-            id: element.parameters.id,
+            id: parameters.id,
             position: { x: d.x, y: d.y }
         }));
     };
+    console.log("gridEnabled: " + gridEnabled + "gridSize: " + gridSize)
     const handleButtonResizeStop = (
         _e: any,
         _direction: any,
@@ -27,22 +29,21 @@ export default function EditableElement(element: EditableElementProps){
         position: { x: number; y: number }
     ) => {
         dispatch(setButtonSize({
-            id: element.parameters.id,
+            id: parameters.id,
             size: {
                 width: ref.offsetWidth,
                 height: ref.offsetHeight
             }
         }));
         dispatch(setButtonPosition({
-            id: element.parameters.id,
+            id: parameters.id,
             position: position
         }));
     };
 
-    const handleSpanDragStop = (d: any) => {
-        console.log('Element dragged to:', d.x, d.y);
+    const handleSpanDragStop = (_e: any, d: any) => {
         dispatch(setSpanPosition({
-            id: element.parameters.id,
+            id: parameters.id,
             position: { x: d.x, y: d.y }
         }));
     };
@@ -54,63 +55,97 @@ export default function EditableElement(element: EditableElementProps){
         position: { x: number; y: number }
     ) => {
         dispatch(setSpanSize({
-            id: element.parameters.id,
+            id: parameters.id,
             size: {
                 width: ref.offsetWidth,
                 height: ref.offsetHeight
             }
         }));
         dispatch(setSpanPosition({
-            id: element.parameters.id,
+            id: parameters.id,
             position: position
         }));
     };
-    if(element.parameters.type === 'button') {
-        console.log('Rendering button type element:', element.parameters.name);
+
+    const handleEdit = (id: number, type: string) => {
+        onEdit(id, type);
+    }
+
+    const handleDeleteElement = (id: number, type: string) => {
+        if (window.confirm(`Are you sure you want to delete the device "${name}"?`)) {
+            // Dispatch an action to delete the device
+            if( type === 'button') {
+                dispatch(deleteButton(id));
+            }
+            else if( type === 'span') {
+                dispatch(deleteSpan(id));
+            }
+            // dispatch(deleteDevice(id));
+        }
+    };
+    
+    if(parameters.type === 'button') {
         return (
             <Rnd
-                key={element.parameters.id}
-                default={{
-                    x: element.parameters.position.x,
-                    y: element.parameters.position.y,
-                    width: element.parameters.size.width,
-                    height: element.parameters.size.height,
+                key={parameters.id}
+                position={{
+                    x: parameters.position.x,
+                    y: parameters.position.y,
+                }}
+                size={{
+                    width: parameters.size.width,
+                    height: parameters.size.height,
                 }}
                 onDragStop={handleButtonDragStop}
                 enableResizing={true}
                 onResizeStop={handleButtonResizeStop}
                 bounds="#editPanel"
+                dragGrid={ gridEnabled ? gridSize : [1, 1]}
+                parent="#editPanel"
             >
+                <button
+                    className="edit-device-button"
+                    onClick={() => handleEdit(parameters.id, parameters.type)}
+                >
+                    ✏️
+                </button>
+                <button
+                    className="delete-device-button"
+                    onClick={() => handleDeleteElement(parameters.id, parameters.type)}
+                >
+                    🗑️
+                </button>
                 <button
                     className="editable-button"
                     style={{
-                        backgroundColor: element.parameters.backgroundColor,
-                        fontSize: element.parameters.fontSize,
-                        fontFamily: element.parameters.fontFamily,
-                        color: element.parameters.color,
+                        backgroundColor: parameters.backgroundColor,
+                        fontSize: parameters.fontSize,
+                        fontFamily: parameters.fontFamily,
+                        color: parameters.color,
                         borderRadius: '5px',
                         boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
                     }}
                     disabled={true}
                 >
-                    {element.parameters.name}
+                    {parameters.name}
                 </button>
             </Rnd>
         );
-    } else if (element.parameters.type === 'span') {
-        console.log('Rendering span element:', element.parameters.name);
-
+    } else if (parameters.type === 'span') {
         return (
+            <>
             <Rnd
-                key={element.parameters.id}
-                default={{
-                    x: element.parameters.position.x,
-                    y: element.parameters.position.y,
-                    width: element.parameters.size.width,
-                    height: element.parameters.size.height,
+                key={parameters.id}
+                position={{
+                    x: parameters.position.x,
+                    y: parameters.position.y,
+                }}
+                size={{
+                    width: parameters.size.width,
+                    height: parameters.size.height,
                 }}
                 style={{
-                    backgroundColor: element.parameters.backgroundColor,
+                    backgroundColor: parameters.backgroundColor,
                     justifyContent: 'center',
                     alignItems: 'center',
                     display: 'flex',
@@ -121,18 +156,33 @@ export default function EditableElement(element: EditableElementProps){
                 enableResizing={true}
                 onResizeStop={handleSpanResizeStop}
                 bounds="#editPanel"
+                parent="#editPanel"
+                dragGrid={gridEnabled ? gridSize : [1, 1]}
             >
+                <button
+                    className="edit-device-button"
+                    onClick={() => handleEdit(parameters.id, parameters.type)}
+                >
+                    ✏️
+                </button>
+                <button
+                    className="delete-device-button"
+                    onClick={() => handleDeleteElement(parameters.id, parameters.type)}
+                >
+                    🗑️
+                </button>
                 <span
                     className="editable-span"
                     style={{
-                        fontSize: element.parameters.fontSize,
-                        fontFamily: element.parameters.fontFamily,
-                        color: element.parameters.color,
+                        fontSize: parameters.fontSize,
+                        fontFamily: parameters.fontFamily,
+                        color: parameters.color,
                     }}
                 >
-                    {element.parameters.name}
+                    {parameters.name}
                 </span>
             </Rnd>
+            </>
         );
     }
 }
