@@ -33,14 +33,13 @@ class DeviceController extends AbstractController
 
         return new JsonResponse([
             'data' => $data,
-            'status' => 200
-        ]);
+        ], 200);
     }
 
     public function findDeviceById(int $id): JsonResponse
     {
         $device = $this->deviceRepository->find($id);
-        
+
         if (!$device){
             return new JsonResponse ([
                 'error' => [

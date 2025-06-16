@@ -69,7 +69,7 @@ class GroupInstance
     {
         return [
             'id' => $this->getId(),
-            'reduxState' => $this->getReduxState(),
+            'redux_state' => $this->getReduxState(),
             'user_id' => $this->getUser()?->getId(),
             'button_group_id' => $this->getButtonGroup()?->getId(),
         ];

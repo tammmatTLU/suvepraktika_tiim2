@@ -114,7 +114,8 @@ class ButtonGroup
     public function serialize(): array
     {
         return [
-
+            'id' => $this->getId(),
+            'name' => $this->getName(),
         ];
     }
 }
