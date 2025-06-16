@@ -104,12 +104,19 @@ class Room
     public function removeButtonTemplate(ButtonTemplate $buttonTemplate): static
     {
         if ($this->buttonTemplates->removeElement($buttonTemplate)) {
-            // set the owning side to null (unless already changed)
             if ($buttonTemplate->getRoom() === $this) {
                 $buttonTemplate->setRoom(null);
             }
         }
 
         return $this;
+    }
+
+    public function serialize(): array
+    {
+        return [
+            'id' => $this->getId(),
+            'name' => $this->getName()
+        ];
     }
 }

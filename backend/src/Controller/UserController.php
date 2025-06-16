@@ -28,7 +28,7 @@ final class UserController extends AbstractController
         if (empty($users)){
             return new JsonResponse ([
                 'error' =>[
-                    'message' => 'no users found',
+                    'message' => 'No users found',
                 ]
             ], 204);
         }
@@ -75,13 +75,10 @@ final class UserController extends AbstractController
             ],204);
         }
 
-        $data = array_map(function($buttonInstance ){
-            return [
-                'id' => $buttonInstance['id'],
-                'reduxState' => $buttonInstance['redux_state'],
-                'buttonTemplate_ID' => $buttonInstance['button_template_id']
-            ];
-        }, $buttonInstances);
+        $data = [];
+        foreach ($buttonInstances as $buttonInstance) {
+            $data[] = $buttonInstance->serialize();
+        }
 
         return new JsonResponse([
             'data' => $data,

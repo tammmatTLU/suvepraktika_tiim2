@@ -19,33 +19,7 @@ class GroupInstanceController extends AbstractController
     {
         $groupInstances = $this->groupInstanceRepository->findAll();
 
-        if($groupInstance -> isEmpty()){
-            return new JsonResponse ([
-                'error' => [
-                    'message' => 'No groups instances found'
-                ]
-            ], 204);
-        }
-
-        $data = array_map(function($groupInstance) {
-            return [
-                'id' => $groupInstance->getId(),
-                'status' => $groupInstance->getStatus(),
-                'type' => $groupInstance->getType()
-            ];
-    }, $groupInstances);
-
-        return new JsonResponse([
-            'data' => $data,
-            'status' => 200
-        ]);
-    }
-
-    public function findGroupInstanceById(int $id): JsonResponse
-    {
-        $groupInstance = $this->groupInstanceRepository->find($id);
-
-        if ($groupInstance -> isEmpty()){
+        if (empty($groupInstances)){
             return new JsonResponse ([
                 'error' => [
                     'message' => 'No group instances found'
@@ -53,9 +27,31 @@ class GroupInstanceController extends AbstractController
             ],204);
         }
 
+        $data = array_map(function($groupInstance) {
+            return $groupInstance->serialize();
+        }, $groupInstances);
+
         return new JsonResponse([
-            'data' => $groupInstance,
-            'status' => 200
-        ]);
+            'data' => $data,
+        ], 200);
+    }
+
+    public function findGroupInstanceById(int $id): JsonResponse
+    {
+        $groupInstance = $this->groupInstanceRepository->find($id);
+
+        if (!$groupInstance){
+            return new JsonResponse ([
+                'error' => [
+                    'message' => 'No group instance found'
+                ]
+            ], 204);
+        }
+
+        $data = $groupInstance->serialize();
+
+        return new JsonResponse([
+            'data' => $data,
+        ], 200);
     }
 }

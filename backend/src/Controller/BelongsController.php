@@ -27,16 +27,13 @@ class BelongsController extends AbstractController
             ],204);
         }
 
-        $data = array_map(function($belong) {
-            return [
-                'id' => $belong->getId(),
-            ];
+        $data = array_map(function($belongs) {
+            return $belongs->serialize();
         }, $belongs);
 
-        return $this-> Json([
+        return new JsonResponse([
             'data' => $data,
-            'status' => 200
-        ]);
+        ], 200);
     }
 
     public function findBelongsById(int $id): JsonResponse
@@ -51,8 +48,10 @@ class BelongsController extends AbstractController
             ],204);
         }
 
+        $data = $belongs->serialize();
+
         return new JsonResponse([
-            'data' => $belongs,
-        ],200);
+            'data' => $data,
+        ], 200);
     }
 }

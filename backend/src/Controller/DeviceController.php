@@ -33,18 +33,6 @@ class DeviceController extends AbstractController
 
         return new JsonResponse([
             'data' => $data,
-            'status' => 200
-        ]);
-    }
-
-    public function findDeviceById(int $id): JsonResponse
-    {
-        $device = $this->deviceRepository->find($id);
-
-        $data = $device->serialize();
-
-        return new JsonResponse([
-            'data' => $data,
         ], 200);
     }
 
@@ -60,10 +48,11 @@ class DeviceController extends AbstractController
             ], 204);
         }
 
+        $data = $device->serialize();
+
         return new JsonResponse([
-            'data' => $device,
-            'status' => 200
-        ]);
+            'data' => $data,
+        ], 200);
     }
 
     public function addDevice(): JsonResponse

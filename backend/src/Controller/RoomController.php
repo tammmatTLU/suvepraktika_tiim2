@@ -19,17 +19,21 @@ final class RoomController extends AbstractController
     {
         $rooms = $this->roomRepository->findAll();
 
-        if($rooms -> isEmpty()){
+        if (empty($rooms)){
             return new JsonResponse ([
-                'error' =>[
-                    'message' => 'no rooms found',
+                'error' => [
+                    'message' => 'No rooms found'
                 ]
-            ], 204);
+            ],204);
         }
 
+        $data = array_map(function($room) {
+            return $room->serialize();
+        }, $rooms);
+
         return new JsonResponse([
-            'data' => $rooms,
-        ],200);
+            'data' => $data,
+        ], 200);
     }
 
     public function getDevicesByRoom(int $id): JsonResponse
@@ -46,18 +50,15 @@ final class RoomController extends AbstractController
 
         $devices = $room->getDevices();
 
-        if ($devices -> isEmpty()){
+        if (empty($devices)) {
             return new JsonResponse([
-                'message' => 'No devices in room']);
+                'message' => 'No devices in room'
+            ]);
         }
 
         $data = [];
         foreach ($devices as $device) {
-            $data[] = [
-                'id' => $device->getId(),
-                'status' => $device->getStatus(),
-                'type' => $device->getType()
-            ];
+            $data[] = $device->serialize();
         }
 
         return new JsonResponse([
@@ -69,16 +70,18 @@ final class RoomController extends AbstractController
     {
         $room = $this->roomRepository->find($id);
 
-        if($room -> isEmpty()){
+        if (!$room){
             return new JsonResponse ([
-                'error' =>[
-                    'message' => 'No room found',
+                'error' => [
+                    'message' => 'No room found'
                 ]
-            ],204);
+            ], 204);
         }
 
+        $data = $room->serialize();
+
         return new JsonResponse([
-            'data' => $room,
-        ],200);
+            'data' => $data,
+        ], 200);
     }
 }

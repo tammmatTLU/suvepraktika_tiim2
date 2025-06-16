@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\ButtonTemplate;
 use App\Repository\ButtonTemplateRepository;
+use App\Repository\RoomRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -13,11 +14,13 @@ use Symfony\Component\Routing\Annotation\Route;
 final class ButtonTemplateController extends AbstractController
 {
     private ButtonTemplateRepository $buttonTemplateRepository;
+    private RoomRepository $roomRepository;
     private EntityManagerInterface $entityManager;
 
-    public function __construct(ButtonTemplateRepository $buttonTemplateRepository, EntityManagerInterface $entityManager)
+    public function __construct(ButtonTemplateRepository $buttonTemplateRepository, RoomRepository $roomRepository, EntityManagerInterface $entityManager)
     {
         $this->buttonTemplateRepository = $buttonTemplateRepository;
+        $this->roomRepository = $roomRepository;
         $this->entityManager = $entityManager;
     }
 
@@ -33,21 +36,18 @@ final class ButtonTemplateController extends AbstractController
             ],204);
         }
 
-        $data = array_map(function($template) {
-            return [
-                'id' => $template->getId(),
-                'name' => $template->getName(),
-                'command' => $template->getCommand(),
-            ];
+        $data = array_map(function($buttonTemplate) {
+            return $buttonTemplate->serialize();
         }, $buttonTemplates);
 
         return new JsonResponse([
             'data' => $data,
-        ],200);
+        ], 200);
     }
 
     public function findButtonTemplateById(int $id): JsonResponse
     {
+        $buttonTemplate = $this->buttonTemplateRepository->find($id);
 
         if(!$buttonTemplate){
             return new JsonResponse ([
@@ -57,31 +57,29 @@ final class ButtonTemplateController extends AbstractController
             ],204);
         }
 
+        $data = $buttonTemplate->serialize();
+
         return new JsonResponse([
-            'data' => $buttonTemplate,
+            'data' => $data,
         ],200);
     }
 
     public function createButtonTemplate(Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
-        if (!isset($data['name']) || !isset($data['command'])) {
-            return new JsonResponse([
-                'error' =>[
-                    'message' => 'ERROR_MISSING_NAME_OR_COMMAND'
-                ]
-            ], 400);
-        }
-        if (empty($data['name']) || empty($data['command'])) {
+        $room = $this->roomRepository->find($data['room_id']);
+        
+        if (empty($data['name']) || empty($data['command']) || empty($data['room_id'])) {
             return new JsonResponse([
                 'error' => [
-                    'message' => 'Name and command cannot be empty'
+                    'message' => 'Name, command and/or room_id cannot be empty'
                 ]
             ], 400);
         }
         $buttonTemplate = new ButtonTemplate();
         $buttonTemplate->setName($data['name']);
         $buttonTemplate->setCommand($data['command']);
+        $buttonTemplate->setRoom($room);
         try{
             $this->entityManager->persist($buttonTemplate);
             $this->entityManager->flush();
@@ -95,11 +93,7 @@ final class ButtonTemplateController extends AbstractController
             echo 'Line; '. $e->getLine();
         }
         return new JsonResponse([
-            'data' => [
-                'id' => $buttonTemplate->getId(),
-                'name' => $buttonTemplate->getName(),
-                'command' => $buttonTemplate->getCommand()
-            ],
+            'data' => $buttonTemplate->serialize()
         ], 201);
     }
 }

@@ -103,7 +103,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeButtonInstance(ButtonInstance $buttonInstance): static
     {
         if ($this->buttonInstances->removeElement($buttonInstance)) {
-            // set the owning side to null (unless already changed)
             if ($buttonInstance->getUser() === $this) {
                 $buttonInstance->setUser(null);
             }
@@ -133,7 +132,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeGroupInstance(GroupInstance $groupInstance): static
     {
         if ($this->groupInstances->removeElement($groupInstance)) {
-            // set the owning side to null (unless already changed)
             if ($groupInstance->getUser() === $this) {
                 $groupInstance->setUser(null);
             }
@@ -165,12 +163,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function setToken(?Token $token): static
     {
-        // unset the owning side of the relation if necessary
         if ($token === null && $this->token !== null) {
             $this->token->setUser(null);
         }
 
-        // set the owning side of the relation if necessary
         if ($token !== null && $token->getUser() !== $this) {
             $token->setUser($this);
         }
@@ -180,4 +176,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function serialize(): array
+    {
+        return [
+            'id' => $this->getId(),
+            'name' => $this->getName(),
+            'role' => $this->getRoles()
+        ];
+    }
 }
