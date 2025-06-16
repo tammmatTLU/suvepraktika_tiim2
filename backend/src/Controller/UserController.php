@@ -25,8 +25,12 @@ final class UserController extends AbstractController
     {
         $users = $this->userRepository->findAllWithoutPwd();
 
-        if (!$users){
-            return new JsonResponse (['status' => 'no users found' ], 404);
+        if ($users -> isEmpty()){
+            return new JsonResponse ([
+                'error' =>[
+                    'message' => 'no users found',
+                ]
+            ], 204);
         }
 
         return new JsonResponse([
@@ -37,8 +41,12 @@ final class UserController extends AbstractController
 
     public function findUserById(User $user): JsonResponse
     {
-        if (!$user){
-            return new JsonResponse (['status' => 'user not found' ], 404);
+        if ($user -> isEmpty()){
+            return new JsonResponse ([
+                'error' =>[
+                    'message' => 'no user found',
+                ]
+            ], 204);
         }
 
         return new JsonResponse([
@@ -52,17 +60,33 @@ final class UserController extends AbstractController
         $user = $this->userRepository->findOneBy(['name' => $userName]);
 
         if (!$user){
-            return new JsonResponse (['status' => 'No user by that name found'], 404);
+            return new JsonResponse ([
+                'error' =>[
+                    'message' => 'No user found',
+                ]
+            ], 204);
         }
 
         $buttonInstances = $this->buttonInstanceRepository->findButtonInstancesByUserId($user->getId());
 
-        if(!$buttonInstances){
-            
+        if(empty($buttonInstances)){
+            return new JsonResponse ([
+                'error' => [
+                    'message' => 'No button-instances found',
+                ]
+            ],204);
         }
 
+        $data = array_map(function($buttonInstance ){
+            return [
+                'id' => $buttonInstance['id'],
+                'reduxState' => $buttonInstance['redux_state'],
+                'buttonTemplate_ID' => $buttonInstance['button_template_id']
+            ];
+        }, $buttonInstances);
+
         return new JsonResponse([
-            'data' => $buttonInstances,
+            'data' => $data,
             'status' => 200
         ]);
     }

@@ -18,6 +18,15 @@ class DeviceController extends AbstractController
     public function findAllDevices(): JsonResponse
     {
         $devices = $this->deviceRepository->findAll();
+
+        if (empty($devices)){
+            return new JsonResponse ([
+                'error' => [
+                    'message' => 'No devices found'
+                ]
+            ],204);
+        }
+
         $data = array_map(function($device) {
             return [
                 'id' => $device->getId(),
@@ -28,13 +37,20 @@ class DeviceController extends AbstractController
 
         return new JsonResponse([
             'data' => $data,
-            'status' => 200
-        ]);
+        ], 200);
     }
 
     public function findDeviceById(int $id): JsonResponse
     {
         $device = $this->deviceRepository->find($id);
+
+        if ($device -> isEmpty()){
+            return new JsonResponse ([
+                'error' => [
+                    'message' => 'No device found'
+                ]
+            ], 204);
+        }
 
         return new JsonResponse([
             'data' => $device,
