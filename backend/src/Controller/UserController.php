@@ -25,7 +25,7 @@ final class UserController extends AbstractController
     {
         $users = $this->userRepository->findAllWithoutPwd();
 
-        if ($users -> isEmpty()){
+        if (empty($users)){
             return new JsonResponse ([
                 'error' =>[
                     'message' => 'no users found',
@@ -35,13 +35,12 @@ final class UserController extends AbstractController
 
         return new JsonResponse([
             'data' => $users,
-            'status' => 200
-        ]);
+        ],200);
     }
 
     public function findUserById(User $user): JsonResponse
     {
-        if ($user -> isEmpty()){
+        if (empty($user)){
             return new JsonResponse ([
                 'error' =>[
                     'message' => 'no user found',
@@ -51,8 +50,7 @@ final class UserController extends AbstractController
 
         return new JsonResponse([
             'data' => (object)$user,
-            'status' => 200
-        ]);
+        ],200);
     }
 
     public function findButtonInstancesByUserName(string $userName): JsonResponse
@@ -87,7 +85,6 @@ final class UserController extends AbstractController
 
         return new JsonResponse([
             'data' => $data,
-            'status' => 200
-        ]);
+        ],200);
     }
 }
