@@ -1,10 +1,10 @@
-import { createSlice, /*createAsyncThunk*/ } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import type { ButtonElement } from '../../types/Element';
 
 // API thunk to load elements for a room
 
-/*export const loadElements = createAsyncThunk<ButtonElement[], string>(
+export const loadElements = createAsyncThunk<ButtonElement[], string>(
   'elements/loadElements',
   async (userName, { rejectWithValue }) => {
     const response: Response = await fetch(`http://localhost:3006/api/user/${userName}/button-instances`);
@@ -18,7 +18,7 @@ import type { ButtonElement } from '../../types/Element';
     }
   }
 );
-*/
+
 
 interface ElementsState {
   elements: Record<number, ButtonElement>;
@@ -27,34 +27,7 @@ interface ElementsState {
 }
 
 const initialState: ElementsState = {
-  elements: {
-    1: {
-      id: 1,
-      name: 'Lamp',
-      type: 'button',
-      position: { x: 200, y: 0 },
-      state: false,
-      size: { width: 400, height: 400 },
-      fontSize: 16,
-      fontFamily: 'Arial',
-      color: '#000000',
-      backgroundColor: '#00FF00',
-      templateId: 1
-    },
-    2: {
-      id: 2,
-      name: 'Fan',
-      type: 'button',
-      position: { x: 800, y: 0 },
-      state: false ,
-      size: { width: 200, height: 400 },
-      fontSize: 16,
-      fontFamily: 'Times New Roman',
-      color: '#000000',
-      backgroundColor: '#0000FF',
-      templateId: 2
-    }
-  },
+  elements: {},
   loading: false,
   error: null
 };
@@ -94,7 +67,7 @@ const elementsSlice = createSlice({
           type: 'button',
           position: { x: 100, y: 100 }, // Default position
           state: false,
-          size: { width: 320, height: 420 }, // Default size
+          size: { width: 175, height: 75 }, // Default size
           fontSize: 16,
           fontFamily: 'Arial',
           color: '#000000',
@@ -118,7 +91,7 @@ const elementsSlice = createSlice({
           type: 'button',
           position: { x: 100, y: 100 }, // Default position
           state: false,
-          size: { width: 320, height: 420 }, // Default size
+          size: { width: 170, height: 75 }, // Default size
           fontSize: 16,
           fontFamily: 'Arial',
           color: '#000000',
@@ -128,10 +101,15 @@ const elementsSlice = createSlice({
       }
 
       state.elements[id].size = size;
+    },
+    deleteButton: (state, action: PayloadAction<number>) => {
+      console.log(state.elements[action.payload]);
+    if (state.elements[action.payload]) {
+      delete state.elements[action.payload];
     }
+    },
   },
-  
-  /*
+
   extraReducers: (builder) => {
     builder
       .addCase(loadElements.pending, (state) => {
@@ -150,9 +128,8 @@ const elementsSlice = createSlice({
         state.error = action.error.message || 'Unknown error';
       });
   }
-  */
 });
 
-export const { setElements, updateElementState, setPosition, setSize, addButton } = elementsSlice.actions;
+export const { setElements, updateElementState, setPosition, setSize, addButton, deleteButton } = elementsSlice.actions;
 
 export default elementsSlice.reducer;

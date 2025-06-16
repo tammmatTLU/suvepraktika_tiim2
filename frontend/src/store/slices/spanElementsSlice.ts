@@ -86,9 +86,21 @@ const spanElementsSlice = createSlice({
       }
 
       state.elements[id].size = size;
-    }
+    },
+    addSpan: (state, action: PayloadAction<SpanElement>) => {
+        const newElement = action.payload;
+        if (!state.elements[newElement.id]) {
+          state.elements[newElement.id] = newElement;
+        }
+      },
+    deleteSpan: (state, action: PayloadAction<number>) => {
+      const id = action.payload;
+      if (state.elements[id]) {
+        delete state.elements[id];
+      }
+    },
   },
 });
 
-export const { setSpans, updateSpan, setPosition, setSize } = spanElementsSlice.actions;
+export const { setSpans, updateSpan, setPosition, setSize, addSpan, deleteSpan } = spanElementsSlice.actions;
 export default spanElementsSlice.reducer;
