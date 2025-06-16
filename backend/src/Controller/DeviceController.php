@@ -44,7 +44,7 @@ class DeviceController extends AbstractController
     {
         $device = $this->deviceRepository->find($id);
 
-        if ($device -> isEmpty()){
+        if (!$device){
             return new JsonResponse ([
                 'error' => [
                     'message' => 'No device found'
