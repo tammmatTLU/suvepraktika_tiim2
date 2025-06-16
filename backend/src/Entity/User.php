@@ -39,13 +39,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 25)]
     private ?string $role = null;
 
-    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
-    private ?Token $token = null;
+    /**
+     * @var Collection<int, Token>
+     */
+    #[ORM\OneToMany(targetEntity: Token::class, mappedBy: 'user', orphanRemoval: true)]
+    private Collection $tokens;
 
     public function __construct()
     {
         $this->buttonInstances = new ArrayCollection();
         $this->groupInstances = new ArrayCollection();
+        $this->tokens = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -158,26 +162,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
     }
 
-    public function getToken(): ?Token
+    /**
+     * @return Collection<int, Token>
+     */
+    public function getTokens(): Collection
     {
-        return $this->token;
+        return $this->tokens;
     }
 
-    public function setToken(?Token $token): static
+    public function addToken(Token $token): static
     {
-        // unset the owning side of the relation if necessary
-        if ($token === null && $this->token !== null) {
-            $this->token->setUser(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($token !== null && $token->getUser() !== $this) {
+        if (!$this->tokens->contains($token)) {
+            $this->tokens->add($token);
             $token->setUser($this);
         }
-
-        $this->token = $token;
 
         return $this;
     }
 
+    public function removeToken(Token $token): static
+    {
+        if ($this->tokens->removeElement($token)) {
+            // set the owning side to null (unless already changed)
+            if ($token->getUser() === $this) {
+                $token->setUser(null);
+            }
+        }
+
+        return $this;
+    }
 }
