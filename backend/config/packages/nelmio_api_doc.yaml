@@ -35,6 +35,26 @@ nelmio_api_doc:
                             description: "user not found from database"
                         default:
                             description: "unexpected error"
+            /api/user/{userName}/redux-span:
+                get:
+                    summary: "find redux span for a single user"
+                    responses:
+                        200:
+                            description: "Returns reduxStateSpan json based on userName"
+                        204:
+                            description: "User not found"
+                        default:
+                            description: "unexpected error"
+            /api/user/{userName}/redux-span/create:
+                post:
+                    summary: "add a new reduxSpan"
+                    responses:
+                        201:
+                            description: "succesful POST query to reduxSpan"
+                        400:
+                            description: "missing arguments"
+                        500:
+                            description: "database error"
             /api/rooms:
                 get:
                     summary: "Find all rooms"
@@ -42,7 +62,7 @@ nelmio_api_doc:
                         200:
                             description: "Returns all rooms from the database"
                         204:
-                            description: "error -> No rooms found from database"
+                            description: "No rooms found from database"
                         default:
                             description: "unexpected error"
             /api/room/{id}:
@@ -52,7 +72,7 @@ nelmio_api_doc:
                         200:
                             description: "Returns one room based on id"
                         204:
-                            description: "error -> no room found based on this id"
+                            description: "No room found based on this id"
                         default:
                             description: "unexpected error"
             /api/room/{id}/devices:
@@ -62,7 +82,7 @@ nelmio_api_doc:
                         200:
                             description: "Returns all devices in a single room, based on room id"
                         204:
-                            description: "error -> no room found from database"
+                            description: "No room found from database"
                         default:
                             description: "unexpected error"
             /api/group-instances:
@@ -71,6 +91,8 @@ nelmio_api_doc:
                     responses:
                         200:
                             description: "Return all group instances"
+                        204:
+                            description: "No group instances found"
                         default:
                             description: "unexpected error"
             /api/group-instance/{id}:
@@ -79,6 +101,8 @@ nelmio_api_doc:
                     responses:
                         200:
                             description: "Return one group instance based on group instance id"
+                        204:
+                            description: "No group instance found"
                         default:
                             description: "unexpected error"
             /api/button-groups:
@@ -87,6 +111,8 @@ nelmio_api_doc:
                     responses:
                         200:
                             description: "Returns all button groups"
+                        204:
+                            description: "No button groups found"
                         default:
                             description: "unexpected error"
             /api/button-group/{id}:
@@ -95,6 +121,8 @@ nelmio_api_doc:
                     responses:
                         200:
                             description: "Returns button-group based on button-group id"
+                        204:
+                            description: "No button group found"
                         default:
                             description: "unexpected error"
             /api/devices:
@@ -103,6 +131,8 @@ nelmio_api_doc:
                     responses:
                         200:
                             description: "Returns all devices from database"
+                        204:
+                            description: "No devices found"
                         default:
                             description: "unexpected error"
             /api/device/{id}:
@@ -111,6 +141,8 @@ nelmio_api_doc:
                     responses:
                         200:
                             description: "Returns all devices based on device id"
+                        204:
+                            description: "No device found"
                         default:
                             description: "unexpected error"
             /api/button-templates:
@@ -119,18 +151,22 @@ nelmio_api_doc:
                     responses:
                         200:
                             description: "Returns all button-templates from database"
+                        204:
+                            description: "No button templates found"
                         default:
                             description: "unexpected error"
-            api/button-template/{id}:
+            /api/button-template/{id}:
                 get:
                     summary: "Find one button template"
                     responses:
                         200:
                             description: "Returns one button template based on button template id"
+                        204:
+                            description: "No button template found"
                         default:
                             description: "unexpected error"
-            api/button-template/create:
-                get:
+            /api/button-template/create:
+                post:
                     summary: "Create a new button template"
                     responses:
                         201:
@@ -141,36 +177,44 @@ nelmio_api_doc:
                             description: "database error"
                         default:
                             description: "unexpected error"
-            api/button-instances:
+            /api/button-instances:
                 get:
                     summary: "Find all button-instances"
                     responses:
                         200:
                             description: "Returns all button-instances from database"
+                        204:
+                            description: "No button instances found"
                         default:
                             description: "unexpected error"
-            api/button-instance/{id}:
+            /api/button-instance/{id}:
                 get:
                     summary: "Find one button-instance"
                     responses:
                         200:
                             description: "Returns one button-instance based on button-instance id"
+                        204:
+                            description: "No button instance found"
                         default:
                             description: "unexpected error"
-            api/belongs:
+            /api/belongs:
                 get:
                     summary: "Find all data stored in belongs table"
                     responses:
                         200:
                             description: "Returns all data from belongs table"
+                        204:
+                            description: "No data from belongs table found"
                         default:
                             description: "unexpected error"
-            api/belong/{id}:
+            /api/belongs/{id}:
                 get:
                     summary: "Find data from belongs table"
                     responses:
                         200:
                             description: "Returns one insertion from belongs table, based on belongs id"
+                        204:
+                            description: "No data from belongs table found"
                         default:
                             description: "unexpected error"
             

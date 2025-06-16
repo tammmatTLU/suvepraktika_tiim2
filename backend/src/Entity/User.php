@@ -42,6 +42,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
     private ?Token $token = null;
 
+    #[ORM\Column]
+    private array $reduxSpan = [];
+
     public function __construct()
     {
         $this->buttonInstances = new ArrayCollection();
@@ -176,6 +179,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         $this->token = $token;
+
+        return $this;
+    }
+
+    public function getReduxSpan(): array
+    {
+        return $this->reduxSpan;
+    }
+
+    public function setReduxSpan(array $reduxSpan): static
+    {
+        $this->reduxSpan = $reduxSpan;
 
         return $this;
     }

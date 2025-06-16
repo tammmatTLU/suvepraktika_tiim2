@@ -28,22 +28,19 @@ class DeviceController extends AbstractController
         }
 
         $data = array_map(function($device) {
-            return [
-                'id' => $device->getId(),
-                'status' => $device->getStatus(),
-                'type' => $device->getType()
-            ];
-    }, $devices);
+            return $device->serialize();
+        }, $devices);
 
         return new JsonResponse([
             'data' => $data,
-        ], 200);
+            'status' => 200
+        ]);
     }
 
     public function findDeviceById(int $id): JsonResponse
     {
         $device = $this->deviceRepository->find($id);
-
+        
         if (!$device){
             return new JsonResponse ([
                 'error' => [
@@ -52,10 +49,11 @@ class DeviceController extends AbstractController
             ], 204);
         }
 
+        $data = $device->serialize();
+
         return new JsonResponse([
-            'data' => $device,
-            'status' => 200
-        ]);
+            'data' => $data,
+        ], 200);
     }
 
     public function addDevice(): JsonResponse

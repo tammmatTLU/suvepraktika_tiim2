@@ -15,6 +15,16 @@ user-button-instances:
     controller: App\Controller\UserController::findButtonInstancesByUserName
     methods: [GET]
 
+user-redux-span:
+    path: api/user/{userName}/redux-span
+    controller: App\Controller\UserController::findReduxSpanByUserName
+    methods: [GET]
+
+create-user-redux-span:
+    path: api/user/{userName}/redux-span/create
+    controller: App\Controller\UserController::addReduxSpan
+    methods: [POST]
+
 all-rooms:
     path: api/rooms
     controller: App\Controller\RoomController::findAllRooms
@@ -31,7 +41,7 @@ room-devices:
     path: api/room/{id}/devices
     controller: App\Controller\RoomController::getDevicesByRoom
     requirements:
-        id: '\d+'
+        id: !php/const Symfony\Component\Routing\Requirement\Requirement::DIGITS
     methods: [GET]
 
 all-group-instances:
@@ -89,7 +99,7 @@ create-button-template:
 
 all-button-instances:
     path: api/button-instances
-    controller: App\Controller\ButtonInstanceController::findAllButtons
+    controller: App\Controller\ButtonInstanceController::findAllButtonInstances
     methods: [GET]
 
 one-button-instance:

@@ -63,4 +63,14 @@ class Device
 
         return $this;
     }
+
+    public function serialize(): array
+    {
+        return [
+            'id' => $this->getId(),
+            'status' => $this->getStatus(),
+            'type' => $this->getType(),
+            'room_id' => $this->getRoom()?->getId()
+        ];
+    }
 }
