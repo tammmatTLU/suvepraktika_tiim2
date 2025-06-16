@@ -1,3 +1,5 @@
+# GET
+
 all-users:
     path: api/users
     controller: App\Controller\UserController::findAllUsers
@@ -89,7 +91,7 @@ create-button-template:
 
 all-button-instances:
     path: api/button-instances
-    controller: App\Controller\ButtonInstanceController::findAllButtons
+    controller: App\Controller\ButtonInstanceController::findAllButtonInstances
     methods: [GET]
 
 one-button-instance:
@@ -108,3 +110,10 @@ one-belongs:
     path: api/belongs/{id}
     controller: App\Controller\BelongsController::findBelongsById
     methods: [GET]
+
+# POST
+
+create-button-template:
+    path: api/create-button-template
+    controller: App\Controller\ButtonTemplateController::createButtonTemplate
+    methods: [POST]
