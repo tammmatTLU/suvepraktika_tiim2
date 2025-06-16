@@ -19,6 +19,14 @@ final class ButtonInstanceController extends AbstractController
     {
         $buttonInstances = $this->buttonInstanceRepository->findAll();
 
+        if (empty($buttoninstances)){
+            return new JsonResponse ([
+                'error' => [
+                    'message' => 'No button instances found'
+                ]
+            ],204);
+        }
+
         return new JsonResponse([
             'data' => $buttonInstances,
             'status' => 200
@@ -28,6 +36,14 @@ final class ButtonInstanceController extends AbstractController
     public function findButtonInstanceById(int $id): JsonResponse
     {
         $buttoninstance = $this->buttonInstanceRepository->find($id);
+        
+        if (!$buttoninstances){
+            return new JsonResponse ([
+                'error' => [
+                    'message' => 'No button instances found'
+                ]
+            ],204);
+        }
 
         return new JsonResponse([
             'data' => $buttoninstance,
