@@ -196,6 +196,14 @@ header{
     border: 1px dashed white;
 }
 
+#editPanel {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  left: 0;
+  top: 0;
+}
+
 .delete-device-button {
     position: fixed;
     top: -54px;
@@ -220,4 +228,15 @@ header{
     cursor: pointer;
     z-index: 1000000 !important;
     font-size: 20px;
+}
+
+.edit-panel-grid {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none;
+  z-index: 1;
+  background-size: 20px 20px; /* match your gridSize */
+  background-image:
+    linear-gradient(to right, #ccc 1px, transparent 1px),
+    linear-gradient(to bottom, #ccc 1px, transparent 1px);
 }

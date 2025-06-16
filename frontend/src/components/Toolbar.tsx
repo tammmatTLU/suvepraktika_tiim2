@@ -5,7 +5,7 @@ import { addButton as addButtonElement} from '../store/slices/buttonElementsSlic
 import { addSpan as addSpanElement } from '../store/slices/spanElementsSlice';
 
 
-export default function Toolbar() {
+export default function Toolbar({ gridEnabled, onGridToggle }: { gridEnabled: boolean, onGridToggle: () => void }) {
     const [modalAction, setModalAction] = useState<null | 'add' | 'save'>(null);
 
     return (
@@ -14,6 +14,14 @@ export default function Toolbar() {
             {modalAction && (
                 <ToolbarModal action={modalAction} onClose={() => setModalAction(null)} />
             )}
+            <label>
+                <input
+                type="checkbox"
+                checked={gridEnabled}
+                onChange={onGridToggle}
+                />
+                Grid snap
+            </label>
         </div>
     );
 }
@@ -139,17 +147,10 @@ function ToolbarModal({ action, onClose }: { action: string, onClose: () => void
             <button onClick={onClose}>Sulge</button>
 
         </div>;
-    } else if (action === 'delete') {
-        content = <div>Kustuta seade confirmation here</div>;
-    } else if (action === 'edit') {
-        content = <div>Redigeeri seadet form here</div>;
-    } else if (action === 'save') {
-        content = <div>Salvestamine...</div>;
-    }
 
     return (
         <div className="modal-backdrop">
                 {content}
         </div>
     );
-}
+}}

@@ -5,9 +5,11 @@ import { useState } from "react";
 
 interface EditPanelProps {
   elements: Record<number, ButtonElement | SpanElement>;
+  gridEnabled: boolean;
+  gridSize: [number, number];
 }
 
-export default function EditPanel( { elements }: EditPanelProps ){
+export default function EditPanel( { elements, gridEnabled, gridSize }: EditPanelProps ){
     const [editModalOpen, setEditModalOpen] = useState(false);
     const [editId, setEditId] = useState<number | null>(null);
     const [editType, setEditType] = useState<string | null>(null);
@@ -26,6 +28,8 @@ export default function EditPanel( { elements }: EditPanelProps ){
                         key={element.id}
                         parameters={element}
                         onEdit={handleEdit}
+                        gridEnabled={gridEnabled}
+                        gridSize={gridSize}
                     />
                 )
             })}
