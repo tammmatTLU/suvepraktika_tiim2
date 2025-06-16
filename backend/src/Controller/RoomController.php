@@ -29,8 +29,7 @@ final class RoomController extends AbstractController
 
         return new JsonResponse([
             'data' => $rooms,
-            'status' => 200
-        ]);
+        ],200);
     }
 
     public function getDevicesByRoom(int $id): JsonResponse
@@ -63,8 +62,7 @@ final class RoomController extends AbstractController
 
         return new JsonResponse([
             'data' => $data,
-            'status' => 200
-        ]);
+        ],200);
     }
 
     public function findRoomById(int $id): JsonResponse
@@ -78,10 +76,9 @@ final class RoomController extends AbstractController
                 ]
             ],204);
         }
-        
+
         return new JsonResponse([
             'data' => $room,
-            'status' => 200
-        ]);
+        ],200);
     }
 }

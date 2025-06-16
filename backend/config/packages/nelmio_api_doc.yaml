@@ -30,7 +30,7 @@ nelmio_api_doc:
                     summary: "find buttons for a user"
                     responses:
                         200:
-                            description: "Returns all buttons, and button templates for a single user"
+                            description: "Returns all buttons, and button template id-s for a single user"
                         204:
                             description: "user not found from database"
                         default:
@@ -127,6 +127,18 @@ nelmio_api_doc:
                     responses:
                         200:
                             description: "Returns one button template based on button template id"
+                        default:
+                            description: "unexpected error"
+            api/button-template/create:
+                get:
+                    summary: "Create a new button template"
+                    responses:
+                        201:
+                            description: "succesful POST query into button templates"
+                        400:
+                            description: "Missing arguments"
+                        500:
+                            description: "database error"
                         default:
                             description: "unexpected error"
             api/button-instances:
