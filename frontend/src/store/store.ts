@@ -8,6 +8,7 @@ export const store = configureStore({
     buttonElements: buttonElementsReducer,
     spanElements: spanElementsReducer,
   },
+  
 });
 
 export type RootState = ReturnType<typeof store.getState>;

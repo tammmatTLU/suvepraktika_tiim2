@@ -40,9 +40,6 @@ const spanElementsSlice = createSlice({
       state.elements = {};
       action.payload.forEach(span => { state.elements[span.id] = span; });
     },
-    updateSpan(state, action: PayloadAction<SpanElement>) {
-      state.elements[action.payload.id] = action.payload;
-    },
     setPosition: (
       state,
       action: PayloadAction<{ id: number; position: { x: number; y: number } }>
@@ -97,6 +94,15 @@ const spanElementsSlice = createSlice({
       const id = action.payload;
       if (state.elements[id]) {
         delete state.elements[id];
+      }
+    },
+    updateSpan: (state, action: PayloadAction<SpanElement>) => {
+      const updated = action.payload;
+      if (state.elements[updated.id]) {
+        state.elements[updated.id] = {
+          ...state.elements[updated.id],
+          ...updated,
+        };
       }
     },
   },

@@ -1,6 +1,6 @@
 import '../App.css'
-import { useAppDispatch } from '../store/hooks';
-import { updateElementState } from '../store/slices/buttonElementsSlice';
+//import { useAppDispatch } from '../store/hooks';
+//import { updateElementState } from '../store/slices/buttonElementsSlice';
 //import { useState } from 'react';
 import type { ButtonElement } from '../types/Element';
 
@@ -11,13 +11,14 @@ type DeviceToggleProps = {
 
 export default function DeviceToggle(element: DeviceToggleProps){
     //const [deviceState, setDeviceState] = useState(false);
-    const dispatch = useAppDispatch();
-
+    //const dispatch = useAppDispatch();
+    console.log(element);
+/*
     const handleDeviceToggle = (newState: boolean) => {
         //setDeviceState(turnOn);
         dispatch(updateElementState({ id: element.parameters.id, state: newState}));
     };
-
+*/
     return (
         <div
         key={element.parameters.id}
@@ -38,8 +39,8 @@ export default function DeviceToggle(element: DeviceToggleProps){
                 {element.parameters.name}
             </span>
             <button
-                onClick={() => handleDeviceToggle(true)}
-                className="btn-grad"
+                //onClick={() => handleDeviceToggle(true)}
+                //className="btn-grad"
                 style={{
                     fontSize: element.parameters.fontSize,
                     fontFamily: element.parameters.fontFamily,
@@ -53,8 +54,8 @@ export default function DeviceToggle(element: DeviceToggleProps){
                 ON
             </button>
             <button
-                onClick={() => handleDeviceToggle(false)}
-                className="btn-grad"
+                //onClick={() => handleDeviceToggle(false)}
+                //className="btn-grad"
                 style={{
                     fontSize: element.parameters.fontSize,
                     fontFamily: element.parameters.fontFamily,
