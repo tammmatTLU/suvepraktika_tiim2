@@ -11,6 +11,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
@@ -29,11 +30,13 @@ class AuthenticationController extends AbstractController
     public function register(
         UserPasswordHasherInterface $passwordHasher,
         EntityManagerInterface $entityManager,
-        string $username,
-        string $password
+        Request $request
     ): JsonResponse
     {
-        if ($username === null || $password === null) {
+        $username = $request->getPayload()->getString('username');
+        $password = $request->getPayload()->getString('password');
+
+        if (!trim($username) || !trim($password)) {
             return new JsonResponse([
                 'data' => 'Invalid credentials'
             ], Response::HTTP_BAD_REQUEST);
@@ -67,71 +70,84 @@ class AuthenticationController extends AbstractController
 
         return new JsonResponse([
             'data' => 'User registered successfully'
-        ], Response::HTTP_OK);
+        ], Response::HTTP_CREATED);
     }
 
-    public function login(#[CurrentUser] ?User $user, EntityManagerInterface $entityManager): JsonResponse
+    public function login(
+        #[CurrentUser] ?User $user,
+        EntityManagerInterface $entityManager,
+        Request $request
+    ): JsonResponse
     {
         if ($user === null) {
             return new JsonResponse([
-                'data' => 'Missing credentials'
+                'data' => 'Invalid credentials'
             ], Response::HTTP_UNAUTHORIZED);
         }
 
-        if ($user->getToken() !== null) {
+        $tokenService = new TokenService();
+        $userToken = $request->getPayload()->getString('userToken');
+        $isVerified = $tokenService->verify($user, $userToken);
+
+        if (!trim($userToken) | !$isVerified) {
+            $tokenService = new TokenService();
+            $generatedToken = $tokenService->generate();
+
+            if ($generatedToken === null) {
+                return new JsonResponse([
+                    'data' => 'Error generating token'
+                ], Response::HTTP_INTERNAL_SERVER_ERROR);
+            }
+
+            $token = new Token();
+            $token->setUser($user);
+            $token->setValue($generatedToken);
+
+            $entityManager->persist($token);
+            $entityManager->flush();
+
             return new JsonResponse([
                 'username' => $user->getUserIdentifier(),
-                'token' => $user->getToken()->getValue()
-            ]);
+                'token' => $token->getValue()
+            ], Response::HTTP_OK);
         }
-
-        $tokenService = new TokenService();
-        $generatedToken = $tokenService->generate();
-
-        if ($generatedToken === null) {
-            return new JsonResponse([
-                'data' => 'Error generating token'
-            ], Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
-
-        $token = new Token();
-        $token->setUser($user);
-        $token->setValue($generatedToken);
-
-        $entityManager->persist($token);
-        $entityManager->flush();
 
         return new JsonResponse([
             'username' => $user->getUserIdentifier(),
-            'token' => $token->getValue()
+            'token' => $userToken
         ], Response::HTTP_OK);
     }
 
-    public function logout(Security $security, EntityManagerInterface $entityManager): JsonResponse
+    public function logout(Security $security, EntityManagerInterface $entityManager, Request $request): JsonResponse
     {
-        $user = $this->userRepository->findOneBy(
-            ['name' => $this->getUser()->getUserIdentifier()]
+        $token = $this->tokenRepository->findOneBy(
+            ['value' => $request->getPayload()->getString('userToken')]
         );
 
-        $dbToken = $this->tokenRepository->findOneBy(['user' => $user]);
-        $entityManager->remove($dbToken);
+        if (!$token) {
+            return new JsonResponse([
+                'data' => 'Sent token was invalid'
+            ], Response::HTTP_BAD_REQUEST);
+        }
+
+        $entityManager->remove($token);
         $entityManager->flush();
 
         $security->logout(false);
 
         return new JsonResponse([
-            'data' => 'User logged out successfully'
+            'data' => 'User logged out successfully',
         ], Response::HTTP_OK);
     }
 
-    public function verify(Security $security): JsonResponse
+    public function verify(Security $security, Request $request): bool
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
 
         $user = $security->getUser();
+        $token = $request->getPayload()->getString('userToken');
 
-        return new JsonResponse([
-            'Welcome' => $user->getUserIdentifier(),
-        ]);
+        $tokenService = new TokenService();
+        return $tokenService->verify($user, $token);
     }
 }
