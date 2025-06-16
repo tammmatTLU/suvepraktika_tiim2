@@ -71,6 +71,8 @@ nelmio_api_doc:
                     responses:
                         200:
                             description: "Return all group instances"
+                        204:
+                            description: "No group instances found"
                         default:
                             description: "unexpected error"
             /api/group-instance/{id}:
@@ -79,6 +81,8 @@ nelmio_api_doc:
                     responses:
                         200:
                             description: "Return one group instance based on group instance id"
+                        204:
+                            description: "No group instance found"
                         default:
                             description: "unexpected error"
             /api/button-groups:
@@ -87,6 +91,8 @@ nelmio_api_doc:
                     responses:
                         200:
                             description: "Returns all button groups"
+                        204:
+                            description: "No button groups found"
                         default:
                             description: "unexpected error"
             /api/button-group/{id}:
@@ -95,6 +101,8 @@ nelmio_api_doc:
                     responses:
                         200:
                             description: "Returns button-group based on button-group id"
+                        204:
+                            description: "No button group found"
                         default:
                             description: "unexpected error"
             /api/devices:
@@ -103,6 +111,8 @@ nelmio_api_doc:
                     responses:
                         200:
                             description: "Returns all devices from database"
+                        204:
+                            description: "No devices found"
                         default:
                             description: "unexpected error"
             /api/device/{id}:
@@ -111,6 +121,8 @@ nelmio_api_doc:
                     responses:
                         200:
                             description: "Returns all devices based on device id"
+                        204:
+                            description: "No device found"
                         default:
                             description: "unexpected error"
             /api/button-templates:
@@ -119,6 +131,8 @@ nelmio_api_doc:
                     responses:
                         200:
                             description: "Returns all button-templates from database"
+                        204:
+                            description: "No button templates found"
                         default:
                             description: "unexpected error"
             api/button-template/{id}:
@@ -127,6 +141,8 @@ nelmio_api_doc:
                     responses:
                         200:
                             description: "Returns one button template based on button template id"
+                        204:
+                            description: "No button template found"
                         default:
                             description: "unexpected error"
             api/button-template/create:
@@ -147,6 +163,8 @@ nelmio_api_doc:
                     responses:
                         200:
                             description: "Returns all button-instances from database"
+                        204:
+                            description: "No button instances found"
                         default:
                             description: "unexpected error"
             api/button-instance/{id}:
@@ -155,6 +173,8 @@ nelmio_api_doc:
                     responses:
                         200:
                             description: "Returns one button-instance based on button-instance id"
+                        204:
+                            description: "No button instance found"
                         default:
                             description: "unexpected error"
             api/belongs:
@@ -163,6 +183,8 @@ nelmio_api_doc:
                     responses:
                         200:
                             description: "Returns all data from belongs table"
+                        204:
+                            description: "No data from belongs table found"
                         default:
                             description: "unexpected error"
             api/belong/{id}:
@@ -171,6 +193,8 @@ nelmio_api_doc:
                     responses:
                         200:
                             description: "Returns one insertion from belongs table, based on belongs id"
+                        204:
+                            description: "No data from belongs table found"
                         default:
                             description: "unexpected error"
             

@@ -19,7 +19,7 @@ class ButtonGroupController extends AbstractController
     {
         $buttonGroups = $this->buttonGroupRepository->findAll();
 
-        if (enpty($buttonGroups)){
+        if (empty($buttonGroups)){
             return new JsonResponse ([
                 'error' => [
                     'message' => 'No button groups found'
