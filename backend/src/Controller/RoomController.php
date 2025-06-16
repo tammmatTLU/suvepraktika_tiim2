@@ -19,7 +19,7 @@ final class RoomController extends AbstractController
     {
         $rooms = $this->roomRepository->findAll();
 
-        if($rooms -> isEmpty()){
+        if(empty($rooms)){
             return new JsonResponse ([
                 'error' =>[
                     'message' => 'no rooms found',
@@ -36,7 +36,7 @@ final class RoomController extends AbstractController
     {
         $room = $this->roomRepository->find($id);
 
-        if ($room -> isEmpty()) {
+        if (!$room) {
             return new JsonResponse([
                 'error' => [
                     'message' => 'room not found',
@@ -46,7 +46,7 @@ final class RoomController extends AbstractController
 
         $devices = $room->getDevices();
 
-        if ($devices -> isEmpty()){
+        if (empty($devices)){
             return new JsonResponse([
                 'message' => 'No devices in room']);
         }
@@ -69,7 +69,7 @@ final class RoomController extends AbstractController
     {
         $room = $this->roomRepository->find($id);
 
-        if($room -> isEmpty()){
+        if(!$room){
             return new JsonResponse ([
                 'error' =>[
                     'message' => 'No room found',

@@ -15,6 +15,16 @@ user-button-instances:
     controller: App\Controller\UserController::findButtonInstancesByUserName
     methods: [GET]
 
+user-redux-span:
+    path: api/user/{userName}/redux-span
+    controller: App\Controller\UserController::findReduxSpanByUserName
+    methods: [GET]
+
+create-user-redux-span:
+    path: api/user/{userName}/redux-span/create
+    controller: App\Controller\UserController::addReduxSpan
+    methods: [POST]
+
 all-rooms:
     path: api/rooms
     controller: App\Controller\RoomController::findAllRooms

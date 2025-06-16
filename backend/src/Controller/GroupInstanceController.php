@@ -19,7 +19,7 @@ class GroupInstanceController extends AbstractController
     {
         $groupInstances = $this->groupInstanceRepository->findAll();
 
-        if($groupInstance -> isEmpty()){
+        if(empty($groupInstance)){
             return new JsonResponse ([
                 'error' => [
                     'message' => 'No groups instances found'
@@ -45,7 +45,7 @@ class GroupInstanceController extends AbstractController
     {
         $groupInstance = $this->groupInstanceRepository->find($id);
 
-        if ($groupInstance -> isEmpty()){
+        if (!$groupInstance){
             return new JsonResponse ([
                 'error' => [
                     'message' => 'No group instances found'
@@ -55,7 +55,6 @@ class GroupInstanceController extends AbstractController
 
         return new JsonResponse([
             'data' => $groupInstance,
-            'status' => 200
-        ]);
+        ],200);
     }
 }
