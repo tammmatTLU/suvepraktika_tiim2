@@ -11,6 +11,8 @@ nelmio_api_doc:
                     responses:
                         200:
                             description: "Returns all users without passwords"
+                        204:
+                            description: "No users found from database"
                         default:
                             description: "Unexpected error"
             /api/user/{id}:
@@ -19,6 +21,8 @@ nelmio_api_doc:
                     responses:
                         200:
                             description: "Returns one user based on id"
+                        204:
+                            description: "user not found from database"
                         default:
                             description: "unexpected error"
             /api/user/{userName}/button-instances:
@@ -26,7 +30,9 @@ nelmio_api_doc:
                     summary: "find buttons for a user"
                     responses:
                         200:
-                            description: "Returns all buttons, and button templates for a single user"
+                            description: "Returns all buttons, and button template id-s for a single user"
+                        204:
+                            description: "user not found from database"
                         default:
                             description: "unexpected error"
             /api/rooms:
@@ -35,6 +41,8 @@ nelmio_api_doc:
                     responses:
                         200:
                             description: "Returns all rooms from the database"
+                        204:
+                            description: "error -> No rooms found from database"
                         default:
                             description: "unexpected error"
             /api/room/{id}:
@@ -43,6 +51,8 @@ nelmio_api_doc:
                     responses:
                         200:
                             description: "Returns one room based on id"
+                        204:
+                            description: "error -> no room found based on this id"
                         default:
                             description: "unexpected error"
             /api/room/{id}/devices:
@@ -51,6 +61,8 @@ nelmio_api_doc:
                     responses:
                         200:
                             description: "Returns all devices in a single room, based on room id"
+                        204:
+                            description: "error -> no room found from database"
                         default:
                             description: "unexpected error"
             /api/group-instances:
@@ -66,7 +78,103 @@ nelmio_api_doc:
                     summary: "Find one group instance"
                     responses:
                         200:
-                            description: "Return one group instance "
+                            description: "Return one group instance based on group instance id"
+                        default:
+                            description: "unexpected error"
+            /api/button-groups:
+                get:
+                    summary: "Find all button groups"
+                    responses:
+                        200:
+                            description: "Returns all button groups"
+                        default:
+                            description: "unexpected error"
+            /api/button-group/{id}:
+                get:
+                    summary: "Find a button-group by id"
+                    responses:
+                        200:
+                            description: "Returns button-group based on button-group id"
+                        default:
+                            description: "unexpected error"
+            /api/devices:
+                get:
+                    summary: "Find all devices"
+                    responses:
+                        200:
+                            description: "Returns all devices from database"
+                        default:
+                            description: "unexpected error"
+            /api/device/{id}:
+                get:
+                    summary: "Find one device by id"
+                    responses:
+                        200:
+                            description: "Returns all devices based on device id"
+                        default:
+                            description: "unexpected error"
+            /api/button-templates:
+                get:
+                    summary: "Find all buttonTemplates"
+                    responses:
+                        200:
+                            description: "Returns all button-templates from database"
+                        default:
+                            description: "unexpected error"
+            api/button-template/{id}:
+                get:
+                    summary: "Find one button template"
+                    responses:
+                        200:
+                            description: "Returns one button template based on button template id"
+                        default:
+                            description: "unexpected error"
+            api/button-template/create:
+                get:
+                    summary: "Create a new button template"
+                    responses:
+                        201:
+                            description: "succesful POST query into button templates"
+                        400:
+                            description: "Missing arguments"
+                        500:
+                            description: "database error"
+                        default:
+                            description: "unexpected error"
+            api/button-instances:
+                get:
+                    summary: "Find all button-instances"
+                    responses:
+                        200:
+                            description: "Returns all button-instances from database"
+                        default:
+                            description: "unexpected error"
+            api/button-instance/{id}:
+                get:
+                    summary: "Find one button-instance"
+                    responses:
+                        200:
+                            description: "Returns one button-instance based on button-instance id"
+                        default:
+                            description: "unexpected error"
+            api/belongs:
+                get:
+                    summary: "Find all data stored in belongs table"
+                    responses:
+                        200:
+                            description: "Returns all data from belongs table"
+                        default:
+                            description: "unexpected error"
+            api/belong/{id}:
+                get:
+                    summary: "Find data from belongs table"
+                    responses:
+                        200:
+                            description: "Returns one insertion from belongs table, based on belongs id"
+                        default:
+                            description: "unexpected error"
+            
+
             
     areas: # to filter documented areas
         path_patterns:

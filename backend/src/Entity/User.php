@@ -39,6 +39,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 25)]
     private ?string $role = null;
 
+    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
+    private ?Token $token = null;
+
     public function __construct()
     {
         $this->buttonInstances = new ArrayCollection();
@@ -153,6 +156,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function eraseCredentials(): void
     {
+    }
+
+    public function getToken(): ?Token
+    {
+        return $this->token;
+    }
+
+    public function setToken(?Token $token): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($token === null && $this->token !== null) {
+            $this->token->setUser(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($token !== null && $token->getUser() !== $this) {
+            $token->setUser($this);
+        }
+
+        $this->token = $token;
+
+        return $this;
     }
 
 }

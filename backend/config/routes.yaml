@@ -13,9 +13,9 @@ one-user:
     methods: [GET]
 
 user-button-instances:
-  path: api/user/{userName}/button-instances
-  controller: App\Controller\UserController::findButtonInstancesByUserName
-  methods: [GET]
+    path: api/user/{userName}/button-instances
+    controller: App\Controller\UserController::findButtonInstancesByUserName
+    methods: [GET]
 
 all-rooms:
     path: api/rooms
@@ -49,13 +49,13 @@ one-group-instance:
     methods: [GET]
 
 all-groups:
-    path: api/groups
-    controller: App\Controller\GroupController::findAllGroups
+    path: api/button-groups
+    controller: App\Controller\ButtonGroupController::findAllButtonGroups
     methods: [GET]
 
 one-group:
-    path: api/group/{id}
-    controller: App\Controller\GroupController::findGroupById
+    path: api/button-group/{id}
+    controller: App\Controller\ButtonGroupController::findButtonGroupById
     requirements:
         id: !php/const Symfony\Component\Routing\Requirement\Requirement::DIGITS
     methods: [GET]
@@ -84,6 +84,11 @@ one-button-template:
         id: !php/const Symfony\Component\Routing\Requirement\Requirement::DIGITS
     methods: [GET]
 
+create-button-template:
+    path: api/button-template/create
+    controller:  App\Controller\ButtonTemplateController::createButtonTemplate
+    methods: [POST]
+
 all-button-instances:
     path: api/button-instances
     controller: App\Controller\ButtonInstanceController::findAllButtonInstances
@@ -105,6 +110,8 @@ one-belongs:
     path: api/belongs/{id}
     controller: App\Controller\BelongsController::findBelongsById
     methods: [GET]
+
+# POST
 
 create-button-template:
     path: api/create-button-template
