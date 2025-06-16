@@ -20,15 +20,11 @@ class ButtonInstanceFixture extends Fixture implements DependentFixtureInterface
     public function load(ObjectManager $manager) : void
     {
         $faker = Factory::create();
-
-
-
-        echo json_encode($reduxStateObj);
         
         for ($i = 0; $i < 30; $i++) {
 
             $reduxStateObj = (object) array(
-                'id' => $faker->numberBetween(1, 10),
+                'id' => $faker->numberBetween(1, 100),
                 'name' => '',
                 'type' => 'button',
                 'position' => (object) array(
@@ -45,6 +41,7 @@ class ButtonInstanceFixture extends Fixture implements DependentFixtureInterface
                 'color' => $faker->hexColor(),
                 'backgroundColor' => $faker->hexColor()
             );
+            #echo json_encode($reduxStateObj);
 
             $instance = new ButtonInstance();
             $instance->setReduxState(['ButtonElement' => $reduxStateObj]);
