@@ -38,7 +38,7 @@ final class ButtonTemplateController extends AbstractController
         ]);
     }
 
-    public function findButtonTemplateById(ButtonTemplate $buttonTemplate): JsonResponse
+    public function findButtonTemplateById(int $id): JsonResponse
     {
         return new JsonResponse([
             'data' => $buttonTemplate,

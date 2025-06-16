@@ -64,4 +64,14 @@ class GroupInstance
 
         return $this;
     }
+
+    public function serialize(): array
+    {
+        return [
+            'id' => $this->getId(),
+            'reduxState' => $this->getReduxState(),
+            'user_id' => $this->getUser()?->getId(),
+            'button_group_id' => $this->getButtonGroup()?->getId(),
+        ];
+    }
 }

@@ -49,4 +49,13 @@ class Belongs
 
         return $this;
     }
+
+    public function serialize(): array
+    {
+        return [
+            'id' =>  $this->getId(),
+            'button_template_id' => $this->getButtonTemplate()?->getId(),
+            'button_group_id' =>  $this->getButtonGroup()?->getId()
+        ];
+    }
 }
