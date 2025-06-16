@@ -25,6 +25,14 @@ final class UserController extends AbstractController
     {
         $users = $this->userRepository->findAllWithoutPwd();
 
+        if ($users -> isEmpty()){
+            return new JsonResponse ([
+                'error' =>[
+                    'message' => 'no users found',
+                ]
+            ], 204);
+        }
+
         return new JsonResponse([
             'data' => $users,
             'status' => 200
@@ -33,6 +41,14 @@ final class UserController extends AbstractController
 
     public function findUserById(User $user): JsonResponse
     {
+        if ($user -> isEmpty()){
+            return new JsonResponse ([
+                'error' =>[
+                    'message' => 'no user found',
+                ]
+            ], 204);
+        }
+
         return new JsonResponse([
             'data' => (object)$user,
             'status' => 200
@@ -42,10 +58,35 @@ final class UserController extends AbstractController
     public function findButtonInstancesByUserName(string $userName): JsonResponse
     {
         $user = $this->userRepository->findOneBy(['name' => $userName]);
+
+        if (!$user){
+            return new JsonResponse ([
+                'error' =>[
+                    'message' => 'No user found',
+                ]
+            ], 204);
+        }
+
         $buttonInstances = $this->buttonInstanceRepository->findButtonInstancesByUserId($user->getId());
 
+        if(empty($buttonInstances)){
+            return new JsonResponse ([
+                'error' => [
+                    'message' => 'No button-instances found',
+                ]
+            ],204);
+        }
+
+        $data = array_map(function($buttonInstance ){
+            return [
+                'id' => $buttonInstance['id'],
+                'reduxState' => $buttonInstance['redux_state'],
+                'buttonTemplate_ID' => $buttonInstance['button_template_id']
+            ];
+        }, $buttonInstances);
+
         return new JsonResponse([
-            'data' => $buttonInstances,
+            'data' => $data,
             'status' => 200
         ]);
     }

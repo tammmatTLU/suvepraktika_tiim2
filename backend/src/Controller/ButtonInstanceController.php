@@ -24,4 +24,14 @@ final class ButtonInstanceController extends AbstractController
             'status' => 200
         ]);
     }
+
+    public function findButtonInstanceById(int $id): JsonResponse
+    {
+        $buttoninstance = $this->buttonInstanceRepository->find($id);
+
+        return new JsonResponse([
+            'data' => $buttoninstance,
+            'status' => 200
+        ]);
+    }
 }
