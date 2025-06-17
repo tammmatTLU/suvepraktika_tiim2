@@ -45,7 +45,7 @@ nelmio_api_doc:
                             description: "User not found"
                         default:
                             description: "unexpected error"
-            /api/user/{userName}/redux-span/create:
+            /api/user/{userName}/redux-span/save:
                 post:
                     summary: "add a new reduxSpan"
                     responses:
@@ -165,7 +165,7 @@ nelmio_api_doc:
                             description: "No button template found"
                         default:
                             description: "unexpected error"
-            /api/button-template/create:
+            /api/button-template/save:
                 post:
                     summary: "Create a new button template"
                     responses:

@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Repository\ButtonInstanceRepository;
 use App\Repository\UserRepository;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,7 +20,6 @@ final class UserController extends AbstractController
     {
         $this->userRepository = $userRepository;
         $this->buttonInstanceRepository = $buttonInstanceRepository;
-        $this->entityManager = $entityManager;
     }
 
     public function findAllUsers(): JsonResponse
@@ -103,7 +101,7 @@ final class UserController extends AbstractController
         ],200);
     }
 
-    public function addReduxSpan(Request $request) : JsonResponse
+    public function addReduxSpan(Request $request, EntityManagerInterFace $entityManager) : JsonResponse
     {
         $data = json_decode($request -> getContent(), true);
         if (empty($data['reduxSpan'])) {
