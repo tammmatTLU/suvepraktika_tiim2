@@ -8,7 +8,7 @@ import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { loadButtonElements, clearButtons } from '../store/slices/buttonElementsSlice';
 import {loadSpanElements, clearSpans} from '../store/slices/spanElementsSlice';
 
-export default function UIConfigPage(){
+export default function UIConfigPage() {
     const { userName: userName = 'A-001' } = useParams<{ userName?: string }>();
 
     const [gridEnabled, setGridEnabled] = useState(true);
@@ -36,20 +36,20 @@ export default function UIConfigPage(){
     if (error) return <p>Error: {error}</p>;
 
 
-    return(
+    return (
         <div className="grid-layout">
             <header>
                 <h1>Kasutajavaate redigeerimine</h1>
                 <BackButton />
-                <Toolbar 
+                <Toolbar
                     gridEnabled={gridEnabled}
                     onGridToggle={() => setGridEnabled(g => !g)}
                 />
             </header>
-            <EditPanel 
-                elements={allElements} 
+            <EditPanel
+                elements={allElements}
                 gridEnabled={gridEnabled}
-                gridSize={gridSize} 
+                gridSize={gridSize}
             />
         </div>
     )
