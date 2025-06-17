@@ -7,11 +7,13 @@ import SaveButton from "./SaveButton";
 
 
 export default function Toolbar({ gridEnabled, onGridToggle }: { gridEnabled: boolean, onGridToggle: () => void }) {
-    const [modalAction, setModalAction] = useState<null | 'add' | 'save'>(null);
+    const [modalAction, setModalAction] = useState<null | 'addInstance' | 'addTemplate'>(null);
+    
 
     return (
         <div className="toolbar">
-            <button className="toolbar-button" onClick={() => setModalAction('add')}>Lisa seade</button>
+            <button className="toolbar-button" onClick={() => setModalAction('addInstance')}>Lisa element</button>
+            <button className="toolbar-button" onClick={() => setModalAction('addTemplate')}>Loo uus nupu mall</button>
             {modalAction && (
                 <ToolbarModal action={modalAction} onClose={() => setModalAction(null)} />
             )}
@@ -24,46 +26,45 @@ export default function Toolbar({ gridEnabled, onGridToggle }: { gridEnabled: bo
                 Grid snap
             </label>
             <SaveButton />
+
         </div>
     );
 }
 
 function ToolbarModal({ action, onClose }: { action: string, onClose: () => void }) {
     const dispatch = useDispatch();
-    const [newElementType, setNewElementType] = useState<string>('button');
-    const [elementName, setElementName] = useState<string>('');
-    const [templates, setTemplates] = useState<{id: number, name: string, command: string}[]>([]);
-    const [templatesLoaded, setTemplatesLoaded] = useState(false);
-    const [selectedTemplateId, setSelectedTemplateId] = useState<string>('');
+    let content;
+    
+    if (action === 'addInstance') {
+        const [newElementType, setNewElementType] = useState<string>('button');
+        const [elementName, setElementName] = useState<string>('');
+        const [templates, setTemplates] = useState<{id: number, name: string, command: string}[]>([]);
+        const [templatesLoaded, setTemplatesLoaded] = useState(false);
+        const [selectedTemplateId, setSelectedTemplateId] = useState<string>('');
 
-    useEffect(() => {
-        if (action === 'add') {
+        useEffect(() => {
             setTemplatesLoaded(false);
             setTemplates([]);
-        }
-    }, [action]);
+        }, [action]);
 
-    async function fetchTemplates() {
-        if (templatesLoaded) return;
-        try {
-            const response = await fetch('http://localhost:3006/api/button-templates');
-            if (!response.ok) {
-                throw new Error('Failed to fetch templates');
+        async function fetchTemplates() {
+            if (templatesLoaded) return;
+            try {
+                const response = await fetch('http://localhost:3006/api/button-templates');
+                if (!response.ok) {
+                    throw new Error('Failed to fetch templates');
+                }
+                const result = await response.json();
+                console.log(result.data);
+                setTemplates(result.data || []);
+                setTemplatesLoaded(true);
+            } catch (error) {
+                console.error('Error fetching templates:', error);
+                setTemplates([]);
+                setTemplatesLoaded(true);
             }
-            const result = await response.json();
-            console.log(result.data);
-            setTemplates(result.data || []);
-            setTemplatesLoaded(true);
-        } catch (error) {
-            console.error('Error fetching templates:', error);
-            setTemplates([]);
-            setTemplatesLoaded(true);
         }
-    }
 
-
-        let content;
-    if (action === 'add') {
         content = 
         <div className="modal-content">
             <label htmlFor='newElementType'>Vali uus seadme tüüp:</label>
@@ -149,10 +150,98 @@ function ToolbarModal({ action, onClose }: { action: string, onClose: () => void
             <button onClick={onClose}>Sulge</button>
 
         </div>;
+    } else if (action === 'addTemplate') {
+        const [name, setName] = useState('');
+        const [command, setCommand] = useState('');
 
+        const [rooms, setRooms] = useState<{id: number, name: string, command: string}[]>([]);
+        const [roomsLoaded, setRoomsLoaded] = useState(false);
+        const [selectedRoomId, setSelectedRoomId] = useState<string>('');
+
+        useEffect(() => {
+            setRoomsLoaded(false);
+            setRooms([]);
+        }, [action]);
+
+        async function fetchRooms() {
+            if (roomsLoaded) return;
+            try {
+                const response = await fetch('http://localhost:3006/api/rooms');
+                if (!response.ok) {
+                    throw new Error('Failed to fetch rooms');
+                }
+                const result = await response.json();
+                console.log(result.data);
+                setRooms(result.data || []);
+                setRoomsLoaded(true);
+            } catch (error) {
+                console.error('Error fetching rooms:', error);
+                setRooms([]);
+                setRoomsLoaded(true);
+            }
+        }
+        function handleSave() {
+            fetch('http://localhost:3006/api/button-template/save', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                name,
+                command,
+                room_id: selectedRoomId ? parseInt(selectedRoomId, 10) : null,
+                }),
+            })
+                .then(res => {
+                if (!res.ok) throw new Error('Failed to save template');
+                return res.json();
+                })
+                .then(() => {
+                onClose();
+                })
+                .catch(err => {
+                alert('Viga salvestamisel: ' + err.message);
+            });
+        }
+        content = 
+            <div className="modal-content">
+            <label htmlFor="templateName">Nimi:</label>
+            <input
+                id="templateName"
+                type="text"
+                value={name}
+                onChange={e => setName(e.target.value)}
+            />
+
+            <label htmlFor="commandLine">Välise programmi nimi(ilma faililaiendita):</label>
+            <input
+                id="commandLine"
+                type="text"
+                value={command}
+                onChange={e => setCommand(e.target.value)}
+                placeholder="nt. echo 'Hello World'"
+            />
+
+            <label htmlFor="templateRoomSelect">Ruum:</label>
+            <select
+                id="templateRoomSelect"
+                name="templateRoomSelect"
+                value={selectedRoomId}
+                onClick={fetchRooms}
+                onChange={e => setSelectedRoomId(e.target.value)}
+            >
+                {rooms.map(room => (
+                    <option key={room.id} value={room.id}>
+                        {room.name}
+                    </option>
+                ))}
+            </select>
+
+            <button onClick={handleSave}>Salvesta</button>
+            <button onClick={onClose}>Sulge</button>
+            </div>
+    }
     return (
         <div className="modal-backdrop">
                 {content}
         </div>
     );
-}}
+}
