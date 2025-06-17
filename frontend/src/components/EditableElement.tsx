@@ -1,8 +1,8 @@
 import { Rnd } from 'react-rnd';
-import type { ButtonElement, SpanElement } from '../types/Element';
+import type { ButtonElement, SpanElement, PageStyle } from '../types/Element';
 import { useDispatch } from 'react-redux';
 import { setPosition as setButtonPosition, setSize as setButtonSize, deleteButton} from '../store/slices/buttonElementsSlice';
-import { setPosition as setSpanPosition, setSize as setSpanSize, deleteSpan} from '../store/slices/spanElementsSlice';
+import { setPosition as setSpanPosition, setSize as setSpanSize, deleteSpan} from '../store/slices/userPageSlice';
 
 type EditableElementProps = {
     key: number;
@@ -10,10 +10,12 @@ type EditableElementProps = {
     onEdit: (id: number, type: string) => void;
     gridEnabled: boolean;
     gridSize: [number, number];
+    pageStyle?: PageStyle;
+    setForElements?: boolean;
 }
 
 
-export default function EditableElement({ parameters, onEdit, gridEnabled, gridSize}: EditableElementProps){
+export default function EditableElement({ parameters, onEdit, gridEnabled, gridSize, pageStyle, setForElements}: EditableElementProps){
     const dispatch = useDispatch();
     const handleButtonDragStop = (_e: any, d: any) => {
         dispatch(setButtonPosition({
@@ -83,6 +85,25 @@ export default function EditableElement({ parameters, onEdit, gridEnabled, gridS
             // dispatch(deleteDevice(id));
         }
     };
+
+    const style = setForElements && pageStyle
+  ? {
+      backgroundColor: parameters.type === 'button' ? pageStyle.btnBackgroundColor : '',
+      color: parameters.type === 'button' ? pageStyle.btnColor : pageStyle.spanColor,
+      fontFamily: parameters.type === 'button' ? pageStyle.btnFontFamily : pageStyle.spanFontFamily,
+      fontSize: parameters.type === 'button' ? pageStyle.btnFontSize : pageStyle.spanFontSize,
+      borderRadius: '5px',
+      boxShadow: parameters.type === 'button' ? '0 2px 4px rgba(0, 0, 0, 0.1)' : '',
+    }
+  : {
+      backgroundColor: parameters.type === 'button' ? parameters.backgroundColor : '',
+      color: parameters.color,
+      fontFamily: parameters.fontFamily,
+      fontSize: parameters.fontSize,
+      borderRadius: '5px',
+      boxShadow: parameters.type === 'button' ? '0 2px 4px rgba(0, 0, 0, 0.1)' : '',
+    };
+
     
     if(parameters.type === 'button') {
         return (
@@ -117,14 +138,7 @@ export default function EditableElement({ parameters, onEdit, gridEnabled, gridS
                 </button>
                 <button
                     className="editable-button"
-                    style={{
-                        backgroundColor: parameters.backgroundColor,
-                        fontSize: parameters.fontSize,
-                        fontFamily: parameters.fontFamily,
-                        color: parameters.color,
-                        borderRadius: '5px',
-                        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-                    }}
+                    style={style}
                     disabled={true}
                 >
                     {parameters.name}
@@ -145,7 +159,7 @@ export default function EditableElement({ parameters, onEdit, gridEnabled, gridS
                     height: parameters.size.height,
                 }}
                 style={{
-                    backgroundColor: parameters.backgroundColor,
+                    backgroundColor: setForElements && pageStyle ? pageStyle.spanBackgroundColor : parameters.backgroundColor,
                     justifyContent: 'center',
                     alignItems: 'center',
                     display: 'flex',
@@ -173,11 +187,7 @@ export default function EditableElement({ parameters, onEdit, gridEnabled, gridS
                 </button>
                 <span
                     className="editable-span"
-                    style={{
-                        fontSize: parameters.fontSize,
-                        fontFamily: parameters.fontFamily,
-                        color: parameters.color,
-                    }}
+                    style={style}
                 >
                     {parameters.name}
                 </span>

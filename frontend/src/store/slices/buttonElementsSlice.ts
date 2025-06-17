@@ -16,7 +16,7 @@ export const loadButtonElements = createAsyncThunk(
       const parsed = JSON.parse(item.redux_state);
       return {
         ...parsed.ButtonElement,
-        templateId: item.buttonTemplate_ID,
+        templateId: item.button_template_id,
       };
     });
     return buttonElementsArray;

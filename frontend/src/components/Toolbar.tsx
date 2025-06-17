@@ -1,21 +1,32 @@
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 //import type { ButtonElement, SpanElement } from '../types/Element';
+import { setPageStyle, setSetForElements } from '../store/slices/userPageSlice';
+import { useAppSelector } from '../store/hooks';
 import { addButton as addButtonElement} from '../store/slices/buttonElementsSlice';
-import { addSpan as addSpanElement } from '../store/slices/spanElementsSlice';
+import { addSpan as addSpanElement } from '../store/slices/userPageSlice';
 import SaveButton from "./SaveButton";
 import UndoButton from "./UndoButton";
 import RedoButton from "./RedoButton";
+import type { PageStyle } from '../types/Element';
 
 
 export default function Toolbar({ gridEnabled, onGridToggle }: { gridEnabled: boolean, onGridToggle: () => void }) {
-    const [modalAction, setModalAction] = useState<null | 'addInstance' | 'addTemplate'>(null);
+    const dispatch = useDispatch();
+    const [modalAction, setModalAction] = useState<null | 'addInstance' | 'addTemplate' | 'modifyPage'>(null);
     
+    const currentPageStyle: Partial<PageStyle> = useAppSelector(state => state.undoableRoot.present.userPage.pageStyle) || {};
+    const [setForElements, toggleSetForElements] = useState(currentPageStyle.setForElements || false);
 
+    const handleSetForElementsToggle = () => {
+        toggleSetForElements(!setForElements);
+        dispatch(setSetForElements(!setForElements));
+    }
     return (
         <div className="toolbar">
             <button className="toolbar-button" onClick={() => setModalAction('addInstance')}>Lisa element</button>
             <button className="toolbar-button" onClick={() => setModalAction('addTemplate')}>Loo uus nupu mall</button>
+            <button className="toolbar-button" onClick={() => setModalAction('modifyPage')}>Muuda kogu lehe kujundust</button>
             {modalAction && (
                 <ToolbarModal action={modalAction} onClose={() => setModalAction(null)} />
             )}
@@ -31,6 +42,15 @@ export default function Toolbar({ gridEnabled, onGridToggle }: { gridEnabled: bo
                 onChange={onGridToggle}
                 />
                 Grid snap
+            </label>
+            <label>
+                <input
+                    id="setForElementsToggle"
+                    type="checkbox"
+                    checked={setForElements}
+                    onChange={handleSetForElementsToggle}
+                />
+                Rakenda need stiilid kõigile nuppudele ja tekstielementidele
             </label>
         </div>
     );
@@ -243,7 +263,88 @@ function ToolbarModal({ action, onClose }: { action: string, onClose: () => void
             <button onClick={handleSave}>Salvesta</button>
             <button onClick={onClose}>Sulge</button>
             </div>
+    } else if (action === 'modifyPage') {
+        const currentPageStyle: Partial<PageStyle> = useAppSelector(state => state.undoableRoot.present.userPage.pageStyle) || {};
+
+    // Local state for all PageStyle fields
+    const [backgroundColor, setBackgroundColor] = useState(currentPageStyle.backgroundColor || '#FFFFFF');
+    const [color, setColor] = useState(currentPageStyle.color || '#000000');
+    const [fontFamily, setFontFamily] = useState(currentPageStyle.fontFamily || 'Arial');
+    const [fontSize, setFontSize] = useState(currentPageStyle.fontSize || 16);
+    const [btnBackgroundColor, setBtnBackgroundColor] = useState(currentPageStyle.btnBackgroundColor || '#FFFFFF');
+    const [btnColor, setBtnColor] = useState(currentPageStyle.btnColor || '#000000');
+    const [btnFontFamily, setBtnFontFamily] = useState(currentPageStyle.btnFontFamily || 'Arial');
+    const [btnFontSize, setBtnFontSize] = useState(currentPageStyle.btnFontSize || 14);
+    const [spanBackgroundColor, setSpanBackgroundColor] = useState(currentPageStyle.spanBackgroundColor || '#FFFFFF');
+    const [spanColor, setSpanColor] = useState(currentPageStyle.spanColor || '#000000');
+    const [spanFontFamily, setSpanFontFamily] = useState(currentPageStyle.spanFontFamily || 'Arial');
+    const [spanFontSize, setSpanFontSize] = useState(currentPageStyle.spanFontSize || 16);
+
+    function handleSave() {
+        dispatch(setPageStyle({
+            backgroundColor,
+            color,
+            fontFamily,
+            fontSize,
+            btnBackgroundColor,
+            btnColor,
+            btnFontFamily,
+            btnFontSize,
+            spanBackgroundColor,
+            spanColor,
+            spanFontFamily,
+            spanFontSize,
+        }));
+        onClose();
     }
+
+    content = (
+        <div className="modal-content">
+            <label>Lehe taustavärv:</label>
+            <input type="color" value={backgroundColor} onChange={e => setBackgroundColor(e.target.value)} />
+
+            <label>Lehe tekstivärv:</label>
+            <input type="color" value={color} onChange={e => setColor(e.target.value)} />
+
+            <label>Lehe font:</label>
+            <input type="text" value={fontFamily} onChange={e => setFontFamily(e.target.value)} />
+
+            <label>Lehe fonti suurus:</label>
+            <input type="number" value={fontSize} onChange={e => setFontSize(Number(e.target.value))} />
+
+            <hr />
+
+            <label>Nuppude taustavärv:</label>
+            <input type="color" value={btnBackgroundColor} onChange={e => setBtnBackgroundColor(e.target.value)} />
+
+            <label>Nuppude tekstivärv:</label>
+            <input type="color" value={btnColor} onChange={e => setBtnColor(e.target.value)} />
+
+            <label>Nuppude font:</label>
+            <input type="text" value={btnFontFamily} onChange={e => setBtnFontFamily(e.target.value)} />
+
+            <label>Nuppude fonti suurus:</label>
+            <input type="number" value={btnFontSize} onChange={e => setBtnFontSize(Number(e.target.value))} />
+
+            <hr />
+
+            <label>Tekstielementide taustavärv:</label>
+            <input type="color" value={spanBackgroundColor} onChange={e => setSpanBackgroundColor(e.target.value)} />
+
+            <label>Tekstielementide tekstivärv:</label>
+            <input type="color" value={spanColor} onChange={e => setSpanColor(e.target.value)} />
+
+            <label>Tekstielementide font:</label>
+            <input type="text" value={spanFontFamily} onChange={e => setSpanFontFamily(e.target.value)} />
+
+            <label>Tekstielementide fonti suurus:</label>
+            <input type="number" value={spanFontSize} onChange={e => setSpanFontSize(Number(e.target.value))} />
+
+            <button onClick={handleSave}>Salvesta</button>
+            <button onClick={onClose}>Sulge</button>
+        </div>
+    );
+}
     return (
         <div className="modal-backdrop">
                 {content}

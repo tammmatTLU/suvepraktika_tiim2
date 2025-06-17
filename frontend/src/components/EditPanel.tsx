@@ -2,6 +2,7 @@ import EditableElement from "./EditableElement";
 import type { ButtonElement, SpanElement } from "../types/Element";
 import EditElementModal from "./EditElementModal";
 import { useState } from "react";
+import { useAppSelector } from '../store/hooks';
 
 interface EditPanelProps {
   elements: Record<number, ButtonElement | SpanElement>;
@@ -13,6 +14,12 @@ export default function EditPanel( { elements, gridEnabled, gridSize }: EditPane
     const [editModalOpen, setEditModalOpen] = useState(false);
     const [editId, setEditId] = useState<number | null>(null);
     const [editType, setEditType] = useState<string | null>(null);
+
+    const pageStyle = useAppSelector(
+        state => state.undoableRoot.present.userPage.pageStyle
+    );
+
+    const setForElements = pageStyle?.setForElements;
 
     const handleEdit = (id: number, type: string) => {
         setEditId(id);
@@ -30,6 +37,8 @@ export default function EditPanel( { elements, gridEnabled, gridSize }: EditPane
                         onEdit={handleEdit}
                         gridEnabled={gridEnabled}
                         gridSize={gridSize}
+                        pageStyle={pageStyle}
+                        setForElements={setForElements}
                     />
                 )
             })}

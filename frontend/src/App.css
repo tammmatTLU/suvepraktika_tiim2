@@ -3,6 +3,13 @@ html{
     overflow: hidden;
 }
 
+:root {
+  --page-bg: #FFFFFF;
+  --page-font: Arial, sans-serif;
+  --page-font-size: 16px;
+  --page-color: #000000;
+}
+
 #root{
     display: flex;
     justify-content: center;
@@ -275,4 +282,11 @@ header{
     width: 20px;
     height: 20px;
     border-radius: 5px;
+}
+
+.themed-page {
+  background: var(--page-bg, #FFFFFF) !important;
+  font-family: var(--page-font, Arial, sans-serif);
+  font-size: var(--page-font-size, 16px);
+  color: var(--page-color, #000000);
 }
