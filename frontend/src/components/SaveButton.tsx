@@ -62,7 +62,7 @@ function saveAllSpans(userName: string, spanArray: SpanElement[]){
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ spans: spanArray }),
+    body: JSON.stringify({ userName, spans: spanArray }),
   })
     .then(res => {
       if (!res.ok){
