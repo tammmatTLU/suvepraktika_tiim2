@@ -119,6 +119,26 @@ one-belongs:
     controller: App\Controller\BelongsController::findBelongsById
     methods: [GET]
 
+register:
+    path: api/register
+    controller: App\Controller\AuthenticationController::register
+    methods: [POST]
+
+login:
+    path: api/login
+    controller: App\Controller\AuthenticationController::login
+    methods: [POST]
+
+logout:
+    path: api/logout
+    controller: App\Controller\AuthenticationController::logout
+    methods: [POST]
+
+verify:
+    path: api/verify
+    controller: App\Controller\AuthenticationController::verify
+    methods: [POST]
+    
 lights-test:
     path: api/test/lights
     controller: App/Controller/TestController::test
