@@ -43,7 +43,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?Token $token = null;
 
     #[ORM\Column]
-    private array $reduxSpan = [];
+    private ?array $reduxSpan = [];
 
     public function __construct()
     {
