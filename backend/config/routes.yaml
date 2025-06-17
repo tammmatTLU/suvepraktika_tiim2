@@ -15,6 +15,11 @@ user-button-instances:
     controller: App\Controller\UserController::findButtonInstancesByUserName
     methods: [GET]
 
+create-user-button-instance:
+    path: /api/user/{userName}/button-instances/save
+    controller: App\Controller\ButtonInstanceController::addButtonInstance
+    methods: [POST]
+
 user-redux-span:
     path: api/user/{userName}/redux-span
     controller: App\Controller\UserController::findReduxSpanByUserName
@@ -138,7 +143,7 @@ verify:
     path: api/verify
     controller: App\Controller\AuthenticationController::verify
     methods: [POST]
-    
+
 lights-test:
     path: api/test/lights
     controller: App/Controller/TestController::test

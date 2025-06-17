@@ -193,15 +193,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function serialize(): array
-    {
-        return [
-            'id' => $this->getId(),
-            'name' => $this->getName(),
-            'role' => $this->getRoles()
-        ];
-    }
-
     public function getReduxSpan(): array
     {
         return $this->reduxSpan;
