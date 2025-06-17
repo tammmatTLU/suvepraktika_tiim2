@@ -58,7 +58,7 @@ class AuthenticationController extends AbstractController
 
         if ($hashedPass === null) {
             return new JsonResponse([
-                'data' => 'Probleming hashing password'
+                'data' => 'Error hashing password'
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
@@ -140,7 +140,7 @@ class AuthenticationController extends AbstractController
         ], Response::HTTP_OK);
     }
 
-    public function verify(Security $security, Request $request): bool
+    public function verify(Security $security, Request $request): JsonResponse
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
 
@@ -148,6 +148,16 @@ class AuthenticationController extends AbstractController
         $token = $request->getPayload()->getString('userToken');
 
         $tokenService = new TokenService();
-        return $tokenService->verify($user, $token);
+        $isVerified = $tokenService->verify($user, $token);
+
+        if (!$isVerified) {
+            return new JsonResponse([
+                'data' => 'Token not authentic'
+            ], Response::HTTP_UNAUTHORIZED);
+        }
+
+        return new JsonResponse([
+            'data' => 'Token is authentic'
+        ], Response::HTTP_OK);
     }
 }

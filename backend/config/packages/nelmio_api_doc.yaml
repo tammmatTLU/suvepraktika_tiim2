@@ -4,6 +4,184 @@ nelmio_api_doc:
             title: Suvepraktika
             description: Suvepraktika rühm 2.
             version: 1.0.0
+        paths:
+            /api/register:
+                post:
+                    summary: "Register user"
+                    requestBody:
+                        content:
+                            application/json:
+                                example:
+                                    {
+                                        "username": "username",
+                                        "password": "testpass"
+                                    }
+                        required: true
+                    responses:
+                        201:
+                            description: "User registered successfully"
+                            content:
+                                application/json:
+                                    examples:
+                                        example:
+                                            summary: main
+                                            value:
+                                                {
+                                                    "data": "User registered successfully",
+                                                }
+                        400:
+                            description: "Missing or invalid credentials"
+                            content:
+                                application/json:
+                                    examples:
+                                        example:
+                                            summary: main
+                                            value:
+                                                {
+                                                    "data": "Invalid credentials",
+                                                }
+                        406:
+                            description: "Provided username already exists"
+                            content:
+                                application/json:
+                                    examples:
+                                        example:
+                                            summary: main
+                                            value:
+                                                {
+                                                    "data": "User with inserted username already exists",
+                                                }
+                        500:
+                            description: "Problem creating a hashed password"
+                            content:
+                                application/json:
+                                    examples:
+                                        example:
+                                            summary: main
+                                            value:
+                                                {
+                                                    "data": "Error hashing password",
+                                                }
+            /api/login:
+                post:
+                    summary: Login user
+                    requestBody:
+                        content:
+                            application/json:
+                                example:
+                                    {
+                                        "username": "username",
+                                        "password": "testpass"
+                                    }
+                        required: true
+                    responses:
+                        200:
+                            description: "User logged in successfully"
+                            content:
+                                application/json:
+                                    examples:
+                                        example:
+                                            summary: main
+                                            value:
+                                                {
+                                                    "username": "username",
+                                                    "token": "35f8af7bbeeea3412512849364de597be817ac3e512f6f696309637eca65c1da"
+                                                }
+                        401:
+                            description: "Provided credentials were invalid"
+                            content:
+                                application/json:
+                                    examples:
+                                        example:
+                                            summary: main
+                                            value:
+                                                {
+                                                    "data": "Invalid credentials",
+                                                }
+                        500:
+                            description: "Problem generating a token"
+                            content:
+                                application/json:
+                                    examples:
+                                        example:
+                                            summary: main
+                                            value:
+                                                {
+                                                    "data": "Error generating token",
+                                                }
+            /api/logout:
+                post:
+                    summary: "Logout user"
+                    requestBody:
+                        content:
+                            application/json:
+                                example:
+                                    {
+                                        "userToken": "35f8af7bbeeea3412512849364de597be817ac3e512f6f696309637eca65c1da",
+                                    }
+                        required: true
+                    responses:
+                        200:
+                            description: "User logged out successfully"
+                            content:
+                                application/json:
+                                    examples:
+                                        example:
+                                            summary: main
+                                            value:
+                                                {
+                                                    "data": "User logged out successfully",
+                                                }
+                        400:
+                            description: "Token couldn't be validated"
+                            content:
+                                application/json:
+                                    examples:
+                                        example:
+                                            summary: main
+                                            value:
+                                                {
+                                                    "data": "Sent token was invalid",
+                                                }
+            /api/verify:
+                post:
+                    summary: "Verify token sent by user"
+                    requestBody:
+                        content:
+                            application/json:
+                                example:
+                                    {
+                                        "userToken": "35f8af7bbeeea3412512849364de597be817ac3e512f6f696309637eca65c1da",
+                                    }
+                        required: true
+                    responses:
+                        200:
+                            description: "Token authenticated successfully"
+                            content:
+                                application/json:
+                                    examples:
+                                        example:
+                                            summary: main
+                                            value:
+                                                {
+                                                    "data": "Token is authentic",
+                                                }
+                        401:
+                            description: "User not logged in on firewall or unauthentic token"
+                            content:
+                                text/html:
+                                    examples:
+                                        example1:
+                                            summary: login
+                                            value: "*Symfony generated exception page indicating the user need to login for access*"
+                                application/json:
+                                    examples:
+                                        example2:
+                                            summary: token
+                                            value:
+                                                {
+                                                    "data": "Token not authentic",
+                                                }
     areas: # to filter documented areas
         path_patterns:
             - ^/api(?!/doc$) # Accepts routes under /api except /api/doc
