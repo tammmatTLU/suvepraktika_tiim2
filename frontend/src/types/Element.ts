@@ -45,3 +45,19 @@ export interface SpanElement extends Element{
   color: string;
   backgroundColor: string;
 }
+
+export interface PageStyle {
+  backgroundColor: string;
+  fontFamily: string;
+  fontSize: number;
+  color: string;
+  setForElements?: boolean;
+  btnBackgroundColor: string;
+  btnColor: string;
+  btnFontFamily: string;
+  btnFontSize: number;
+  spanBackgroundColor: string;
+  spanColor: string;
+  spanFontFamily: string;
+  spanFontSize: number;
+}

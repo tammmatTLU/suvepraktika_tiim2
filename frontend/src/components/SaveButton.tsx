@@ -1,6 +1,6 @@
 import { useAppSelector } from '../store/hooks';
 import { useParams } from 'react-router-dom';
-import type { SpanElement, ButtonElement } from '../types/Element';
+import type { SpanElement, ButtonElement, PageStyle } from '../types/Element';
 
 export default function SaveButton (){
     const { userName: userName = 'A-001' } = useParams<{ userName?: string }>();
@@ -9,15 +9,17 @@ export default function SaveButton (){
     const buttonElements = useAppSelector(state => state.undoableRoot.present.buttonElements.elements);
     const buttonArray = Object.values(buttonElements);
     
-    // 1. Get all button elements from Redux
-    const spanElements = useAppSelector(state => state.undoableRoot.present.spanElements.elements);
+    // 2. Get all span elements from Redux
+    const spanElements = useAppSelector(state => state.undoableRoot.present.userPage.elements);
     const spanArray = Object.values(spanElements);
 
+    // 3. Get pageStyle from Redux
+    const pageStyle = useAppSelector(state => state.undoableRoot.present.userPage.pageStyle);
     return(
         <button
         onClick={() => {
             saveAllButtons(userName, buttonArray);
-            saveAllSpans(userName, spanArray);
+            saveAllSpans(userName, spanArray, pageStyle);
         }}
         className="save-btn toolbar-button"
         >
@@ -53,7 +55,7 @@ function saveAllButtons(userName: string, buttonArray: ButtonElement[]){
 }
 
 
-function saveAllSpans(userName: string, spanArray: SpanElement[]){
+function saveAllSpans(userName: string, spanArray: SpanElement[], pageStyle: PageStyle){
 
 
   // 2. Send them as a batch to the backend
@@ -62,7 +64,11 @@ function saveAllSpans(userName: string, spanArray: SpanElement[]){
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ userName, spans: spanArray }),
+    body: JSON.stringify({
+      userName,
+      elements: spanArray,
+      pageStyle: pageStyle
+    }),
   })
     .then(res => {
       if (!res.ok){

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateButton } from '../store/slices/buttonElementsSlice'
-import { updateSpan } from '../store/slices/spanElementsSlice'
+import { updateSpan } from '../store/slices/userPageSlice'
 
 // import your update actions here
 
@@ -20,7 +20,7 @@ export default function EditElementModal({
     useSelector((state: any) =>
       type === 'button'
         ? state.undoableRoot.present.buttonElements.elements[id]
-        : state.undoableRoot.present.spanElements.elements[id]
+        : state.undoableRoot.present.userPage.elements[id]
     ) || {};
 
   // Local state for editing

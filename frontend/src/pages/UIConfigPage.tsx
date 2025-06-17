@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { loadButtonElements, clearButtons } from '../store/slices/buttonElementsSlice';
-import {loadSpanElements, clearSpans} from '../store/slices/spanElementsSlice';
+import {loadUserPageState, clearSpans} from '../store/slices/userPageSlice';
 
 export default function UIConfigPage() {
     const { userName: userName = 'A-001' } = useParams<{ userName?: string }>();
@@ -16,7 +16,7 @@ export default function UIConfigPage() {
 
     const dispatch = useAppDispatch();
     const buttonElements = useAppSelector(state => state.undoableRoot.present.buttonElements.elements);
-    const spanElements = useAppSelector(state => state.undoableRoot.present.spanElements.elements);
+    const spanElements = useAppSelector(state => state.undoableRoot.present.userPage.elements);
     const loading = useAppSelector(state => state.undoableRoot.present.buttonElements.loading);
     const error = useAppSelector(state => state.undoableRoot.present.buttonElements.error);
 
@@ -29,7 +29,7 @@ export default function UIConfigPage() {
         dispatch(clearButtons());
         dispatch(clearSpans());
         dispatch(loadButtonElements(userName));
-        dispatch(loadSpanElements(userName));        
+        dispatch(loadUserPageState(userName));        
     }, [dispatch, userName]);
 
     if (loading) return <p>Loading devices...</p>;

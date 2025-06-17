@@ -1,10 +1,10 @@
 import { combineReducers } from '@reduxjs/toolkit';
 import buttonElementsReducer from './buttonElementsSlice';
-import spanElementsReducer from './spanElementsSlice';
+import userPageReducer from './userPageSlice';
 
 const rootReducer = combineReducers({
     buttonElements: buttonElementsReducer,
-    spanElements: spanElementsReducer,
+    userPage: userPageReducer,
 });
 
 import undoable from 'redux-undo';
