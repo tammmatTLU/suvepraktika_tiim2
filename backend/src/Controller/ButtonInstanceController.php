@@ -73,8 +73,11 @@ final class ButtonInstanceController extends AbstractController
         $deleted = 0;
 
         $data = json_decode($request->getContent(), true);
-        $payloadReduxData = $data['data'] ?? [];
+        $payloadReduxData = $data['buttons'] ?? [];
         $payloadUserData = $data['user_name'] ?? null;
+
+        error_log('Raw request: ' . $request->getContent());
+        error_log('Decoded data: ' . print_r($data, true));
 
         if (empty($payloadReduxData)) {
             return new JsonResponse([
@@ -108,14 +111,12 @@ final class ButtonInstanceController extends AbstractController
 
         $sentButtons = $payloadReduxData;
         $sentIds = array_map(fn($b) => $b['id'] ?? null, $sentButtons);
-        $sentIds = array_filter($sentIds);
-
         foreach ($sentButtons as $button) {
             $sentId = $button['id'] ?? null;
             if (!$sentId) continue;
 
-            $reduxState = is_string($button['redux_state']) ? json_decode($button['redux_state'], true) : $button['redux_state'];
-            $buttonTemplate = $this->buttonTemplateRepository->find($button['button_template_id'] ?? null);
+            $reduxState = $button;
+            $buttonTemplate = $this->buttonTemplateRepository->find($button['templateId'] ?? null);
 
             if (!in_array($sentId, $dbIds)) {
                 $buttonInstance = new ButtonInstance();
