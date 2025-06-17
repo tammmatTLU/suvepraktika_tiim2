@@ -78,7 +78,7 @@ final class UserController extends AbstractController
 
         $data = [];
         foreach ($buttonInstances as $buttonInstance) {
-            $data[] = $buttonInstance->serialize();
+            $data[] = $buttonInstance;
         }
 
         return new JsonResponse([

@@ -189,7 +189,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $token->setUser(null);
             }
         }
-
+        return $this;
+    }
     public function serialize(): array
     {
         return [
