@@ -79,6 +79,7 @@ final class UserController extends AbstractController
         }
 
         $data = [];
+
         foreach ($buttonInstances as $buttonInstance) {
             $data[] = $buttonInstance;
         }
