@@ -15,11 +15,13 @@ final class UserController extends AbstractController
 {
     private UserRepository $userRepository;
     private ButtonInstanceRepository $buttonInstanceRepository;
+    private EntityManagerInterface $entityManager;
 
-    public function __construct(UserRepository $userRepository, ButtonInstanceRepository $buttonInstanceRepository)
+    public function __construct(UserRepository $userRepository, ButtonInstanceRepository $buttonInstanceRepository, EntityManagerInterface $entityManager)
     {
         $this->userRepository = $userRepository;
         $this->buttonInstanceRepository = $buttonInstanceRepository;
+        $this->entityManager = $entityManager;
     }
 
     public function findAllUsers(): JsonResponse
@@ -77,9 +79,10 @@ final class UserController extends AbstractController
         }
 
         $data = [];
-            foreach ($buttonInstances as $buttonInstance) {
-        $data[] = $buttonInstance;
-    }
+
+        foreach ($buttonInstances as $buttonInstance) {
+            $data[] = $buttonInstance;
+        }
 
         return new JsonResponse([
             'data' => $data
@@ -101,37 +104,46 @@ final class UserController extends AbstractController
         ],200);
     }
 
-    public function addReduxSpan(Request $request, EntityManagerInterFace $entityManager) : JsonResponse
+    public function addReduxSpan(Request $request, EntityManagerInterFace $entityManager, string $userName) : JsonResponse
     {
-        $data = json_decode($request -> getContent(), true);
-        if (empty($data['reduxSpan'])) {
+
+        $payload = json_decode($request->getContent(), true);
+
+        $user = $payload['userName'] ?? null;
+        $data = $payload['spans'] ?? null;
+
+
+/*         if (empty($payLoad['spans'])) {
             return new JsonResponse([
                 'error' => [
                     'message' => 'Redux span cannot be empty'
                 ]
             ], 400);
-        }
-        if (empty($data['userId'])) {
+        } */
+/*         if (empty($data['userName'])) {
             return new JsonResponse([
                 'error' => ['message' => 'User ID is required']
             ], 400);
-        }
+        } */
 
-        $user = $userRepository->find($data['userId']);
+        $user = $this->userRepository->findOneBy(['name' => $userName]);
 
         if (!$user) {
             return new JsonResponse([
                 'error' => ['message' => 'User not found']
             ], 404);
         }
-        $user->setReduxSpan($data['reduxSpan']);
+
         try{
+            $user->setReduxSpan($data);
             $this->entityManager->persist($user);
             $this->entityManager->flush();
         }catch(\Exception $e){
             return new JsonResponse ([
                 'error'=>[
-                    'message' => 'Database error'
+                    'message' => 'Database error',
+                    'details' => $e->getMessage(),
+                    'line' => $e->getLine()
                 ]
             ],500);
             echo 'error: '. $e->getMessage();
