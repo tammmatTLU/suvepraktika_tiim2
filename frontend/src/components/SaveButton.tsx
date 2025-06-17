@@ -30,6 +30,7 @@ export default function SaveButton (){
 
 function saveAllButtons(userName: string, buttonArray: ButtonElement[]){
 
+  console.log(buttonArray);
 
   // 2. Send them as a batch to the backend
   fetch(`http://localhost:3006/api/user/${userName}/button-instances/save`, {
@@ -37,7 +38,7 @@ function saveAllButtons(userName: string, buttonArray: ButtonElement[]){
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ buttons: buttonArray }),
+    body: JSON.stringify({ user_name: userName, buttons: buttonArray}),
   })
     .then(res => {
       if (!res.ok){
