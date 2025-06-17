@@ -66,8 +66,10 @@ function saveAllSpans(userName: string, spanArray: SpanElement[], pageStyle: Pag
     },
     body: JSON.stringify({
       userName,
-      elements: spanArray,
-      pageStyle: pageStyle
+      spans: {
+        elements: spanArray,
+        pageStyle: pageStyle
+      }
     }),
   })
     .then(res => {

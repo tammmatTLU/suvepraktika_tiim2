@@ -88,20 +88,20 @@ export default function EditableElement({ parameters, onEdit, gridEnabled, gridS
 
     const style = setForElements && pageStyle
   ? {
-      backgroundColor: parameters.type === 'button' ? pageStyle.btnBackgroundColor : pageStyle.spanBackgroundColor,
+      backgroundColor: parameters.type === 'button' ? pageStyle.btnBackgroundColor : '',
       color: parameters.type === 'button' ? pageStyle.btnColor : pageStyle.spanColor,
       fontFamily: parameters.type === 'button' ? pageStyle.btnFontFamily : pageStyle.spanFontFamily,
       fontSize: parameters.type === 'button' ? pageStyle.btnFontSize : pageStyle.spanFontSize,
       borderRadius: '5px',
-      boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+      boxShadow: parameters.type === 'button' ? '0 2px 4px rgba(0, 0, 0, 0.1)' : '',
     }
   : {
-      backgroundColor: parameters.backgroundColor,
+      backgroundColor: parameters.type === 'button' ? parameters.backgroundColor : '',
       color: parameters.color,
       fontFamily: parameters.fontFamily,
       fontSize: parameters.fontSize,
       borderRadius: '5px',
-      boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+      boxShadow: parameters.type === 'button' ? '0 2px 4px rgba(0, 0, 0, 0.1)' : '',
     };
 
     
