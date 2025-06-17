@@ -4,6 +4,8 @@ import { useDispatch } from 'react-redux';
 import { addButton as addButtonElement} from '../store/slices/buttonElementsSlice';
 import { addSpan as addSpanElement } from '../store/slices/spanElementsSlice';
 import SaveButton from "./SaveButton";
+import UndoButton from "./UndoButton";
+import RedoButton from "./RedoButton";
 
 
 export default function Toolbar({ gridEnabled, onGridToggle }: { gridEnabled: boolean, onGridToggle: () => void }) {
@@ -26,7 +28,8 @@ export default function Toolbar({ gridEnabled, onGridToggle }: { gridEnabled: bo
                 Grid snap
             </label>
             <SaveButton />
-
+            <UndoButton />
+            <RedoButton />
         </div>
     );
 }

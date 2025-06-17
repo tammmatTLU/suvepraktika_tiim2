@@ -16,10 +16,10 @@ export default function DeviceControlPage() {
         dispatch(loadSpanElements(userName));
     }, [dispatch, userName]);
 
-    const buttonElements = useAppSelector(state => state.buttonElements.elements);
-    const spanElements = useAppSelector(state => state.spanElements.elements);
-    const loading = useAppSelector(state => state.buttonElements.loading);
-    const error = useAppSelector(state => state.buttonElements.error);
+    const buttonElements = useAppSelector(state => state.undoableRoot.present.buttonElements.elements);
+    const spanElements = useAppSelector(state => state.undoableRoot.present.spanElements.elements);
+    const loading = useAppSelector(state => state.undoableRoot.present.buttonElements.loading);
+    const error = useAppSelector(state => state.undoableRoot.present.buttonElements.error);
 
      const allElements = [
         ...Object.values(buttonElements),

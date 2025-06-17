@@ -6,11 +6,11 @@ export default function SaveButton (){
     const { userName: userName = 'A-001' } = useParams<{ userName?: string }>();
 
     // 1. Get all button elements from Redux
-    const buttonElements = useAppSelector(state => state.buttonElements.elements);
+    const buttonElements = useAppSelector(state => state.undoableRoot.present.buttonElements.elements);
     const buttonArray = Object.values(buttonElements);
     
     // 1. Get all button elements from Redux
-    const spanElements = useAppSelector(state => state.spanElements.elements);
+    const spanElements = useAppSelector(state => state.undoableRoot.present.spanElements.elements);
     const spanArray = Object.values(spanElements);
 
     return(

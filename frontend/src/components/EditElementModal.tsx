@@ -19,8 +19,8 @@ export default function EditElementModal({
   const element =
     useSelector((state: any) =>
       type === 'button'
-        ? state.buttonElements.elements[id]
-        : state.spanElements.elements[id]
+        ? state.undoableRoot.present.buttonElements.elements[id]
+        : state.undoableRoot.present.spanElements.elements[id]
     ) || {};
 
   // Local state for editing
