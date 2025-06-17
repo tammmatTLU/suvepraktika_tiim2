@@ -46,7 +46,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $tokens;
 
     #[ORM\Column]
-    private array $reduxSpan = [];
+    private ?array $reduxSpan = [];
 
     public function __construct()
     {
@@ -189,6 +189,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $token->setUser(null);
             }
         }
+
         return $this;
     }
     public function serialize(): array
@@ -199,7 +200,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             'role' => $this->getRoles()
         ];
     }
-  
+
     public function getReduxSpan(): array
     {
         return $this->reduxSpan;
