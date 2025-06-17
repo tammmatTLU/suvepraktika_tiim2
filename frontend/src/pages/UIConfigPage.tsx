@@ -5,7 +5,8 @@ import EditPanel from '../components/EditPanel';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { loadElements } from '../store/slices/buttonElementsSlice';
+import { loadButtonElements, clearButtons } from '../store/slices/buttonElementsSlice';
+import {loadSpanElements, clearSpans} from '../store/slices/spanElementsSlice';
 
 export default function UIConfigPage(){
     const { userName: userName = 'A-001' } = useParams<{ userName?: string }>();
@@ -20,12 +21,15 @@ export default function UIConfigPage(){
     const error = useAppSelector(state => state.buttonElements.error);
 
     const allElements = [
-  ...Object.values(buttonElements),
-  ...Object.values(spanElements)
-];
+        ...Object.values(buttonElements),
+        ...Object.values(spanElements)
+    ];
 
     useEffect(() => {
-        dispatch(loadElements(userName));
+        dispatch(clearButtons());
+        dispatch(clearSpans());
+        dispatch(loadButtonElements(userName));
+        dispatch(loadSpanElements(userName));        
     }, [dispatch, userName]);
 
     if (loading) return <p>Loading devices...</p>;

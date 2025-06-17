@@ -1,17 +1,17 @@
-import DeviceToggle from '../components/DeviceToggle'
-import type { ButtonElement } from '../types/Element';
+import ControlElement from './ControlElement'
+import type { ButtonElement, SpanElement } from '../types/Element';
 
 interface ControlPanelProps {
-  elements: Record<number, ButtonElement>;
+   elements: Record<number, ButtonElement | SpanElement>;
 }
 
 export default function ControlPanel( { elements }: ControlPanelProps ) {
     
     return(
         <div className="control-panel">
-            {Object.values(elements).map((element: ButtonElement) => {
+            {Object.values(elements).map((element: ButtonElement | SpanElement) => {
                 return(
-                    <DeviceToggle key={element.id} parameters={element} />
+                    <ControlElement key={element.id} parameters={element} />
                 )
             })}
         </div>

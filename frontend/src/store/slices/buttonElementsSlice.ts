@@ -4,7 +4,7 @@ import type { ButtonElement } from '../../types/Element';
 
 // API thunk to load elements for a room
 
-export const loadElements = createAsyncThunk(
+export const loadButtonElements = createAsyncThunk(
   'buttonElements/loadElements',
   async (userName: string) => {
     const response = await fetch(`http://localhost:3006/api/user/${userName}/button-instances`);
@@ -39,6 +39,11 @@ const buttonElementsSlice = createSlice({
   name: 'buttonElements',
   initialState,
   reducers: {
+    clearButtons: (state) => {
+      state.elements = {};
+      state.loading = true;
+      state.error = null;
+    },
     setElements: (state, action: PayloadAction<ButtonElement[]>) => {
       state.elements = {};
       action.payload.forEach(el => {
@@ -84,19 +89,20 @@ const buttonElementsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(loadElements.pending, (state) => {
+      .addCase(loadButtonElements.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(loadElements.fulfilled, (state, action) => {
+      .addCase(loadButtonElements.fulfilled, (state, action) => {
         state.loading = false;
         state.error = null;
         state.elements = {};
         action.payload.forEach((el: ButtonElement) => {
           state.elements[el.id] = el;
         });
+        console.log("Loaded button elements:", state.elements);
       })
-      .addCase(loadElements.rejected, (state, action) => {
+      .addCase(loadButtonElements.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || 'Failed to load elements';
       });
@@ -110,6 +116,7 @@ export const {
   setPosition,
   setSize,
   deleteButton,
+  clearButtons,
 } = buttonElementsSlice.actions;
 
 export default buttonElementsSlice.reducer;

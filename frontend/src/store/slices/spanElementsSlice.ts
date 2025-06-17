@@ -1,41 +1,46 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import type { SpanElement } from '../../types/Element';
+import { createAsyncThunk } from '@reduxjs/toolkit';
 
 interface SpanElementsState {
   elements: Record<number, SpanElement>;
+  loading: boolean;
+  error: string | null;
 }
 
+export const loadSpanElements = createAsyncThunk(
+  'spanElements/loadElements',
+    async (userName: string) => {
+      try {
+      const response = await fetch(`http://localhost:3006/api/user/${userName}/redux-span`);
+      const result = await response.json();
+      console.log(result.data)
+      const spanElementsArray = result.data.reduxSpan.map((item: any) => {
+        return {
+          ...item,
+        };
+      });
+      return spanElementsArray;
+    } catch (error) {
+      console.error('Error loading span elements:', error);
+    }
+  }
+);
+
 const initialState: SpanElementsState = { 
-    elements: {
-    1: {
-      id: 1,
-      name: 'Title',
-      type: 'span',
-      position: { x: 100, y: 50 },
-      size: { width: 300, height: 50 },
-      fontSize: 24,
-      fontFamily: 'Arial',
-      color: '#000000',
-      backgroundColor: '#FFFFFF'
-    },
-    2: {
-      id: 2,
-      name: 'Subtitle',
-      type: 'span',
-      position: { x: 100, y: 120 },
-      size: { width: 300, height: 30 },
-      fontSize: 18,
-      fontFamily: 'Arial',
-      color: '#333333',
-      backgroundColor: '#FFFFFF'
-    } 
-}};
+    elements: {},
+    loading: false,
+    error: null,
+  };
 
 const spanElementsSlice = createSlice({
   name: 'spanElements',
   initialState,
   reducers: {
+    clearSpans: (state) => {
+      state.elements = {};
+    },
     setSpans(state, action: PayloadAction<SpanElement[]>) {
       state.elements = {};
       action.payload.forEach(span => { state.elements[span.id] = span; });
@@ -106,7 +111,28 @@ const spanElementsSlice = createSlice({
       }
     },
   },
+  extraReducers: (builder) => {
+    builder
+      .addCase(loadSpanElements.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(loadSpanElements.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = null;
+        state.elements = {};
+        action.payload.forEach((el: SpanElement) => {
+          console.log(el)
+          state.elements[el.id] = el;
+        });
+        console.log("Loaded span elements:", state.elements);
+      })
+      .addCase(loadSpanElements.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message || 'Failed to load elements';
+      });
+  },
 });
 
-export const { setSpans, updateSpan, setPosition, setSize, addSpan, deleteSpan } = spanElementsSlice.actions;
+export const { setSpans, updateSpan, setPosition, setSize, addSpan, deleteSpan, clearSpans } = spanElementsSlice.actions;
 export default spanElementsSlice.reducer;

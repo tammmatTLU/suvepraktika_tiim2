@@ -12,6 +12,7 @@ type EditableElementProps = {
     gridSize: [number, number];
 }
 
+
 export default function EditableElement({ parameters, onEdit, gridEnabled, gridSize}: EditableElementProps){
     const dispatch = useDispatch();
     const handleButtonDragStop = (_e: any, d: any) => {
@@ -20,7 +21,6 @@ export default function EditableElement({ parameters, onEdit, gridEnabled, gridS
             position: { x: d.x, y: d.y }
         }));
     };
-    console.log("gridEnabled: " + gridEnabled + "gridSize: " + gridSize)
     const handleButtonResizeStop = (
         _e: any,
         _direction: any,

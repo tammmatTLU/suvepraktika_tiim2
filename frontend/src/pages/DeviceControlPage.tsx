@@ -3,19 +3,28 @@ import BackButton from '../components/BackButton';
 import ControlPanel from '../components/ControlPanel';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { loadElements } from '../store/slices/buttonElementsSlice';
+import { loadButtonElements, clearButtons } from '../store/slices/buttonElementsSlice';
+import { loadSpanElements, clearSpans} from '../store/slices/spanElementsSlice';
 
 export default function DeviceControlPage() {
     const { userName: userName = 'A-001' } = useParams<{ userName?: string }>();
-
     const dispatch = useAppDispatch();
-    const elements = useAppSelector(state => state.buttonElements.elements);
+    useEffect(() => {
+        dispatch(clearButtons());
+        dispatch(clearSpans());
+        dispatch(loadButtonElements(userName));
+        dispatch(loadSpanElements(userName));
+    }, [dispatch, userName]);
+
+    const buttonElements = useAppSelector(state => state.buttonElements.elements);
+    const spanElements = useAppSelector(state => state.spanElements.elements);
     const loading = useAppSelector(state => state.buttonElements.loading);
     const error = useAppSelector(state => state.buttonElements.error);
 
-    useEffect(() => {
-        dispatch(loadElements(userName));
-    }, [dispatch, userName]);
+     const allElements = [
+        ...Object.values(buttonElements),
+        ...Object.values(spanElements)
+    ];
 
     if (loading) return <p>Loading devices...</p>;
     if (error) return <p>Error: {error}</p>;
@@ -26,7 +35,7 @@ export default function DeviceControlPage() {
                 <h1>{userName}</h1>
                 <BackButton />
             </header>
-            <ControlPanel elements={elements} />
+            <ControlPanel elements={allElements} />
         </div>
     );
 }

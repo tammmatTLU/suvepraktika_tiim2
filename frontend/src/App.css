@@ -34,6 +34,7 @@ body{
     justify-items: center;
     align-items: center;
     gap: 10px;
+    position: relative;
 }
 
 .control-panel > div button{
