@@ -13,10 +13,10 @@ export const loadButtonElements = createAsyncThunk(
     // result.data is an array of objects with reduxState as a string
     // Parse reduxState and extract ButtonElement, add templateId
     const buttonElementsArray = result.data.map((item: any) => {
+      console.log(item.redux_state)
       const parsed = JSON.parse(item.redux_state);
       return {
-        ...parsed.ButtonElement,
-        templateId: item.button_template_id,
+        ...parsed
       };
     });
     return buttonElementsArray;
