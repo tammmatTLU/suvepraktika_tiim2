@@ -9,9 +9,10 @@ export default function RedoButton() {
   return (
     <button
       onClick={handleRedo}
-      className="redo-button"
+      className="redo-button toolbar-button"
+      title="Redo nupp"
     >
-      Redo
+      &#8618;
     </button>
   );
 }

@@ -19,7 +19,7 @@ export default function SaveButton (){
             saveAllButtons(userName, buttonArray);
             saveAllSpans(userName, spanArray);
         }}
-        className="save-btn"
+        className="save-btn toolbar-button"
         >
             Salvesta
         </button>

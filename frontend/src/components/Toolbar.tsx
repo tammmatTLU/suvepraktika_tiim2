@@ -19,17 +19,19 @@ export default function Toolbar({ gridEnabled, onGridToggle }: { gridEnabled: bo
             {modalAction && (
                 <ToolbarModal action={modalAction} onClose={() => setModalAction(null)} />
             )}
-            <label>
+            
+            <SaveButton />
+            <UndoButton />
+            <RedoButton />
+            <label className="grid-toggle-label">
                 <input
                 type="checkbox"
+                className="grid-toggle"
                 checked={gridEnabled}
                 onChange={onGridToggle}
                 />
                 Grid snap
             </label>
-            <SaveButton />
-            <UndoButton />
-            <RedoButton />
         </div>
     );
 }
