@@ -1,5 +1,5 @@
 import { useAppSelector } from '../store/hooks';
-import { data, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import type { SpanElement, ButtonElement } from '../types/Element';
 
 export default function SaveButton (){
@@ -16,7 +16,7 @@ export default function SaveButton (){
     return(
         <button
         onClick={() => {
-            //saveAllButtons(userName, buttonArray);
+            saveAllButtons(userName, buttonArray);
             saveAllSpans(userName, spanArray);
         }}
         className="save-btn"
@@ -38,7 +38,10 @@ function saveAllButtons(userName: string, buttonArray: ButtonElement[]){
     body: JSON.stringify({ buttons: buttonArray }),
   })
     .then(res => {
-      if (!res.ok) throw new Error('Failed to save buttons');
+      if (!res.ok){
+        console.log(res);
+        throw new Error('Failed to save buttons');
+      }
       return res.json();
     })
     .then(data => {
