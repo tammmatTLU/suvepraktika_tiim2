@@ -64,4 +64,14 @@ class ButtonInstance
 
         return $this;
     }
+
+    public function serialize(): array
+    {
+        return [
+            'id' => $this->getId(),
+            'redux_state' => $this->getReduxState(),
+            'user_id' => $this->getUser()?->getId(),
+            'button_template_id' => $this->getButtonTemplate()?->getId()
+        ];
+    }
 }

@@ -19,19 +19,39 @@ final class ButtonInstanceController extends AbstractController
     {
         $buttonInstances = $this->buttonInstanceRepository->findAll();
 
+        if (empty($buttonInstances)){
+            return new JsonResponse ([
+                'error' => [
+                    'message' => 'No button instances found'
+                ]
+            ],204);
+        }
+
+        $data = array_map(function($buttonInstance) {
+            return $buttonInstance->serialize();
+        }, $buttonInstances);
+
         return new JsonResponse([
-            'data' => $buttonInstances,
-            'status' => 200
-        ]);
+            'data' => $data,
+        ], 200);
     }
 
     public function findButtonInstanceById(int $id): JsonResponse
     {
         $buttoninstance = $this->buttonInstanceRepository->find($id);
+        
+        if (!$buttonInstance){
+            return new JsonResponse ([
+                'error' => [
+                    'message' => 'No button instance found'
+                ]
+            ],204);
+        }
+
+        $data = $buttonInstance->serialize();
 
         return new JsonResponse([
-            'data' => $buttoninstance,
-            'status' => 200
-        ]);
+            'data' => $data,
+        ], 200);
     }
 }

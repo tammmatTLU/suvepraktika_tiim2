@@ -18,27 +18,40 @@ class GroupInstanceController extends AbstractController
     public function findAllGroupInstances(): JsonResponse
     {
         $groupInstances = $this->groupInstanceRepository->findAll();
+
+        if (empty($groupInstances)){
+            return new JsonResponse ([
+                'error' => [
+                    'message' => 'No group instances found'
+                ]
+            ],204);
+        }
+
         $data = array_map(function($groupInstance) {
-            return [
-                'id' => $groupInstance->getId(),
-                'status' => $groupInstance->getStatus(),
-                'type' => $groupInstance->getType()
-            ];
-    }, $groupInstances);
+            return $groupInstance->serialize();
+        }, $groupInstances);
 
         return new JsonResponse([
             'data' => $data,
-            'status' => 200
-        ]);
+        ], 200);
     }
 
     public function findGroupInstanceById(int $id): JsonResponse
     {
         $groupInstance = $this->groupInstanceRepository->find($id);
 
+        if (!$groupInstance){
+            return new JsonResponse ([
+                'error' => [
+                    'message' => 'No group instance found'
+                ]
+            ], 204);
+        }
+
+        $data = $groupInstance->serialize();
+
         return new JsonResponse([
-            'data' => $groupInstance,
-            'status' => 200
-        ]);
+            'data' => $data,
+        ], 200);
     }
 }

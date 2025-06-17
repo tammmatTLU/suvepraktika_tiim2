@@ -19,25 +19,39 @@ class BelongsController extends AbstractController
     {
         $belongs = $this->belongsRepository->findAll();
 
-        $data = array_map(function($belong) {
-            return [
-                'id' => $belong->getId(),
-            ];
-    }, $belongs);
+        if(empty($belongs)){
+            return new JsonResponse ([
+                'error' => [
+                    'message' => 'No data found'
+                ]
+            ],204);
+        }
 
-        return $this-> Json([
+        $data = array_map(function($belongs) {
+            return $belongs->serialize();
+        }, $belongs);
+
+        return new JsonResponse([
             'data' => $data,
-            'status' => 200
-        ]);
+        ], 200);
     }
 
     public function findBelongsById(int $id): JsonResponse
     {
         $belongs = $this->belongsRepository->find($id);
 
+        if(!$belongs){
+            return new JsonResponse ([
+                'error' => [
+                    'message' => 'No data found'
+                ]
+            ],204);
+        }
+
+        $data = $belongs->serialize();
+
         return new JsonResponse([
-            'data' => $belongs,
-            'status' => 200
-        ]);
+            'data' => $data,
+        ], 200);
     }
 }

@@ -122,7 +122,6 @@ class ButtonTemplate
     public function removeButtonInstance(ButtonInstance $buttonInstance): static
     {
         if ($this->buttonInstances->removeElement($buttonInstance)) {
-            // set the owning side to null (unless already changed)
             if ($buttonInstance->getButtonTemplate() === $this) {
                 $buttonInstance->setButtonTemplate(null);
             }
@@ -141,5 +140,15 @@ class ButtonTemplate
         $this->room = $room;
 
         return $this;
+    }
+
+    public function serialize(): array
+    {
+        return [
+            'id' => $this->getId(),
+            'command' => $this->getCommand(),
+            'name' => $this->getName(),
+            'room_id' => $this->getRoom()?->getId()
+        ];
     }
 }

@@ -18,27 +18,40 @@ class ButtonGroupController extends AbstractController
     public function findAllButtonGroups(): JsonResponse
     {
         $buttonGroups = $this->buttonGroupRepository->findAll();
+
+        if (empty($buttonGroups)){
+            return new JsonResponse ([
+                'error' => [
+                    'message' => 'No button groups found'
+                ]
+            ],204);
+        }
+
         $data = array_map(function($buttonGroup) {
-            return [
-                'id' => $buttonGroup->getId(),
-                'status' => $buttonGroup->getStatus(),
-                'type' => $buttonGroup->getType()
-            ];
-    }, $buttonGroups);
+            return $buttonGroup->serialize();
+        }, $buttonGroups);
 
         return new JsonResponse([
             'data' => $data,
-            'status' => 200
-        ]);
+        ],200);
     }
 
     public function findButtonGroupById(int $id): JsonResponse
     {
         $buttonGroup = $this->buttonGroupRepository->find($id);
 
+        if(!$buttonGroup){
+            return new JsonResponse ([
+                'error' => [
+                    'message' => 'No button group found'
+                ]
+            ],204);
+        }
+
+        $data = $buttonGroup->serialize();
+
         return new JsonResponse([
-            'data' => $buttonGroup,
-            'status' => 200
-        ]);
+            'data' => $data,
+        ], 200);
     }
 }

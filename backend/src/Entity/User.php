@@ -45,6 +45,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Token::class, mappedBy: 'user', orphanRemoval: true)]
     private Collection $tokens;
 
+    #[ORM\Column]
+    private array $reduxSpan = [];
+
     public function __construct()
     {
         $this->buttonInstances = new ArrayCollection();
@@ -107,7 +110,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeButtonInstance(ButtonInstance $buttonInstance): static
     {
         if ($this->buttonInstances->removeElement($buttonInstance)) {
-            // set the owning side to null (unless already changed)
             if ($buttonInstance->getUser() === $this) {
                 $buttonInstance->setUser(null);
             }
@@ -137,7 +139,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeGroupInstance(GroupInstance $groupInstance): static
     {
         if ($this->groupInstances->removeElement($groupInstance)) {
-            // set the owning side to null (unless already changed)
             if ($groupInstance->getUser() === $this) {
                 $groupInstance->setUser(null);
             }
@@ -188,6 +189,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $token->setUser(null);
             }
         }
+
+    public function serialize(): array
+    {
+        return [
+            'id' => $this->getId(),
+            'name' => $this->getName(),
+            'role' => $this->getRoles()
+        ];
+    }
+  
+    public function getReduxSpan(): array
+    {
+        return $this->reduxSpan;
+    }
+
+    public function setReduxSpan(array $reduxSpan): static
+    {
+        $this->reduxSpan = $reduxSpan;
 
         return $this;
     }

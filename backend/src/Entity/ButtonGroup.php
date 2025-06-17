@@ -74,7 +74,6 @@ class ButtonGroup
     public function removeGroupInstance(GroupInstance $groupInstance): static
     {
         if ($this->groupInstance->removeElement($groupInstance)) {
-            // set the owning side to null (unless already changed)
             if ($groupInstance->getButtonGroup() === $this) {
                 $groupInstance->setButtonGroup(null);
             }
@@ -104,12 +103,19 @@ class ButtonGroup
     public function removeBelong(Belongs $belong): static
     {
         if ($this->belongs->removeElement($belong)) {
-            // set the owning side to null (unless already changed)
             if ($belong->getButtonGroup() === $this) {
                 $belong->setButtonGroup(null);
             }
         }
 
         return $this;
+    }
+
+    public function serialize(): array
+    {
+        return [
+            'id' => $this->getId(),
+            'name' => $this->getName(),
+        ];
     }
 }
