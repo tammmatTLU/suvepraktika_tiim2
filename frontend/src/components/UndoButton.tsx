@@ -9,9 +9,10 @@ export default function UndoButton() {
   return (
     <button
       onClick={handleUndo}
-      className="undo-button"
+      className="undo-button toolbar-button"
+      title="Undo nupp"
     >
-      Undo
+      &#x21A9;
     </button>
   );
 }

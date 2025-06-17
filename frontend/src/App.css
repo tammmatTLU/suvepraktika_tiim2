@@ -241,3 +241,38 @@ header{
     linear-gradient(to right, #ccc 1px, transparent 1px),
     linear-gradient(to bottom, #ccc 1px, transparent 1px);
 }
+
+.undo-button {
+    font-size: 20px;
+}
+
+.redo-button {
+    font-size: 20px;
+}
+
+.toolbar-button {
+    padding: 10px;
+    margin-left: 5px;
+    margin-right: 5px;
+    border-radius: 5px;
+    background-color: #f0f0f0;
+    border: 1px solid #1d1d1d;
+    cursor: pointer;
+}
+
+.save-btn {
+    background-color: rgba(102, 226, 102, 0.705);
+}
+
+.grid-toggle-label {
+    font-size: 20px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.grid-toggle {
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+}
