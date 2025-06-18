@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom";
-import BackButton from "../components/BackButton";
+import LogoutButton from "../components/LogoutButton";
 
 export default function ActionSelectPage() {
     return (
         <div className="grid-layout">
             <header>
                 <h1>Vali tegevus</h1>
-                <BackButton /> {/*Siia tuleb log out nupp */}
+                <LogoutButton /> {/*Siia tuleb log out nupp */}
             </header>
             <div className="form-group">
                 <Link to="/room-selection/device-control">
