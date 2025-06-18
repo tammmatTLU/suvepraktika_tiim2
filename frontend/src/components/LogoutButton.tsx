@@ -4,8 +4,8 @@ export default function LogoutButton() {
   };
 
   return (
-    <button onClick={handleLogout} className="logout-button">
-      Logout
+    <button onClick={handleLogout} className="logout-btn">
+      Logi välja
     </button>
   );
 }
