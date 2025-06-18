@@ -45,7 +45,7 @@ export default function ControlElement({ parameters, pageStyle, setForElements}:
 
     if(parameters.type === 'button') {
         const handleClick = () => {
-            fetch('http://localhost:3006/api/test/lights',{
+            fetch(`http://localhost:3006/api/test/lights?templateId=${parameters.templateId}`,{
                 method: 'POST'
             })
             .then(res => res.json())

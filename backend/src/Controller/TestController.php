@@ -2,12 +2,35 @@
 
 namespace App\Controller;
 
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use App\Repository\ButtonTemplateRepository;
 
-class TestController
+
+class TestController extends AbstractController
 {
-    public function testPositiveOutput(): JsonResponse
+    private ButtonTemplateRepository $buttonTemplateRepository;
+
+    public function __construct(ButtonTemplateRepository $buttonTemplateRepository)
     {
+        $this->buttonTemplateRepository = $buttonTemplateRepository;
+    }
+    
+    public function testPositiveOutput(Request $request): JsonResponse
+    {
+
+        $templateId = $request->query->get('templateId');
+        if (!$templateId) {
+            return new JsonResponse(['error' => 'Missing templateId'], 400);
+        }
+
+        $buttonTemplate = $this->buttonTemplateRepository->find($templateId);
+        if (!$buttonTemplate) {
+            return new JsonResponse(['error' => 'ButtonTemplate not found'], 404);
+        }
+        
+        $command = $buttonTemplate->getCommand();
         $script = dirname(__DIR__) . '/Scripts/Lights.sh';
 
         if (!file_exists($script)) {
@@ -18,7 +41,7 @@ class TestController
             return new JsonResponse(['error' => 'Script not executable', 'path' => $script], 500);
         }
 
-        exec($script . ' 2>&1', $output, $exitCode);
+        exec("$script $command 2>&1", $output, $exitCode);
 
         return new JsonResponse([
             'output' => $output,

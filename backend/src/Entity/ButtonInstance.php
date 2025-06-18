@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 class ButtonInstance
 {
     #[ORM\Id]
-    #[ORM\Column]
+    #[ORM\Column(type: 'bigint')]
     #[ORM\GeneratedValue(strategy:'NONE')]
     private ?int $id = null;
 
