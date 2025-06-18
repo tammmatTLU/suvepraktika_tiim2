@@ -44,9 +44,22 @@ export default function ControlElement({ parameters, pageStyle, setForElements}:
         };
 
     if(parameters.type === 'button') {
+        const handleClick = () => {
+            fetch(`http://localhost:3006/api/test/lights?templateId=${parameters.templateId}`,{
+                method: 'POST'
+            })
+            .then(res => res.json())
+            .then(data => {
+                alert('lights script output: ' + (data.output ? data.output.join('\n'):'no output'));
+            })
+            .catch(err=>{
+                alert('error: '+ err.message)
+            });
+        };
         return (
             <button
                 style={style}
+                onClick={handleClick}
             >
                 {parameters.name}
             </button>
