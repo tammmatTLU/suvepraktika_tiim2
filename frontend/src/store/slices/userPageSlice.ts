@@ -73,6 +73,21 @@ const spanElementsSlice = createSlice({
   reducers: {
     clearSpans: (state) => {
       state.elements = {};
+      state.pageStyle = {
+        backgroundColor: '#FFFFFF',
+        fontFamily: 'Arial',
+        fontSize: 16,
+        color: '#000000',
+        setForElements: false,
+        btnBackgroundColor: '#F0F0F0',
+        btnColor: '#000000',
+        btnFontFamily: 'Arial',
+        btnFontSize: 14,
+        spanBackgroundColor: '#FFFFFF',
+        spanColor: '#000000',
+        spanFontFamily: "Arial",
+        spanFontSize: 12
+      }
     },
     setSpans(state, action: PayloadAction<SpanElement[]>) {
       state.elements = {};

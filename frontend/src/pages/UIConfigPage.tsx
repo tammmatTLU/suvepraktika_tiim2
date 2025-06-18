@@ -17,28 +17,17 @@ export default function UIConfigPage() {
 
     const pageStyle = useAppSelector(state => state.undoableRoot.present.userPage.pageStyle);
     useEffect(() => {
+        dispatch(clearButtons());
+        dispatch(clearSpans());
+        dispatch(loadUserPageState(userName)); 
+        dispatch(loadButtonElements(userName));
         // Set CSS variables when this page is mounted
         document.documentElement.style.setProperty('--page-bg', pageStyle.backgroundColor);
         document.documentElement.style.setProperty('--page-font', pageStyle.fontFamily);
         document.documentElement.style.setProperty('--page-font-size', `${pageStyle.fontSize}px`);
         document.documentElement.style.setProperty('--page-color', pageStyle.color);
 
-        // Optional: Reset to defaults on unmount
-        return () => {
-        document.documentElement.style.setProperty('--page-bg', '#FFFFFF');
-        document.documentElement.style.setProperty('--page-font', 'Arial, sans-serif');
-        document.documentElement.style.setProperty('--page-font-size', '16px');
-        document.documentElement.style.setProperty('--page-color', '#000000');
-        };
-    }, [pageStyle]);
-
-    useEffect(() => {
-        dispatch(clearButtons());
-        dispatch(clearSpans());
-        dispatch(loadUserPageState(userName)); 
-        dispatch(loadButtonElements(userName));
-               
-    }, [dispatch, userName]);
+    }, [pageStyle, dispatch, userName]);
 
     const buttonElements = useAppSelector(state => state.undoableRoot.present.buttonElements.elements);
     const spanElements = useAppSelector(state => state.undoableRoot.present.userPage.elements);

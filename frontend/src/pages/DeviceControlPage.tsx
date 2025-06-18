@@ -13,20 +13,17 @@ export default function DeviceControlPage() {
     const pageStyle = useAppSelector(state => state.undoableRoot.present.userPage.pageStyle);
 
     useEffect(() => {
-        // Set CSS variables when this page is mounted
-        document.documentElement.style.setProperty('--page-bg', pageStyle.backgroundColor);
-        document.documentElement.style.setProperty('--page-font', pageStyle.fontFamily);
-        document.documentElement.style.setProperty('--page-font-size', `${pageStyle.fontSize}px`);
-        document.documentElement.style.setProperty('--page-color', pageStyle.color);
-    }, [pageStyle]);
-
-    useEffect(() => {
         dispatch(clearButtons());
         dispatch(clearSpans());
         dispatch(loadUserPageState(userName));
         dispatch(loadButtonElements(userName));
-        
-    }, [dispatch, userName]);
+        // Set CSS variables when this page is mounted
+        document.documentElement.style.setProperty('--page-bg', pageStyle.backgroundColor);
+        document.documentElement.style.setProperty('--page-font', pageStyle.fontFamily);
+        document.documentElement.style.setProperty('--page-font-size', `${pageStyle.fontSize}px`);
+        document.documentElement.style.setProperty('--page-color', pageStyle.color);      
+    }, [dispatch, userName, pageStyle]);
+
 
     const buttonElements = useAppSelector(state => state.undoableRoot.present.buttonElements.elements);
     const spanElements = useAppSelector(state => state.undoableRoot.present.userPage.elements);
