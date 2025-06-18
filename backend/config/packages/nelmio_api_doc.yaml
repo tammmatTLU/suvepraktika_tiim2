@@ -30,7 +30,7 @@ nelmio_api_doc:
                                                     "data": "User registered successfully",
                                                 }
                         400:
-                            description: "Missing or invalid credentials"
+                            description: "Missing/invalid credentials or passwords don't match"
                             content:
                                 application/json:
                                     examples:
@@ -394,9 +394,9 @@ nelmio_api_doc:
                             description: "No data from belongs table found"
                         default:
                             description: "unexpected error"
-            
 
-            
+
+
     areas: # to filter documented areas
         path_patterns:
             - ^/api(?!/doc$) # Accepts routes under /api except /api/doc

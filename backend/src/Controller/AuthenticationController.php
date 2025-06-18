@@ -35,8 +35,15 @@ class AuthenticationController extends AbstractController
     {
         $username = $request->getPayload()->getString('username');
         $password = $request->getPayload()->getString('password');
+        $passwordAgain = $request->getPayload()->getString('passwordAgain');
 
-        if (!trim($username) || !trim($password)) {
+        if (!trim($username) || !trim($password) || !trim($passwordAgain)) {
+            return new JsonResponse([
+                'data' => 'Invalid credentials'
+            ], Response::HTTP_BAD_REQUEST);
+        }
+
+        if ($password !== $passwordAgain) {
             return new JsonResponse([
                 'data' => 'Invalid credentials'
             ], Response::HTTP_BAD_REQUEST);
