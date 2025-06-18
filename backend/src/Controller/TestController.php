@@ -3,20 +3,19 @@
 namespace App\Controller;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Routing\Annotation\Route;
 
 class TestController
 {
-    public function test(): JsonResponse
+    public function testPositiveOutput(): JsonResponse
     {
-        $script = dirname(__DIR__, 2) . '/scripts/lights.sh';
+        $script = dirname(__DIR__) . '/Scripts/Lights.sh';
 
         if (!file_exists($script)) {
-            return new JsonResponse(['error' => 'Script not found'], 404);
+            return new JsonResponse(['error' => 'Script not found', 'path' => $script], 404);
         }
 
         if (!is_executable($script)) {
-            return new JsonResponse(['error' => 'Script not executable'], 500);
+            return new JsonResponse(['error' => 'Script not executable', 'path' => $script], 500);
         }
 
         exec($script . ' 2>&1', $output, $exitCode);

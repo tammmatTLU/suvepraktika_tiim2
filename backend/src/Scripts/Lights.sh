@@ -1,4 +1,6 @@
-!#bin/bash
+#!/bin/bash
 
-exho 'lights turned on'
+COMMAND="$1"
+
+echo 'lights turned on'
 exit 1

@@ -374,6 +374,14 @@ nelmio_api_doc:
                             description: "No button instance found"
                         default:
                             description: "unexpected error"
+            /api/user/{userName}/button-instances/save:
+                post:
+                    summary: "save a buttons instances"
+                    responses:
+                        200:
+                            description: "Returns all buttons connected to user"
+                        
+
             /api/belongs:
                 get:
                     summary: "Find all data stored in belongs table"
