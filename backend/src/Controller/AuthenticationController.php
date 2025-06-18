@@ -92,12 +92,12 @@ class AuthenticationController extends AbstractController
             ], Response::HTTP_UNAUTHORIZED);
         }
 
-        $tokenService = new TokenService();
+        $tokenService = new TokenService($this->tokenRepository);
         $userToken = $request->getPayload()->getString('userToken');
         $isVerified = $tokenService->verify($user, $userToken);
 
         if (!trim($userToken) | !$isVerified) {
-            $tokenService = new TokenService();
+            $tokenService = new TokenService($this->tokenRepository);
             $generatedToken = $tokenService->generate();
 
             if ($generatedToken === null) {
@@ -112,6 +112,7 @@ class AuthenticationController extends AbstractController
 
             $entityManager->persist($token);
             $entityManager->flush();
+            $user->addToken($token);
 
             return new JsonResponse([
                 'username' => $user->getUserIdentifier(),
@@ -125,11 +126,18 @@ class AuthenticationController extends AbstractController
         ], Response::HTTP_OK);
     }
 
-    public function logout(Security $security, EntityManagerInterface $entityManager, Request $request): JsonResponse
+    public function logout(
+        Security $security,
+        EntityManagerInterface $entityManager,
+        Request $request
+    ): JsonResponse
     {
         $token = $this->tokenRepository->findOneBy(
             ['value' => $request->getPayload()->getString('userToken')]
         );
+
+        $user = $security->getUser();
+        $user->removeToken($token);
 
         if (!$token) {
             return new JsonResponse([
@@ -154,17 +162,21 @@ class AuthenticationController extends AbstractController
         $user = $security->getUser();
         $token = $request->getPayload()->getString('userToken');
 
-        $tokenService = new TokenService();
+        $tokenService = new TokenService($this->tokenRepository);
         $isVerified = $tokenService->verify($user, $token);
+        $isAdmin = in_array("ROLE_ADMIN", $user->getRoles());
+
 
         if (!$isVerified) {
             return new JsonResponse([
-                'data' => 'Token not authentic'
+                'data' => 'Token not authentic',
+                'token' => $token,
             ], Response::HTTP_UNAUTHORIZED);
         }
 
         return new JsonResponse([
-            'data' => 'Token is authentic'
+            'data' => 'Token is authentic',
+            'isAdmin' => $isAdmin,
         ], Response::HTTP_OK);
     }
 }
