@@ -37,12 +37,14 @@ export const loadButtonElements = createAsyncThunk(
 interface ButtonElementsState {
   elements: Record<number, ButtonElement>;
   loading: boolean;
+  loaded: boolean;
   error: string | null;
 }
 
 const initialState: ButtonElementsState = {
   elements: {},
   loading: false,
+  loaded: false,
   error: null,
 };
 
@@ -97,6 +99,11 @@ const buttonElementsSlice = createSlice({
     deleteButton: (state, action: PayloadAction<number>) => {
       delete state.elements[action.payload];
     },
+    resetLoaded: (state) => {
+      state.loaded = false;
+      state.loading = false;
+      state.error = null;
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -106,6 +113,7 @@ const buttonElementsSlice = createSlice({
       })
       .addCase(loadButtonElements.fulfilled, (state, action) => {
         state.loading = false;
+        state.loaded = true;
         state.error = null;
         state.elements = {};
         action.payload.forEach((button: ButtonElement) => {
@@ -128,6 +136,7 @@ export const {
   setSize,
   deleteButton,
   clearButtons,
+  resetLoaded
 } = buttonElementsSlice.actions;
 
 export default buttonElementsSlice.reducer;

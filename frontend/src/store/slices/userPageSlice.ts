@@ -7,6 +7,7 @@ interface UserPageState {
   elements: Record<number, SpanElement>;
   pageStyle: PageStyle;
   loading: boolean;
+  loaded: boolean;
   error: string | null;
 }
 
@@ -63,6 +64,7 @@ const initialState: UserPageState = {
       spanFontFamily: "Arial",
       spanFontSize: 12  
     },
+    loaded: false,
     loading: false,
     error: null,
   };
@@ -170,6 +172,11 @@ const spanElementsSlice = createSlice({
         state.pageStyle.setForElements = action.payload;
       }
     },
+    resetLoaded: (state) => {
+      state.loaded = false;
+      state.loading = false;
+      state.error = null;
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -187,13 +194,26 @@ const spanElementsSlice = createSlice({
           });
         }
         console.log("Loaded span elements:", state.elements);
+        state.loaded = true;
       })
       .addCase(loadUserPageState.rejected, (state, action) => {
         state.loading = false;
+        state.loaded = true;
         state.error = action.error.message || 'Failed to load elements';
       });
   },
 });
 
-export const { setSpans, updateSpan, setPosition, setSize, addSpan, deleteSpan, clearSpans, setPageStyle, setSetForElements } = spanElementsSlice.actions;
+export const {
+  setSpans,
+  updateSpan,
+  setPosition,
+  setSize,
+  addSpan,
+  deleteSpan,
+  clearSpans,
+  setPageStyle,
+  setSetForElements,
+  resetLoaded
+} = spanElementsSlice.actions;
 export default spanElementsSlice.reducer;

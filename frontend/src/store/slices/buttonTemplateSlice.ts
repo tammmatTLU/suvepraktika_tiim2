@@ -27,12 +27,14 @@ export const loadButtonTemplates = createAsyncThunk(
 interface ButtonTemplateState {
   elements: Record<number, ButtonTemplate>;
   loading: boolean;
+  loaded: boolean;
   error: string | null;
 }
 
 const initialState: ButtonTemplateState = {
   elements: {},
   loading: false,
+  loaded: false,
   error: null,
 };
 
@@ -45,6 +47,11 @@ const buttonTemplateSlice = createSlice({
       state.loading = false;
       state.error = null;
     },
+    resetLoaded: (state) => {
+      state.loaded = false;
+      state.loading = false;
+      state.error = null;
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -54,6 +61,7 @@ const buttonTemplateSlice = createSlice({
       })
       .addCase(loadButtonTemplates.fulfilled, (state, action) => {
         state.loading = false;
+        state.loaded = true;
         state.elements = action.payload.reduce((acc, element) => {
           acc[element.id] = element;
           return acc;
@@ -68,6 +76,7 @@ const buttonTemplateSlice = createSlice({
 
 export const {
   clearTemplates,
+  resetLoaded
 } = buttonTemplateSlice.actions;
 
 export default buttonTemplateSlice.reducer;
