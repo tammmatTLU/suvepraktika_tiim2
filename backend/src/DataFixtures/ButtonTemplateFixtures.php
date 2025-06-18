@@ -11,10 +11,10 @@ use Faker\Factory;
 class ButtonTemplateFixtures extends Fixture implements DependentFixtureInterface
 {
     private const BUTTON_CONFIGS = [
-        ['name' => 'Power On', 'command' => 'on'],
-        ['name' => 'Power Off', 'command' => 'off'],
-        ['name' => 'Power On', 'command' => 'on'],
-        ['name' => 'Power Off', 'command' => 'off'],
+        ['name' => 'Power On lights', 'command' => 'on'],
+        ['name' => 'Power Off lights', 'command' => 'off'],
+        ['name' => 'Power On projector', 'command' => 'on'],
+        ['name' => 'Power Off projector', 'command' => 'off'],
 
     ];
 

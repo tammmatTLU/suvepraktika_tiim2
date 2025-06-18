@@ -1,3 +1,4 @@
+import { useState } from "react";
 import '../App.css'
 import type { ButtonElement, SpanElement, PageStyle } from '../types/Element';
 
@@ -9,6 +10,8 @@ type ControlElementProps = {
 }
 
 export default function ControlElement({ parameters, pageStyle, setForElements}: ControlElementProps){
+    const [streamMessages, setStreamMessages] = useState<string[]>([]);
+    const [streaming, setStreaming] = useState(false);
 
     const style = setForElements && pageStyle
         ? {
@@ -45,16 +48,39 @@ export default function ControlElement({ parameters, pageStyle, setForElements}:
 
     if(parameters.type === 'button') {
         const handleClick = () => {
-            fetch(`http://localhost:3006/api/test/lights?templateId=${parameters.templateId}`,{
-                method: 'POST'
+            setStreamMessages([]);
+            setStreaming(false);
+
+            const es = new EventSource(`http://localhost:3006/api/execute-command?templateId=${parameters.templateId}`);
+            let gotMessage = false;
+
+            es.onmessage = (event) => {
+                gotMessage = true;
+                setStreamMessages( prev => [...prev, event.data])
+            };
+
+            es.addEventListener('end', ()=>{
+                setStreaming(false);
+                es.close();
             })
-            .then(res => res.json())
-            .then(data => {
-                alert('lights script output: ' + (data.output ? data.output.join('\n'):'no output'));
-            })
-            .catch(err=>{
-                alert('error: '+ err.message)
-            });
+
+            es.onerror = () => {
+                es.close();
+                setStreaming(false);
+                if (!gotMessage){
+                    fetch(`http://localhost:3006/api/execute-command?templateId=${parameters.templateId}`,{
+                        method: 'POST'
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        let output = Array.isArray(data.output) ? data.output.join('\n') : data.output;
+                         alert('lights script output: ' + (output ?? 'no output'));
+                    })
+                    .catch(err=>{
+                        alert('error: '+ err.message)
+                    });
+                };
+            }
         };
         return (
             <button
