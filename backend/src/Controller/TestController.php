@@ -5,8 +5,8 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\StreamedResponse; // <-- Added for SSE support
 use App\Repository\ButtonTemplateRepository;
-use Doctrine\Migrations\Configuration\Migration\JsonFile;
 
 class TestController extends AbstractController
 {
@@ -17,9 +17,9 @@ class TestController extends AbstractController
         $this->buttonTemplateRepository = $buttonTemplateRepository;
     }
     
-    public function testButtons(Request $request): JsonResponse
+    // Changed return type to allow StreamedResponse as well
+    public function testButtons(Request $request)
     {
-
         $templateId = $request->query->get('templateId');
         if (!$templateId) {
             return new JsonResponse(['error' => 'Missing templateId'], 400);
@@ -35,47 +35,46 @@ class TestController extends AbstractController
             $script = dirname(__DIR__) . '/Scripts/Projector.sh';
             $command = $buttonTemplate->getCommand();
 
-            $response = new StreamedResponse(function () use ($script, $command){
-                
-            })
-
-            if (!file_exists($script)) {
-                header('Content-Type: text/event-stream');
-                echo "data: Script not found\n\n";
-                @ob_flush(); @flush();
-                exit();
-            }
-
-            if (!is_executable($script)) {
-                header('Content-Type: text/event-stream');
-                echo "data: Script not executable\n\n";
-                @ob_flush(); @flush();
-                exit();
-            }
-
-            header('Content-Type: text/event-stream');
-            header('Cache-Control: no-cache');
-            header('Connection: keep-alive');
-
-            $process = popen("$script $command 2>&1", 'r');
-            if (!$process) {
-                echo "data: Could not start script\n\n";
-                @ob_flush(); @flush();
-                exit();
-            }
-
-            while (!feof($process)) {
-                $line = fgets($process);
-                if ($line !== false) {
-                    echo "data: " . trim($line) . "\n\n";
+            // --- FIX: Use StreamedResponse for SSE instead of header()/echo/exit() ---
+            $response = new StreamedResponse(function () use ($script, $command) {
+                if (!file_exists($script)) {
+                    echo "data: Script not found\n\n";
                     @ob_flush(); @flush();
+                    return;
                 }
-            }
-            pclose($process);
 
-            echo "event: end\ndata: done\n\n";
-            @ob_flush(); @flush();
-            exit();
+                if (!is_executable($script)) {
+                    echo "data: Script not executable\n\n";
+                    @ob_flush(); @flush();
+                    return;
+                }
+
+                $process = popen("$script $command 2>&1", 'r');
+                if (!$process) {
+                    echo "data: Could not start script\n\n";
+                    @ob_flush(); @flush();
+                    return;
+                }
+
+                while (!feof($process)) {
+                    $line = fgets($process);
+                    if ($line !== false) {
+                        echo "data: " . trim($line) . "\n\n";
+                        @ob_flush(); @flush();
+                    }
+                }
+                pclose($process);
+
+                echo "event: end\ndata: done\n\n";
+                @ob_flush(); @flush();
+            });
+
+            // --- FIX: Set headers on the response object, not with header() ---
+            $response->headers->set('Content-Type', 'text/event-stream');
+            $response->headers->set('Cache-Control', 'no-cache');
+            $response->headers->set('Connection', 'keep-alive');
+            return $response;
+            // --- END FIX ---
 
         } elseif (str_contains($templateName, 'lights')){
             $command = $buttonTemplate->getCommand();
@@ -96,7 +95,7 @@ class TestController extends AbstractController
                 'exitCode' => $exitCode,
             ]);
         } else {
-            return new Jsonresponse ([
+            return new JsonResponse([
                 'output' => ['unknown device']
             ]);
         }

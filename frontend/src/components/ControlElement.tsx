@@ -49,7 +49,7 @@ export default function ControlElement({ parameters, pageStyle, setForElements}:
     if(parameters.type === 'button') {
         const handleClick = () => {
             setStreamMessages([]);
-            setStreaming(false);
+            setStreaming(true);
 
             const es = new EventSource(`http://localhost:3006/api/execute-command?templateId=${parameters.templateId}`);
             let gotMessage = false;
@@ -83,12 +83,22 @@ export default function ControlElement({ parameters, pageStyle, setForElements}:
             }
         };
         return (
+            <div>
             <button
                 style={style}
                 onClick={handleClick}
+                disabled={streaming}
             >
                 {parameters.name}
             </button>
+            {streaming && (
+                    <div className="stream-output">
+                        {streamMessages.map((msg, idx) => (
+                            <div key={idx}>{msg}</div>
+                        ))}
+                    </div>
+                )}
+            </div>
         );
     } else if (parameters.type === 'span') {
         return (
