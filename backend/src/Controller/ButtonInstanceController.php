@@ -16,6 +16,7 @@ final class ButtonInstanceController extends AbstractController
     private ButtonInstanceRepository $buttonInstanceRepository;
     private EntityManagerInterface $entityManager;
     private UserRepository $userRepository;
+    private ButtonTemplateRepository $buttonTemplateRepository;
 
 
     public function __construct(ButtonInstanceRepository $buttonInstanceRepository, UserRepository $userRepository, ButtonTemplateRepository $buttonTemplateRepository, EntityManagerInterface $entityManager)
@@ -113,6 +114,7 @@ final class ButtonInstanceController extends AbstractController
 
             if (!in_array($sentId, $dbIds)) {
                 $buttonInstance = new ButtonInstance();
+                $buttonInstance->setId($sentId);
                 $buttonInstance->setReduxState($reduxState);
                 $buttonInstance->setUser($user);
                 if ($buttonTemplate) {
