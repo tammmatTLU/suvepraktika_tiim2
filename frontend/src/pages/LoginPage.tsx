@@ -1,5 +1,6 @@
-import { useState, type FormEvent } from "react";
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import type { FormEvent } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function LoginPage() {
 	interface IErrorMessage {
@@ -7,7 +8,7 @@ export default function LoginPage() {
 	}
 
 	const apiUrl = import.meta.env.VITE_API_URL;
-
+	const navigate = useNavigate();
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 	const [errorMsg, setErrorMsg] = useState('');
@@ -24,46 +25,56 @@ export default function LoginPage() {
 			);
 
 			if (!response.ok) {
-				throw new Error("Login failed. Try again!");
+				throw new Error("Sisselogimine ebaõnnestus. Proovi uuesti!");
 			}
 
 			setErrorMsg("");
 			const responseBody = await response.json();
 			localStorage.setItem('userToken', responseBody.token);
 			localStorage.setItem('userName', responseBody.username);
+			navigate(`/ui-config/${responseBody.username}`, { replace: true });
 		}
 		catch (error) {
-			setErrorMsg("Error occured upon login");
+			setErrorMsg("Tundmatu viga registreerimisel");
 
-			if (error instanceof Error) { setErrorMsg(error.message); }
+			if (error instanceof Error) setErrorMsg(error.message);
 		}
 	}
 
 	function ErrorMessage({ errorMsg }: IErrorMessage) {
 		if (errorMsg) {
-			return <h3 className="login-error-msg">{errorMsg}</h3>;
+			return <h2 className="login-error-msg">{errorMsg}</h2>;
 		}
 	}
 
-    return (
-        <>
-            <div className="login-form">
-                <form onSubmit={handleLogin}>
-                    <div className="form-group">
-                        <label htmlFor="username">Kasutajanimi:</label>
-                        <input onChange={e => {setUsername(e.target.value)}}
-							type="text" id="username" name="username" required />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="password">Parool:</label>
-                        <input onChange={e => {setPassword(e.target.value)}}
-							type="password" id="password" name="password" required />
-                    </div>
-                    <button type="submit" className="btn-grad">Logi sisse</button>
-					<Link to="/action-select"><button className="btn-grad">Testi nupp</button></Link>
-                </form>
+	return (
+		<>
+			<div className="login-form">
 				<ErrorMessage errorMsg={errorMsg} />
-            </div>
-        </>
-    );
+				<form onSubmit={handleLogin}>
+					<div className="form-group">
+						<label htmlFor="username">Kasutajanimi:</label>
+						<input
+							onChange={e => {setUsername(e.target.value)}}
+							type="text"
+							id="username"
+							name="username"
+							required
+						/>
+					</div>
+					<div className="form-group">
+						<label htmlFor="password">Parool:</label>
+						<input
+							onChange={e => {setPassword(e.target.value)}}
+							type="password"
+							id="password"
+							name="password"
+							required
+						/>
+					</div>
+					<button type="submit" className="btn-grad">Logi sisse</button>
+				</form>
+			</div>
+		</>
+	);
 }

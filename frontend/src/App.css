@@ -133,6 +133,10 @@ header{
     height: 100%;
 }
 
+.login-error-msg {
+	margin: 0 0 2em
+}
+
 .form-group{
     display: flex;
     flex-direction: column;
