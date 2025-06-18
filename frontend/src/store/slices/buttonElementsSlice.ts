@@ -8,17 +8,28 @@ export const loadButtonElements = createAsyncThunk(
   'buttonElements/loadElements',
   async (userName: string) => {
     const response = await fetch(`http://localhost:3006/api/user/${userName}/button-instances`);
-    const result = await response.json();
-    console.log(result.data)
-    // result.data is an array of objects with reduxState as a string
-    // Parse reduxState and extract ButtonElement, add templateId
+    
+    const text = await response.text();
+    // If the response is empty, return an empty array
+    if (!text) {
+      return [];
+    }
+
+
+    const result = await JSON.parse(text);
+
+// Parse each redux_state and extract the ButtonElement
     const buttonElementsArray = result.data.map((item: any) => {
-      console.log(item.redux_state)
-      const parsed = JSON.parse(item.redux_state);
-      return {
-        ...parsed
-      };
+      try {
+          const parsed = JSON.parse(item.redux_state);
+          return parsed as ButtonElement;
+        } catch (e) {
+          console.error('Failed to parse redux_state:', item.redux_state, e);
+          return null;
+        }
     });
+
+    // Now buttonElementsArray is an array of ButtonElement objects with valid ids
     return buttonElementsArray;
   }
 );
@@ -97,8 +108,8 @@ const buttonElementsSlice = createSlice({
         state.loading = false;
         state.error = null;
         state.elements = {};
-        action.payload.forEach((el: ButtonElement) => {
-          state.elements[el.id] = el;
+        action.payload.forEach((button: ButtonElement) => {
+            state.elements[button.id] = button;
         });
         console.log("Loaded button elements:", state.elements);
       })

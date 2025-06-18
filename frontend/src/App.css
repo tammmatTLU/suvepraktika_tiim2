@@ -23,7 +23,7 @@ html{
 }
 
 .grid-layout{
-    min-height: 100vh;
+    height: 100vh;
     width: 100%;
     display: grid;
     grid-template-rows: 15% 70% 15%;
@@ -302,4 +302,11 @@ header{
     left: 0;
     z-index: 2;
     margin: 1%;
+}
+
+.admin-control-panel{
+    grid-row: 2/3;
+    overflow: auto;
+    height: 100%;
+    width: 100%;
 }

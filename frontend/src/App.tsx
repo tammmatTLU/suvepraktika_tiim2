@@ -6,6 +6,7 @@ import UIConfigPage from "./pages/UIConfigPage"
 import AutomationConfigPage from "./pages/AutomationConfigPage"
 import CreateAccountPage from "./pages/CreateAccountPage"
 import RoomSelectPage from "./pages/RoomSelectPage"
+import AdminDeviceControlPage from "./pages/AdminDeviceControlPage"
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
         <Route path='/ui-config/:userName' element={<UIConfigPage/>}/>
         <Route path='/automation-config' element={<AutomationConfigPage/>}/>
         <Route path='/view-creation' element={<CreateAccountPage/>}/>
+        <Route path='/device-control/central-control-panel' element={<AdminDeviceControlPage/>}/>
       </Routes>
     </>
   )

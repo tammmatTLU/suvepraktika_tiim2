@@ -18,7 +18,7 @@ export default function RoomSelect() {
     const [selectedRoom, setSelectedRoom] = useState(rooms[0]?.id || "");
 
     return (
-        <form /*action={`/${action}/${selectedRoom}`} method="post"*/ className="form-group">
+        <form className="form-group">
             <select
                 id="roomSelect"
                 className="pretty-dropdown"
@@ -31,6 +31,8 @@ export default function RoomSelect() {
                 ))}
             </select>
             <Link to={`/${action}/${selectedRoom}`}><button type="submit" className="btn-grad">Kinnita valik</button></Link>
+            { action === "device-control" ? <Link to={`/${action}/central-control-panel`}><button type="submit" className="btn-grad">Halda kõiki seadmeid</button></Link> : null }
+            
         </form>
     );
 }
