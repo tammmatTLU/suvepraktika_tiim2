@@ -50,7 +50,7 @@ export const loadUserPageState = createAsyncThunk<
 const initialState: UserPageState = { 
     elements: {},
     pageStyle: {
-      backgroundColor: '#FFFFFF',
+      backgroundColor: '#000000',
       fontFamily: 'Arial',
       fontSize: 16,
       color: '#000000',
@@ -76,7 +76,7 @@ const spanElementsSlice = createSlice({
     clearSpans: (state) => {
       state.elements = {};
       state.pageStyle = {
-        backgroundColor: '#FFFFFF',
+        backgroundColor: '#757575',
         fontFamily: 'Arial',
         fontSize: 16,
         color: '#000000',

@@ -193,6 +193,7 @@ header{
     position: relative;
     display: flex;
     flex-direction: column;
+    color: #ffffff;
 }
 
 .modal-content *{
@@ -221,7 +222,6 @@ header{
     border: none;
     padding: 10px;
     cursor: pointer;
-    z-index: 1000000 !important;
     font-size: 20px;
 }
 
@@ -234,7 +234,6 @@ header{
     border: none;
     padding: 10px;
     cursor: pointer;
-    z-index: 1000000 !important;
     font-size: 20px;
 }
 
@@ -309,4 +308,10 @@ header{
     overflow: auto;
     height: 100%;
     width: 100%;
+}
+
+.header-text {
+    color: var(--page-color, #000000);
+    font-size: var(--page-font-size, 16px);
+    font-family: var(--page-font, Arial, sans-serif);
 }

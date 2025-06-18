@@ -303,13 +303,13 @@ function ToolbarModal({ action, onClose }: { action: string, onClose: () => void
             <label>Lehe taustavärv:</label>
             <input type="color" value={backgroundColor} onChange={e => setBackgroundColor(e.target.value)} />
 
-            <label>Lehe tekstivärv:</label>
+            <label>Päise tekstivärv:</label>
             <input type="color" value={color} onChange={e => setColor(e.target.value)} />
 
-            <label>Lehe font:</label>
+            <label>Päise font:</label>
             <input type="text" value={fontFamily} onChange={e => setFontFamily(e.target.value)} />
 
-            <label>Lehe fonti suurus:</label>
+            <label>Päise fonti suurus:</label>
             <input type="number" value={fontSize} onChange={e => setFontSize(Number(e.target.value))} />
 
             <hr />

@@ -7,7 +7,7 @@ export default function RoomSelect() {
     const [users, setUsers] = useState<{ id: string, name: string }[]>([]);
     const [selectedUser, setSelectedUser] = useState("");
     const [loaded, setLoaded] = useState(false); // local loaded flag
-
+    
     useEffect(() => {
         if(!loaded){    
             async function fetchUsers() {
@@ -16,7 +16,7 @@ export default function RoomSelect() {
                 setUsers(usersResult.data || []);
                 // Set default selected user after fetching
                 if (usersResult.data && usersResult.data.length > 0) {
-                    setSelectedUser(usersResult.data[0].id);
+                    setSelectedUser(usersResult.data[0].name);
                 }
                 setLoaded(true);
             }
@@ -28,10 +28,15 @@ export default function RoomSelect() {
         return <p>Tegevus puudub</p>;
     }
 
+    let nextPage = `/${action}/${selectedUser}`;
+    if (action === "device-control" && selectedUser === "admin") {
+        nextPage = `/${action}/central-control-panel`;
+    }
+
     return (
-        <form className="form-group">
+         <div className="form-group">
             <select
-                id="userSelect"
+                id="roomSelect"
                 className="pretty-dropdown"
                 required
                 value={selectedUser}
@@ -41,9 +46,10 @@ export default function RoomSelect() {
                     <option key={user.id} value={user.name}>{user.name}</option>
                 ))}
             </select>
-            <Link to={`/${action}/${selectedUser}`}><button type="button" className="btn-grad">Kinnita valik</button></Link>
-            { action === "device-control" ? <Link to={`/${action}/central-control-panel`}><button type="button" className="btn-grad">Halda kõiki seadmeid</button></Link> : null }
+            <Link to={nextPage}>
+                <button type="button" className="btn-grad">Kinnita valik</button>
+            </Link>
             
-        </form>
+        </div>
     );
 }

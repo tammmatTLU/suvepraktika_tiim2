@@ -54,7 +54,7 @@ export default function DeviceControlPage() {
     return (
         <div className="themed-page grid-layout">
             <header>
-                <h1>{userName}</h1>
+                <h1 className="header-text">{userName}</h1>
                 <BackButton />
             </header>
             <ControlPanel elements={allElements} />
