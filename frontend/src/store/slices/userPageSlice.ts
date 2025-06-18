@@ -35,6 +35,7 @@ export const loadUserPageState = createAsyncThunk<
 
       // Dispatch pageStyle to the store
       thunkAPI.dispatch(setPageStyle(pageStyle));
+      thunkAPI.dispatch(setSetForElements(pageStyle.setForElements ?? true));
 
       // Return elements as an array for the fulfilled reducer
       return elements ? Object.values(elements) : [];

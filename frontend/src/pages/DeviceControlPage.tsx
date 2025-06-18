@@ -9,11 +9,23 @@ import { loadUserPageState, clearSpans} from '../store/slices/userPageSlice';
 export default function DeviceControlPage() {
     const { userName: userName = 'A-001' } = useParams<{ userName?: string }>();
     const dispatch = useAppDispatch();
+
+    const pageStyle = useAppSelector(state => state.undoableRoot.present.userPage.pageStyle);
+
+    useEffect(() => {
+        // Set CSS variables when this page is mounted
+        document.documentElement.style.setProperty('--page-bg', pageStyle.backgroundColor);
+        document.documentElement.style.setProperty('--page-font', pageStyle.fontFamily);
+        document.documentElement.style.setProperty('--page-font-size', `${pageStyle.fontSize}px`);
+        document.documentElement.style.setProperty('--page-color', pageStyle.color);
+    }, [pageStyle]);
+
     useEffect(() => {
         dispatch(clearButtons());
         dispatch(clearSpans());
-        dispatch(loadButtonElements(userName));
         dispatch(loadUserPageState(userName));
+        dispatch(loadButtonElements(userName));
+        
     }, [dispatch, userName]);
 
     const buttonElements = useAppSelector(state => state.undoableRoot.present.buttonElements.elements);
@@ -30,7 +42,7 @@ export default function DeviceControlPage() {
     if (error) return <p>Error: {error}</p>;
 
     return (
-        <div className="grid-layout">
+        <div className="themed-page grid-layout">
             <header>
                 <h1>{userName}</h1>
                 <BackButton />

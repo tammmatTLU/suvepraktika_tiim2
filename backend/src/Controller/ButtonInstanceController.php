@@ -9,14 +9,21 @@ use App\Repository\ButtonTemplateRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 final class ButtonInstanceController extends AbstractController
 {
     private ButtonInstanceRepository $buttonInstanceRepository;
+    private EntityManagerInterface $entityManager;
+    private UserRepository $userRepository;
 
-    public function __construct(ButtonInstanceRepository $buttonInstanceRepository)
+
+    public function __construct(ButtonInstanceRepository $buttonInstanceRepository, UserRepository $userRepository, ButtonTemplateRepository $buttonTemplateRepository, EntityManagerInterface $entityManager)
     {
         $this->buttonInstanceRepository = $buttonInstanceRepository;
+        $this->userRepository = $userRepository;
+        $this->buttonTemplateRepository = $buttonTemplateRepository;
+        $this->entityManager = $entityManager;
     }
 
     public function findAllButtonInstances(): JsonResponse
@@ -59,11 +66,20 @@ final class ButtonInstanceController extends AbstractController
         ], 200);
     }
 
-    public function addButtonInstance(Request $request, UserRepository $userRepository, ButtonTemplateRepository $buttonTemplateRepository, EntityManagerInterface $entityManager): JsonResponse
+    public function saveButtonInstance(Request $request)
     {
+        $added = 0;
+        $updated = 0;
+        $deleted = 0;
+
         $data = json_decode($request->getContent(), true);
-        
-        if (empty($data['redux_state'])) {
+        $payloadReduxData = $data['buttons'] ?? [];
+        $payloadUserData = $data['user_name'] ?? null;
+
+        error_log('Raw request: ' . $request->getContent());
+        error_log('Decoded data: ' . print_r($data, true));
+
+        if (empty($payloadReduxData)) {
             return new JsonResponse([
                 'error' => [
                     'message' => 'redux_state cannot be empty'
@@ -71,23 +87,16 @@ final class ButtonInstanceController extends AbstractController
             ], 400);
         }
 
-        if (empty($data['user_id'])) {
+        if (!$payloadUserData) {
             return new JsonResponse([
                 'error' => [
-                    'message' => 'user_id is required'
-                ]
-            ], 400);
-        }
-        if (empty($data['button_template_id'])) {
-            return new JsonResponse([
-                'error' => [
-                    'message' => 'button_template_id is required'
+                    'message' => 'user_name is required'
                 ]
             ], 400);
         }
 
-        $user = $userRepository->find($data['user_id']);
-        
+        $user = $this->userRepository->findOneBy(['name' => $payloadUserData]);
+
         if (!$user) {
             return new JsonResponse([
                 'error' => [
@@ -96,31 +105,59 @@ final class ButtonInstanceController extends AbstractController
             ], 404);
         }
 
-        $buttonTemplate = $buttonTemplateRepository->find($data['button_template_id']);
-        if (!$buttonTemplate) {
-            return new JsonResponse([
-                'error' => [
-                    'message' => 'Button template not found'
-                ]
-            ], 404);
+        $dbButtons = $this->buttonInstanceRepository->findButtonInstancesByUserId($user->getId());
+        $dbIds = array_map(fn($b) => $b['id'] ?? null, $dbButtons);
+        $dbIds = array_filter($dbIds);
+
+        $sentButtons = $payloadReduxData;
+        $sentIds = array_map(fn($b) => $b['id'] ?? null, $sentButtons);
+        foreach ($sentButtons as $button) {
+            $sentId = $button['id'] ?? null;
+            if (!$sentId) continue;
+
+            $reduxState = $button;
+            $buttonTemplate = $this->buttonTemplateRepository->find($button['templateId'] ?? null);
+
+            if (!in_array($sentId, $dbIds)) {
+                $buttonInstance = new ButtonInstance();
+                $buttonInstance->setReduxState($reduxState);
+                $buttonInstance->setUser($user);
+                if ($buttonTemplate) {
+                $buttonInstance->setButtonTemplate($buttonTemplate);
+                }
+                $this->entityManager->persist($buttonInstance);
+                $added++;
+            } else {
+                $dbButton = array_filter($dbButtons, function($b) use ($sentId) {
+                    return ($b['id'] ?? null) == $sentId;
+                });
+                $dbButton = reset($dbButton);
+                $dbReduxState = is_string($dbButton['redux_state']) ? json_decode($dbButton['redux_state'], true) : $dbButton['redux_state'];
+
+                if ($dbReduxState != $reduxState) {
+                    $this->buttonInstanceRepository->updateReduxStateByReduxStateId($sentId, $reduxState, $user->getId());
+                    $updated++;
+                }
+            }
         }
 
-        $buttonInstance = new ButtonInstance();
-        $buttonInstance->setReduxState($data['redux_state']);
-        $buttonInstance->setUser($user);
-        $buttonInstance->setButtonTemplate($buttonTemplate);
-
-        try {
-            $entityManager->persist($buttonInstance);
-            $entityManager->flush();
-        } catch (\Exception $e) {
-            return new JsonResponse([
-                'error' => [
-                    'message' => 'Database error'
-                ]
-            ], 500);
+        foreach ($dbButtons as $dbButton) {
+            $dbId = $dbButton['id'] ?? null;
+            if ($dbId && !in_array($dbId, $sentIds, true)) {
+                $this->buttonInstanceRepository->deleteById($dbId);
+                $deleted++;
+            }
         }
+        $this->entityManager->flush();
 
-        return new JsonResponse(['message' => 'Button instance added successfully'], 201);
+        return new JsonResponse([
+            'message' => 'Button instances processed successfully',
+            'added' => $added,
+            'updated' => $updated,
+            'deleted' => $deleted,
+            "db" => $dbIds,
+            "sent" => $sentIds
+        ], 200);
+
     }
 }

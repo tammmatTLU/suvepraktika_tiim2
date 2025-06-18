@@ -17,7 +17,7 @@ user-button-instances:
 
 create-user-button-instance:
     path: /api/user/{userName}/button-instances/save
-    controller: App\Controller\ButtonInstanceController::addButtonInstance
+    controller: App\Controller\ButtonInstanceController::saveButtonInstance
     methods: [POST]
 
 user-redux-span:
