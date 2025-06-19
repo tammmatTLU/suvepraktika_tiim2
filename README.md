@@ -17,7 +17,7 @@
 
 <a href="https://github.com/tammmatTLU/suvepraktika_tiim2/wiki">Blogi<a>
 
-<h1 id="project-summary"> Eesmärk </h1>
+<h1 id="project-summary">Eesmärk</h1>
 <p>Antud toote eesmärk on vahetada välja Tallinna ülikooli auditooriumites olev seadmete juhtimise tarkvara. Rakendus on mõelnud tahvelarvutile ja peab olema võimeline sisse ja välja lülitada kindlas auditooriumis olevaid seadmeid ja hõlpsustama suures auditooriumis erinevate seadmete kasutamist. Antud tahvleid võib olla rohkem kui üks mis võivad dubleerida üksteist või täiesti eraldi seisev seade, kuid peab olema võimeline samas ruumis seadmeid kontrollida. Rakenduse Administraatoril on õigus teha rakenduses uusi kasutajaid/vaateid, muuta tahvlis olevate nuppude asetus ja kujundust.</p>
 
 <h1 id="project-tech"> :desktop_computer: Tehnoloogiad </h1>
@@ -108,12 +108,10 @@ npm install
 npm run start
 ```
 
-<h2 id="application-tests">Testimine</h2>
+<h2 id="application-tests"> :computer_mouse: Testimine</h2>
 <p>GitHub repositooriumis on fail nimega "Testplaan.pdf" kus on kirjas meie testplaan. Kindlaid testjuhtumeid me ei jõudnud teha, ega kontrollida, kuid arenduse jooksul kasutasime manuaalset ja uuritavat testimist.</p>
 <p><a href="https://github.com/tammmatTLU/suvepraktika_tiim2/blob/scripts/Testiplaan.pdf">Testplaan</a></p>
-
-<h2 id="pictures">Pildid rakendusest</h2>
-
+<h2 id="pictures"> :framed_picture: Pildid rakendusest</h2>
 <h3>Admin põhivaade</h3>
 <img src="https://github.com/tammmatTLU/suvepraktika_tiim2/blob/live-branch/Screenshots/Screenshot%202025-06-19%20111112.png" alt="admin_põhivaade"/>
 <h3>Admin toa valiku leht</h3>
