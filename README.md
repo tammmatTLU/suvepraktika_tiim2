@@ -36,4 +36,4 @@
 <h2 id="instructions">Juhised</h2>
 <h2 id="application-tests">Testimine</h2>
 <p>GitHub repositooriumis on fail nimega "Testplaan.pdf" kus on kirjas meie testplaan. Kindlaid testjuhtumeid me ei jõudnud teha, ega kontrollida, kuid arenduse jooksul kasutasime manuaalset ja uuritavat testimist.</p>
-<a href"https://github.com/tammmatTLU/suvepraktika_tiim2/blob/scripts/Testiplaan.pdf">Testplaan</a>
+<p><a href"https://github.com/tammmatTLU/suvepraktika_tiim2/blob/scripts/Testiplaan.pdf">Testplaan</a></p>
