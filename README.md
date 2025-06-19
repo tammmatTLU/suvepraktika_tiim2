@@ -112,4 +112,4 @@ npm run start
 <p>GitHub repositooriumis on fail nimega "Testplaan.pdf" kus on kirjas meie testplaan. Kindlaid testjuhtumeid me ei jõudnud teha, ega kontrollida, kuid arenduse jooksul kasutasime manuaalset ja uuritavat testimist.</p>
 <p><a href="https://github.com/tammmatTLU/suvepraktika_tiim2/blob/scripts/Testiplaan.pdf">Testplaan</a></p>
 
-<h1 id="licence"><a href="">MIT licence</a></h1>
+<h1 id="licence"><a href="https://github.com/tammmatTLU/suvepraktika_tiim2/blob/live-branch/licence.md">MIT licence</a></h1>
