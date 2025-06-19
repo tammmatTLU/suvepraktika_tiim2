@@ -9,9 +9,10 @@ export default function LoginPage() {
 
 	const apiUrl = import.meta.env.VITE_API_URL;
 	const navigate = useNavigate();
-	const [username, setUsername] = useState('');
-	const [password, setPassword] = useState('');
-	const [errorMsg, setErrorMsg] = useState('');
+	const [username, setUsername] = useState("");
+	const [password, setPassword] = useState("");
+	const [errorMsg, setErrorMsg] = useState("");
+	const userToken = localStorage.getItem("userToken");
 
 	async function handleLogin(e: FormEvent) {
 		e.preventDefault();
@@ -20,7 +21,7 @@ export default function LoginPage() {
 				{
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
-					body: JSON.stringify({ "username": username, "password": password }),
+					body: JSON.stringify({ "username": username, "password": password, "userToken": userToken }),
 					credentials: "include"
 				}
 			);
