@@ -26,5 +26,4 @@ frontend/*.sln
 frontend/*.sw?
 frontend/.env
 .DS_Store
-katse_1/
-node_modules/
+.katse_1/
