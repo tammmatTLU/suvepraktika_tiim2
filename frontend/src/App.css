@@ -95,9 +95,8 @@ header{
 .btn-grad {
     display: flex;
     position: relative;
-    margin: 10px;
+    margin: 10px auto;
     padding: 15px 45px;
-    justify-content: center;
     text-transform: uppercase;
     transition: 0.5s;
     background-size: 200% auto;
@@ -132,6 +131,10 @@ header{
     justify-content: center;
     align-items: center;
     height: 100%;
+}
+
+.login-error-msg {
+	margin: 0 0 2em
 }
 
 .form-group{
@@ -193,6 +196,7 @@ header{
     position: relative;
     display: flex;
     flex-direction: column;
+    color: #ffffff;
 }
 
 .modal-content *{
@@ -221,7 +225,6 @@ header{
     border: none;
     padding: 10px;
     cursor: pointer;
-    z-index: 1000000 !important;
     font-size: 20px;
 }
 
@@ -234,7 +237,6 @@ header{
     border: none;
     padding: 10px;
     cursor: pointer;
-    z-index: 1000000 !important;
     font-size: 20px;
 }
 
@@ -309,4 +311,10 @@ header{
     overflow: auto;
     height: 100%;
     width: 100%;
+}
+
+.header-text {
+    color: var(--page-color, #000000);
+    font-size: var(--page-font-size, 16px);
+    font-family: var(--page-font, Arial, sans-serif);
 }

@@ -59,7 +59,7 @@ export default function UIConfigPage() {
     return (
         <div className="themed-page grid-layout">
             <header>
-                <h1>Kasutajavaate redigeerimine</h1>
+                <h1 className="header-text">Kasutajavaate redigeerimine</h1>
                 <BackButton />
                 <Toolbar
                     gridEnabled={gridEnabled}

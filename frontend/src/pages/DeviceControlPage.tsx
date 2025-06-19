@@ -54,8 +54,16 @@ export default function DeviceControlPage() {
     return (
         <div className="themed-page grid-layout">
             <header>
-                <h1>{userName}</h1>
-                <BackButton />
+                <h1 className="header-text">{userName}</h1>
+                <div style={{
+                    position: "absolute",
+                    margin: "1%",
+                    left: 0,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    width: "100%",
+                }} hidden={localStorage.getItem('userName') !== "admin"}><BackButton /></div> 
             </header>
             <ControlPanel elements={allElements} />
         </div>
