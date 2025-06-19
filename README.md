@@ -55,8 +55,8 @@ mysql -u root -p
 ```
 ```sql
 CREATE DATABASE suvepraktika CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-CREATE USER 'praktikant'@'localhost' IDENTIFIED BY 'parool123';
-GRANT ALL PRIVILEGES ON suvepraktika.* TO 'praktikant'@'localhost';
+CREATE USER 'suvekasutaja'@'localhost' IDENTIFIED BY 'asd1';
+GRANT ALL PRIVILEGES ON suvepraktika.* TO 'suvekasutaja'@'localhost';
 FLUSH PRIVILEGES;
 EXIT;
 ```
