@@ -1,6 +1,6 @@
 # 2. tiimi suvepraktika hoidla
 # Auditooriumite seadmete juhtimise/lülitamise lahendus 
-## Tiimi koosseis: Mattias Tamm, Vaiko Villiam Tuul, Armin Jaemaa, Martin Sütt, Kert-Jan Ots
+## Tiimi koosseis: Mattias Tamm, Vaiko Villiam Tuul, Armin Jaemaa, Martin Sütt, Kert-Jan Ots (benched), Peter Saan (on loan)
 
 [Blogi](https://github.com/tammmatTLU/suvepraktika_tiim2/wiki/blogi)
 
