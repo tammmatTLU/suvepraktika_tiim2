@@ -139,6 +139,11 @@ logout:
     controller: App\Controller\AuthenticationController::logout
     methods: [POST]
 
+update-password:
+    path: api/update-password
+    controller: App\Controller\AuthenticationController::updatePassword
+    methods: [POST]
+
 verify:
     path: api/verify
     controller: App\Controller\AuthenticationController::verify

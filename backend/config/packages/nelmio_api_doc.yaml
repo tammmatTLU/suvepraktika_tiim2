@@ -143,6 +143,49 @@ nelmio_api_doc:
                                                 {
                                                     "data": "Sent token was invalid",
                                                 }
+            /api/update-password:
+                post:
+                    summary: "Update user password"
+                    requestBody:
+                        content:
+                            application/json:
+                                example:
+                                    {
+                                        "username": "username",
+                                        "oldPass": "testpass",
+                                        "oldPassAgain": "testpass",
+                                        "newPass": "testPass"
+                                    }
+                        required: true
+                    responses:
+                        200:
+                            description: "Password updated successfully"
+                            content:
+                                application/json:
+                                    examples:
+                                        example:
+                                            summary: main
+                                            value:
+                                                {
+                                                    "data": "Password updated successfully",
+                                                }
+                        400:
+                            description: "Provided invalid or non-matching credentials"
+                            content:
+                                application/json:
+                                    examples:
+                                        example1:
+                                            summary: invalid/non-matching credentials
+                                            value:
+                                                {
+                                                    "data": "Invalid credentials",
+                                                }
+                                        example2:
+                                            summary: not admin
+                                            value:
+                                                {
+                                                    "data": "Not admin"
+                                                }
             /api/verify:
                 post:
                     summary: "Verify token sent by user"
@@ -174,7 +217,7 @@ nelmio_api_doc:
                                     examples:
                                         example1:
                                             summary: login
-                                            value: "*Symfony generated exception page indicating the user need to login for access*"
+                                            value: "*Symfony generated exception page indicating the user needs to login for access*"
                                 application/json:
                                     examples:
                                         example2:
@@ -382,7 +425,7 @@ nelmio_api_doc:
                     responses:
                         200:
                             description: "Returns all buttons connected to user"
-                        
+
 
             /api/belongs:
                 get:
