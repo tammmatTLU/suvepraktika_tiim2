@@ -8,6 +8,7 @@
     <li><a href="#project-summary"> ➤ Eesmärk </a></li>
     <li><a href="#project-tech"> ➤ Kasutatud Tehnoloogiad</a></li>
     <li><a href="#instructions"> ➤ Juhised käivitamiseks</a></li>
+    <li><a href="#application-tests"> ➤ Testimine</a></li>
   </ol>
 </details>
 
@@ -33,3 +34,4 @@
 <p>Arenduse jooksul kasutasime Dockerit versioon 28.1.1</p>
 
 <h2 id="instructions">Juhised</h2>
+<h2 id="application-tests">Testimine</h2>
