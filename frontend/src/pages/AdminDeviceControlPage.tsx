@@ -3,20 +3,26 @@ import { useEffect } from 'react';
 import { loadButtonTemplates } from "../store/slices/buttonTemplateSlice";
 import { useAppDispatch } from '../store/hooks';
 import AdminDeviceControlPanel from "../components/AdminDeviceControlPanel";
+import { Navigate, useOutletContext } from "react-router-dom";
 
 export default function AdminDeviceControlPage() {
-    const dispatch = useAppDispatch();
-    useEffect(() => {
-        dispatch(loadButtonTemplates());
-    }, [dispatch]);
-    return (
-        <div className="grid-layout">
-            <header>
-                <h1>Keskne kontrollpaneel</h1>
-                <BackButton />
-            </header>
+	const admin: boolean = useOutletContext<boolean>();
+	const username = localStorage.getItem("userName");
 
-        <AdminDeviceControlPanel />
-        </div>
-    )
+	const dispatch = useAppDispatch();
+	useEffect(() => {
+		dispatch(loadButtonTemplates());
+	}, [dispatch]);
+
+	return admin ?
+		<div className="grid-layout">
+			<header>
+				<h1>Keskne kontrollpaneel</h1>
+				<BackButton />
+			</header>
+
+			<AdminDeviceControlPanel />
+		</div>
+		:
+		<Navigate to={`/ui-config/${username}`} />
 }
