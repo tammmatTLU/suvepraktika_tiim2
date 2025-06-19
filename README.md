@@ -48,7 +48,7 @@ cp .env.example .env
     - Testimiseks jooskuta `docker version` ja `docker compose version` ning hinda ise ;)
 - Lõpetuseks jooksuta lihtsalt `docker compose up` või `docker compose up -d`, kui tekstisein sind häirib
 
-Ilma Dockerita:
+## Ilma Dockerita:
 
 ## Eeltingimused
 - Node.js (v16+)
