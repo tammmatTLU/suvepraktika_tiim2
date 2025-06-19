@@ -18,6 +18,8 @@ class ButtonTemplateFixtures extends Fixture implements DependentFixtureInterfac
 
     ];
 
+
+
     public function getDependencies(): array
     {
         return [RoomFixtures::class];
@@ -31,34 +33,21 @@ class ButtonTemplateFixtures extends Fixture implements DependentFixtureInterfac
         // Create buttons for each room
         for ($roomIndex = 0; $roomIndex < 5; $roomIndex++) {
             $room = $this->getReference('room-'.$roomIndex, Room::class);
-            $buttonsPerRoom = $faker->numberBetween(4, 8); // 4-8 buttons per room
+            $roomName = $room->getName(); // 4-8 buttons per room
             
-            for ($buttonIndex = 0; $buttonIndex < $buttonsPerRoom; $buttonIndex++) {
-                $config = self::BUTTON_CONFIGS[$buttonIndex % count(self::BUTTON_CONFIGS)];
-                
-                $button = $this->createButtonTemplate(
-                    $config['name'],
-                    $config['command'],
-                    $room
-                );
-                
-                // Add reference for potential use in other fixtures
+            foreach (self::BUTTON_CONFIGS as $config) {
+                $button = new ButtonTemplate();
+                $button->setName($roomName . ' ' . $config['name']);
+                $button->setCommand($config['command']);
+                $button->setRoom($room);
+
+
+                $manager->persist($button);
                 $this->addReference("template-$globalIndex", $button);
                 $globalIndex++;
-                $manager->persist($button);
             }
         }
 
         $manager->flush();
-    }
-
-    private function createButtonTemplate(string $name, string $command, Room $room): ButtonTemplate
-    {
-        $button = new ButtonTemplate();
-        $button->setName($name);
-        $button->setCommand($command);
-        $button->setRoom($room);
-        
-        return $button;
     }
 }

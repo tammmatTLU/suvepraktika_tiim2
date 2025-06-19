@@ -35,7 +35,6 @@ class TestController extends AbstractController
             $script = dirname(__DIR__) . '/Scripts/Projector.sh';
             $command = $buttonTemplate->getCommand();
 
-            // --- FIX: Use StreamedResponse for SSE instead of header()/echo/exit() ---
             $response = new StreamedResponse(function () use ($script, $command) {
                 if (!file_exists($script)) {
                     echo "data: Script not found\n\n";
@@ -69,12 +68,10 @@ class TestController extends AbstractController
                 @ob_flush(); @flush();
             });
 
-            // --- FIX: Set headers on the response object, not with header() ---
             $response->headers->set('Content-Type', 'text/event-stream');
             $response->headers->set('Cache-Control', 'no-cache');
             $response->headers->set('Connection', 'keep-alive');
             return $response;
-            // --- END FIX ---
 
         } elseif (str_contains($templateName, 'lights')){
             $command = $buttonTemplate->getCommand();

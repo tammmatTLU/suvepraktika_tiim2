@@ -209,9 +209,17 @@ nelmio_api_doc:
                         200:
                             description: "Returns all buttons, and button template id-s for a single user"
                         204:
-                            description: "user not found from database"
+                            description: "user not found"
                         default:
                             description: "unexpected error"
+            /api/user/{userName}/group-instances:
+                get:
+                    summary: "Find all group instances"
+                    rsponses:
+                        200:
+                            description: "Returns all button groups, by userName"
+                        204:
+                            description: "user not found" 
             /api/user/{userName}/redux-span:
                 get:
                     summary: "find redux span for a single user"
@@ -402,7 +410,36 @@ nelmio_api_doc:
                             description: "No data from belongs table found"
                         default:
                             description: "unexpected error"
-            
+            /api/execute-command:
+                get:
+                    summary: "Button press ( lights )"
+                    parameters:
+                        -   name: templateId
+                            in: query
+                            required: true
+                            schema:
+                                type: integer
+                            description: "ButtonTemplateId to execute"
+                    responses:
+                        200:
+                            description: "command exectuted"
+                        400:
+                            description: "missing or invalid buttonTemplateId"
+                post:
+                    summary: "button press ( projectors )"
+                    parameters:
+                        -   name: templateId
+                            in: query
+                            required: true
+                            schema:
+                                type: integer
+                            description: "ButtonTemplateId to execute"
+                    responses:
+                        200:
+                            description: "command exectuted"
+                        400:
+                            description: "missing or invalid buttonTemplateId"
+
 
             
     areas: # to filter documented areas
