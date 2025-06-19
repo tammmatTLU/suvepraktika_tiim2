@@ -1,4 +1,5 @@
 # Auditooriumite seadmete juhtimise/lülitamise lahendus 
+## Antud projekt on loodud <a href="https://www.tlu.ee/dt">DTI </a> "tarkvaraarenduse projekt" aine raames
 ## Tiimi koosseis: Mattias Tamm, Vaiko Villiam Tuul, Armin Jaemaa, Martin Sütt, Kert-Jan Ots (benched), Peter Saan (on loan)
 
 <h1 id="table-of-contents"> :book: Sisukord</h1>
@@ -9,6 +10,7 @@
     <li><a href="#project-tech"> ➤ Kasutatud Tehnoloogiad</a></li>
     <li><a href="#instructions"> ➤ Juhised käivitamiseks</a></li>
     <li><a href="#application-tests"> ➤ Testimine</a></li>
+    <li><a href="#licence"> ➤ MIT litsents</a></li>
   </ol>
 </details>
 
@@ -109,3 +111,5 @@ npm run start
 <h1 id="application-tests">Testimine</h1>
 <p>GitHub repositooriumis on fail nimega "Testplaan.pdf" kus on kirjas meie testplaan. Kindlaid testjuhtumeid me ei jõudnud teha, ega kontrollida, kuid arenduse jooksul kasutasime manuaalset ja uuritavat testimist.</p>
 <p><a href="https://github.com/tammmatTLU/suvepraktika_tiim2/blob/scripts/Testiplaan.pdf">Testplaan</a></p>
+
+<h1 id="licence"><a href="">MIT licence</a></h1>
