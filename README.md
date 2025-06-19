@@ -75,7 +75,17 @@ php bin/console doctrine:migrations:migrate -n
 php bin/console doctrine:fixtures:load -n
 ```
 ## 4.Frontendi seadistamine
-
+```bash
+cd ../frontend
+npm install
+cp .env.example .env
+```
+## 5.Root kaustas projekti käivitamine
+```bash
+cd ../
+npm install
+npm run start
+```
 
 <h2 id="application-tests">Testimine</h2>
 <p>GitHub repositooriumis on fail nimega "Testplaan.pdf" kus on kirjas meie testplaan. Kindlaid testjuhtumeid me ei jõudnud teha, ega kontrollida, kuid arenduse jooksul kasutasime manuaalset ja uuritavat testimist.</p>
