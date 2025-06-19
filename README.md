@@ -34,8 +34,20 @@
 <p>Arenduse jooksul kasutasime Dockerit versioon 28.1.1</p>
 
 <h1 id="instructions">Juhised</h1>
-# Projekti käivitamise juhend
+Dockeriga:
+## Projekti käivitamine Dockeriga
+- Ava oma lemmik terminal
+- Klooni repo ja mine sinna sisse
+- Loo vajalikud failid:
+```bash
+cd frontend
+cp .env.example .env
+```
+- Tee kindlaks, et Docker ja Docker Compose on seadmes olemas
+    - Testimiseks jooskuta `docker version` ja `docker compose version` ning hinda ise ;)
+- Lõpetuseks jooksuta lihtsalt `docker compose up` või `docker compose up -d`, kui tekstisein sind häirib
 
+Ilma Dockerita:
 ## Eeltingimused
 - Node.js (v16+)
 - PHP (v8.1+)
@@ -67,6 +79,11 @@ composer install
 ```
 Muuda .env faili andmebaasi seaded:
 ```ini
+MARIADB_PORT=3306
+MARIADB_HOST=127.0.0.1
+MARIADB_USER=suvekasutaja
+MARIADB_PASSWORD=asd1
+MARIADB_DATABASE=suvepraktika
 DATABASE_URL="mysql://suvekasutaja:asd1@127.0.0.1:3306/suvepraktika?serverVersion=mariadb-versiooninumber"
 ```
 Andmebaasi migratsioonid ja seedimine
