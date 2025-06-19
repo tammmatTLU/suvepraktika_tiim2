@@ -95,9 +95,8 @@ header{
 .btn-grad {
     display: flex;
     position: relative;
-    margin: 10px;
+    margin: 10px auto;
     padding: 15px 45px;
-    justify-content: center;
     text-transform: uppercase;
     transition: 0.5s;
     background-size: 200% auto;
@@ -132,6 +131,10 @@ header{
     justify-content: center;
     align-items: center;
     height: 100%;
+}
+
+.login-error-msg {
+	margin: 0 0 2em
 }
 
 .form-group{

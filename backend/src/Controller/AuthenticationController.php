@@ -35,8 +35,15 @@ class AuthenticationController extends AbstractController
     {
         $username = $request->getPayload()->getString('username');
         $password = $request->getPayload()->getString('password');
+        $passwordAgain = $request->getPayload()->getString('passwordAgain');
 
-        if (!trim($username) || !trim($password)) {
+        if (!trim($username) || !trim($password) || !trim($passwordAgain)) {
+            return new JsonResponse([
+                'data' => 'Invalid credentials'
+            ], Response::HTTP_BAD_REQUEST);
+        }
+
+        if ($password !== $passwordAgain) {
             return new JsonResponse([
                 'data' => 'Invalid credentials'
             ], Response::HTTP_BAD_REQUEST);
@@ -85,12 +92,12 @@ class AuthenticationController extends AbstractController
             ], Response::HTTP_UNAUTHORIZED);
         }
 
-        $tokenService = new TokenService();
+        $tokenService = new TokenService($this->tokenRepository);
         $userToken = $request->getPayload()->getString('userToken');
         $isVerified = $tokenService->verify($user, $userToken);
 
         if (!trim($userToken) | !$isVerified) {
-            $tokenService = new TokenService();
+            $tokenService = new TokenService($this->tokenRepository);
             $generatedToken = $tokenService->generate();
 
             if ($generatedToken === null) {
@@ -118,7 +125,11 @@ class AuthenticationController extends AbstractController
         ], Response::HTTP_OK);
     }
 
-    public function logout(Security $security, EntityManagerInterface $entityManager, Request $request): JsonResponse
+    public function logout(
+        Security $security,
+        EntityManagerInterface $entityManager,
+        Request $request
+    ): JsonResponse
     {
         $token = $this->tokenRepository->findOneBy(
             ['value' => $request->getPayload()->getString('userToken')]
@@ -140,24 +151,26 @@ class AuthenticationController extends AbstractController
         ], Response::HTTP_OK);
     }
 
-    public function verify(Security $security, Request $request): JsonResponse
+    public function verify(#[CurrentUser] ?User $user, Request $request): JsonResponse
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
 
-        $user = $security->getUser();
         $token = $request->getPayload()->getString('userToken');
 
-        $tokenService = new TokenService();
+        $tokenService = new TokenService($this->tokenRepository);
         $isVerified = $tokenService->verify($user, $token);
+        $isAdmin = in_array("ROLE_ADMIN", $user->getRoles());
 
         if (!$isVerified) {
             return new JsonResponse([
-                'data' => 'Token not authentic'
+                'data' => 'Token not authentic',
+                'token' => $token,
             ], Response::HTTP_UNAUTHORIZED);
         }
 
         return new JsonResponse([
-            'data' => 'Token is authentic'
+            'data' => 'Token is authentic',
+            'isAdmin' => $isAdmin,
         ], Response::HTTP_OK);
     }
 }
