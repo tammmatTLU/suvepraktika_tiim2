@@ -9,11 +9,12 @@ import SaveButton from "./SaveButton";
 import UndoButton from "./UndoButton";
 import RedoButton from "./RedoButton";
 import type { PageStyle } from '../types/Element';
+import CopyUIButton from './CopyUIButton';
 
 
 export default function Toolbar({ gridEnabled, onGridToggle }: { gridEnabled: boolean, onGridToggle: () => void }) {
     const dispatch = useDispatch();
-    const [modalAction, setModalAction] = useState<null | 'addInstance' | 'addTemplate' | 'modifyPage'>(null);
+    const [modalAction, setModalAction] = useState<null | 'addInstance' | 'addTemplate' | 'modifyPage' | 'copyFromUser'>(null);
     
     const currentPageStyle: Partial<PageStyle> = useAppSelector(state => state.undoableRoot.present.userPage.pageStyle) || {};
     const [setForElements, toggleSetForElements] = useState(currentPageStyle.setForElements || false);
@@ -27,6 +28,7 @@ export default function Toolbar({ gridEnabled, onGridToggle }: { gridEnabled: bo
             <button className="toolbar-button" onClick={() => setModalAction('addInstance')}>Lisa element</button>
             <button className="toolbar-button" onClick={() => setModalAction('addTemplate')}>Loo uus nupu mall</button>
             <button className="toolbar-button" onClick={() => setModalAction('modifyPage')}>Muuda kogu lehe kujundust</button>
+            <button className="toolbar-button" onClick={() => setModalAction('copyFromUser')}>Kopeeri kujundus teisest vaatest</button>
             {modalAction && (
                 <ToolbarModal action={modalAction} onClose={() => setModalAction(null)} />
             )}
@@ -303,13 +305,13 @@ function ToolbarModal({ action, onClose }: { action: string, onClose: () => void
             <label>Lehe taustavärv:</label>
             <input type="color" value={backgroundColor} onChange={e => setBackgroundColor(e.target.value)} />
 
-            <label>Lehe tekstivärv:</label>
+            <label>Päise tekstivärv:</label>
             <input type="color" value={color} onChange={e => setColor(e.target.value)} />
 
-            <label>Lehe font:</label>
+            <label>Päise font:</label>
             <input type="text" value={fontFamily} onChange={e => setFontFamily(e.target.value)} />
 
-            <label>Lehe fonti suurus:</label>
+            <label>Päise fonti suurus:</label>
             <input type="number" value={fontSize} onChange={e => setFontSize(Number(e.target.value))} />
 
             <hr />
@@ -344,7 +346,45 @@ function ToolbarModal({ action, onClose }: { action: string, onClose: () => void
             <button onClick={onClose}>Sulge</button>
         </div>
     );
-}
+    } else if (action === 'copyFromUser') {
+        const [users, setUsers] = useState<{ id: string, name: string }[]>([]);
+        const [selectedUser, setSelectedUser] = useState("");
+        const [loaded, setLoaded] = useState(false); // local loaded flag
+        
+        useEffect(() => {
+            if(!loaded){    
+                async function fetchUsers() {
+                    const usersResponse = await fetch("http://localhost:3006/api/users");
+                    const usersResult = await usersResponse.json();
+                    setUsers(usersResult.data || []);
+                    // Set default selected user after fetching
+                    if (usersResult.data && usersResult.data.length > 0) {
+                        setSelectedUser(usersResult.data[0].name);
+                    }
+                    setLoaded(true);
+                }
+                fetchUsers();
+            }
+        }, [loaded]);
+
+        content = (
+            <div className="modal-content">
+                <select
+                    id="roomSelect"
+                    className="pretty-dropdown"
+                    required
+                    value={selectedUser}
+                    onChange={e => setSelectedUser(e.target.value)}
+                >
+                    {users.map(user => (
+                        <option key={user.id} value={user.name}>{user.name}</option>
+                    ))}
+                </select>
+                <CopyUIButton fromUserName={selectedUser}/>
+                <button onClick={onClose}>Sulge</button>
+            </div>
+        );
+    }
     return (
         <div className="modal-backdrop">
                 {content}

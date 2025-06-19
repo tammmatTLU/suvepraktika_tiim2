@@ -146,4 +146,5 @@ verify:
 
 lights-test:
     path: api/test/lights
-    controller: App/Controller/TestController::test
+    controller: App\Controller\TestController::testPositiveOutput
+    methods: [POST]

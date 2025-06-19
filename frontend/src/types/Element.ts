@@ -61,3 +61,11 @@ export interface PageStyle {
   spanFontFamily: string;
   spanFontSize: number;
 }
+
+export interface ButtonTemplate {
+  id: number;
+  name: string;
+  command: string;
+  roomId: number;
+  roomName: string;
+}

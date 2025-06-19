@@ -7,6 +7,7 @@ interface UserPageState {
   elements: Record<number, SpanElement>;
   pageStyle: PageStyle;
   loading: boolean;
+  loaded: boolean;
   error: string | null;
 }
 
@@ -49,7 +50,7 @@ export const loadUserPageState = createAsyncThunk<
 const initialState: UserPageState = { 
     elements: {},
     pageStyle: {
-      backgroundColor: '#FFFFFF',
+      backgroundColor: '#000000',
       fontFamily: 'Arial',
       fontSize: 16,
       color: '#000000',
@@ -63,6 +64,7 @@ const initialState: UserPageState = {
       spanFontFamily: "Arial",
       spanFontSize: 12  
     },
+    loaded: false,
     loading: false,
     error: null,
   };
@@ -73,6 +75,21 @@ const spanElementsSlice = createSlice({
   reducers: {
     clearSpans: (state) => {
       state.elements = {};
+      state.pageStyle = {
+        backgroundColor: '#757575',
+        fontFamily: 'Arial',
+        fontSize: 16,
+        color: '#000000',
+        setForElements: false,
+        btnBackgroundColor: '#F0F0F0',
+        btnColor: '#000000',
+        btnFontFamily: 'Arial',
+        btnFontSize: 14,
+        spanBackgroundColor: '#FFFFFF',
+        spanColor: '#000000',
+        spanFontFamily: "Arial",
+        spanFontSize: 12
+      }
     },
     setSpans(state, action: PayloadAction<SpanElement[]>) {
       state.elements = {};
@@ -155,6 +172,11 @@ const spanElementsSlice = createSlice({
         state.pageStyle.setForElements = action.payload;
       }
     },
+    resetLoaded: (state) => {
+      state.loaded = false;
+      state.loading = false;
+      state.error = null;
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -172,13 +194,26 @@ const spanElementsSlice = createSlice({
           });
         }
         console.log("Loaded span elements:", state.elements);
+        state.loaded = true;
       })
       .addCase(loadUserPageState.rejected, (state, action) => {
         state.loading = false;
+        state.loaded = true;
         state.error = action.error.message || 'Failed to load elements';
       });
   },
 });
 
-export const { setSpans, updateSpan, setPosition, setSize, addSpan, deleteSpan, clearSpans, setPageStyle, setSetForElements } = spanElementsSlice.actions;
+export const {
+  setSpans,
+  updateSpan,
+  setPosition,
+  setSize,
+  addSpan,
+  deleteSpan,
+  clearSpans,
+  setPageStyle,
+  setSetForElements,
+  resetLoaded
+} = spanElementsSlice.actions;
 export default spanElementsSlice.reducer;

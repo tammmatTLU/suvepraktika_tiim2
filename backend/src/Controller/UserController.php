@@ -7,7 +7,6 @@ use App\Repository\ButtonInstanceRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -104,27 +103,13 @@ final class UserController extends AbstractController
         ],200);
     }
 
-    public function addReduxSpan(Request $request, EntityManagerInterFace $entityManager, string $userName) : JsonResponse
+    public function addReduxSpan(Request $request) : JsonResponse
     {
+        $data = $request->getPayload()->all('spans');
+        $userName = $request->getPayload()->get('userName');
 
-        $payload = json_decode($request->getContent(), true);
-
-        $user = $payload['userName'] ?? null;
-        $data = $payload['spans'] ?? null;
-
-
-/*         if (empty($payLoad['spans'])) {
-            return new JsonResponse([
-                'error' => [
-                    'message' => 'Redux span cannot be empty'
-                ]
-            ], 400);
-        } */
-/*         if (empty($data['userName'])) {
-            return new JsonResponse([
-                'error' => ['message' => 'User ID is required']
-            ], 400);
-        } */
+        #error_log('data: ' . print_r($data, true));
+        #error_log('user: ' . print_r($user, true));
 
         $user = $this->userRepository->findOneBy(['name' => $userName]);
 

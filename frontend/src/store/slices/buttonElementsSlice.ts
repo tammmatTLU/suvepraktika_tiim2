@@ -8,17 +8,28 @@ export const loadButtonElements = createAsyncThunk(
   'buttonElements/loadElements',
   async (userName: string) => {
     const response = await fetch(`http://localhost:3006/api/user/${userName}/button-instances`);
-    const result = await response.json();
-    console.log(result.data)
-    // result.data is an array of objects with reduxState as a string
-    // Parse reduxState and extract ButtonElement, add templateId
+    
+    const text = await response.text();
+    // If the response is empty, return an empty array
+    if (!text) {
+      return [];
+    }
+
+
+    const result = await JSON.parse(text);
+
+// Parse each redux_state and extract the ButtonElement
     const buttonElementsArray = result.data.map((item: any) => {
-      console.log(item.redux_state)
-      const parsed = JSON.parse(item.redux_state);
-      return {
-        ...parsed
-      };
+      try {
+          const parsed = JSON.parse(item.redux_state);
+          return parsed as ButtonElement;
+        } catch (e) {
+          console.error('Failed to parse redux_state:', item.redux_state, e);
+          return null;
+        }
     });
+
+    // Now buttonElementsArray is an array of ButtonElement objects with valid ids
     return buttonElementsArray;
   }
 );
@@ -26,12 +37,14 @@ export const loadButtonElements = createAsyncThunk(
 interface ButtonElementsState {
   elements: Record<number, ButtonElement>;
   loading: boolean;
+  loaded: boolean;
   error: string | null;
 }
 
 const initialState: ButtonElementsState = {
   elements: {},
   loading: false,
+  loaded: false,
   error: null,
 };
 
@@ -86,6 +99,11 @@ const buttonElementsSlice = createSlice({
     deleteButton: (state, action: PayloadAction<number>) => {
       delete state.elements[action.payload];
     },
+    resetLoaded: (state) => {
+      state.loaded = false;
+      state.loading = false;
+      state.error = null;
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -95,10 +113,11 @@ const buttonElementsSlice = createSlice({
       })
       .addCase(loadButtonElements.fulfilled, (state, action) => {
         state.loading = false;
+        state.loaded = true;
         state.error = null;
         state.elements = {};
-        action.payload.forEach((el: ButtonElement) => {
-          state.elements[el.id] = el;
+        action.payload.forEach((button: ButtonElement) => {
+            state.elements[button.id] = button;
         });
         console.log("Loaded button elements:", state.elements);
       })
@@ -117,6 +136,7 @@ export const {
   setSize,
   deleteButton,
   clearButtons,
+  resetLoaded
 } = buttonElementsSlice.actions;
 
 export default buttonElementsSlice.reducer;

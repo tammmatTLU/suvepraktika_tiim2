@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import undoableRootReducer from './slices/undoableRootSlice';
+import buttonTemplateReducer from './slices/buttonTemplateSlice';
 
 export const store = configureStore({
   reducer: {
     undoableRoot: undoableRootReducer,
+    buttonTemplate: buttonTemplateReducer,
   },
   
 });

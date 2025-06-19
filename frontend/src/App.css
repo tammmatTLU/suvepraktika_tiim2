@@ -23,7 +23,7 @@ html{
 }
 
 .grid-layout{
-    min-height: 100vh;
+    height: 100vh;
     width: 100%;
     display: grid;
     grid-template-rows: 15% 70% 15%;
@@ -196,6 +196,7 @@ header{
     position: relative;
     display: flex;
     flex-direction: column;
+    color: #ffffff;
 }
 
 .modal-content *{
@@ -224,7 +225,6 @@ header{
     border: none;
     padding: 10px;
     cursor: pointer;
-    z-index: 1000000 !important;
     font-size: 20px;
 }
 
@@ -237,7 +237,6 @@ header{
     border: none;
     padding: 10px;
     cursor: pointer;
-    z-index: 1000000 !important;
     font-size: 20px;
 }
 
@@ -305,4 +304,17 @@ header{
     left: 0;
     z-index: 2;
     margin: 1%;
+}
+
+.admin-control-panel{
+    grid-row: 2/3;
+    overflow: auto;
+    height: 100%;
+    width: 100%;
+}
+
+.header-text {
+    color: var(--page-color, #000000);
+    font-size: var(--page-font-size, 16px);
+    font-family: var(--page-font, Arial, sans-serif);
 }

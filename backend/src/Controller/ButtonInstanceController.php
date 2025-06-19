@@ -16,6 +16,7 @@ final class ButtonInstanceController extends AbstractController
     private ButtonInstanceRepository $buttonInstanceRepository;
     private EntityManagerInterface $entityManager;
     private UserRepository $userRepository;
+    private ButtonTemplateRepository $buttonTemplateRepository;
 
 
     public function __construct(ButtonInstanceRepository $buttonInstanceRepository, UserRepository $userRepository, ButtonTemplateRepository $buttonTemplateRepository, EntityManagerInterface $entityManager)
@@ -79,13 +80,6 @@ final class ButtonInstanceController extends AbstractController
         error_log('Raw request: ' . $request->getContent());
         error_log('Decoded data: ' . print_r($data, true));
 
-        if (empty($payloadReduxData)) {
-            return new JsonResponse([
-                'error' => [
-                    'message' => 'redux_state cannot be empty'
-                ]
-            ], 400);
-        }
 
         if (!$payloadUserData) {
             return new JsonResponse([
@@ -120,6 +114,7 @@ final class ButtonInstanceController extends AbstractController
 
             if (!in_array($sentId, $dbIds)) {
                 $buttonInstance = new ButtonInstance();
+                $buttonInstance->setId($sentId);
                 $buttonInstance->setReduxState($reduxState);
                 $buttonInstance->setUser($user);
                 if ($buttonTemplate) {
