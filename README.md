@@ -48,6 +48,18 @@
 git clone -b live-branch https://github.com/tammmatTLU/suvepraktika_tiim2.git
 cd suvepraktika_tiim2
 ```
+## 2. MariaDB andmebaasi seadistamine
+Andmebaasi loomine ja kasutaja seadistamine
+```bash
+mysql -u root -p
+```
+```sql
+CREATE DATABASE suvepraktika CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE USER 'praktikant'@'localhost' IDENTIFIED BY 'parool123';
+GRANT ALL PRIVILEGES ON suvepraktika.* TO 'praktikant'@'localhost';
+FLUSH PRIVILEGES;
+EXIT;
+```
 <h2 id="application-tests">Testimine</h2>
 <p>GitHub repositooriumis on fail nimega "Testplaan.pdf" kus on kirjas meie testplaan. Kindlaid testjuhtumeid me ei jõudnud teha, ega kontrollida, kuid arenduse jooksul kasutasime manuaalset ja uuritavat testimist.</p>
 <p><a href="https://github.com/tammmatTLU/suvepraktika_tiim2/blob/scripts/Testiplaan.pdf">Testplaan</a></p>
