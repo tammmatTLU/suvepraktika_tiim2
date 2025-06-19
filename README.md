@@ -35,6 +35,7 @@
 
 <h1 id="instructions">Juhised</h1>
 Dockeriga:
+
 ## Projekti käivitamine Dockeriga
 - Ava oma lemmik terminal
 - Klooni repo ja mine sinna sisse
@@ -48,6 +49,7 @@ cp .env.example .env
 - Lõpetuseks jooksuta lihtsalt `docker compose up` või `docker compose up -d`, kui tekstisein sind häirib
 
 Ilma Dockerita:
+
 ## Eeltingimused
 - Node.js (v16+)
 - PHP (v8.1+)
