@@ -14,7 +14,7 @@
 [Blogi](https://github.com/tammmatTLU/suvepraktika_tiim2/wiki/blogi)
 
 <h2 id="project-summary"> Eesmärk </h2>
-<p>Antud toote eesmärk on vahetada välja ülikooli auditooriumites olev seadmete juhtimise tarkvara. Rakendus on mõelnud tahvelarvutile ja peab olema võimeline sisse ja välja lülitada kindlas auditooriumis olevaid seadmeid ja hõlpsustama suures auditooriumis erinevate seadmete kasutamist. Antud tahvleid võib olla rohkem kui üks mis võivad dubleerida üksteist või täiesti eraldi seisev seade, kuid peab olema võimeline samas ruumis seadmeid kontrollida. Rakenduse Administraatoril on õigus teha rakenduses uusi kasutajaid/vaateid, muuta tahvlis olevate nuppude asetus ja kujundust.</p>
+<p>Antud toote eesmärk on vahetada välja Tallinna ülikooli auditooriumites olev seadmete juhtimise tarkvara. Rakendus on mõelnud tahvelarvutile ja peab olema võimeline sisse ja välja lülitada kindlas auditooriumis olevaid seadmeid ja hõlpsustama suures auditooriumis erinevate seadmete kasutamist. Antud tahvleid võib olla rohkem kui üks mis võivad dubleerida üksteist või täiesti eraldi seisev seade, kuid peab olema võimeline samas ruumis seadmeid kontrollida. Rakenduse Administraatoril on õigus teha rakenduses uusi kasutajaid/vaateid, muuta tahvlis olevate nuppude asetus ja kujundust.</p>
 
 <h2 id="project-tech"> :desktop_computer: Tehnoloogiad </h2>
 <p>
