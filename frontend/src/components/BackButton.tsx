@@ -19,6 +19,7 @@ const BackButton: React.FC<BackButtonProps> = ({ onClick, label = 'Tagasi' }) =>
             type="button"
             onClick={handleClick}
             className="back-btn"
+            hidden={localStorage.getItem('userName') !== "admin"}
         >
             &#8592; {label}
         </button>
