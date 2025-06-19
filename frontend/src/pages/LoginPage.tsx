@@ -34,8 +34,12 @@ export default function LoginPage() {
 			const responseBody = await response.json();
 			localStorage.setItem('userToken', responseBody.token);
 			localStorage.setItem('userName', responseBody.username);
-			await navigate(`/ui-config/${responseBody.username}`, { replace: true });
-		}
+			if (responseBody.username === "admin") {
+				await navigate(`/action-select`, { replace: true });
+			   } else {
+				await navigate(`/device-control/${responseBody.username}`, { replace: true });
+		   }}
+		   
 		catch (error) {
 			setErrorMsg("Tundmatu viga registreerimisel");
 
