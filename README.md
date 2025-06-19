@@ -5,7 +5,7 @@
 <details open="open">
   <summary>Sisukord</summary>
   <ol>
-    <li><a href="##project-summary"> ➤ Eesmärk </a></li>
+    <li><a href="#project-summary"> ➤ Eesmärk </a></li>
     <li><a href="#overview"> ➤ Overview</a></li>
   </ol>
 </details>
