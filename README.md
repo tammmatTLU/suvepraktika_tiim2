@@ -1,7 +1,7 @@
 # Auditooriumite seadmete juhtimise/lülitamise lahendus 
 ## Tiimi koosseis: Mattias Tamm, Vaiko Villiam Tuul, Armin Jaemaa, Martin Sütt, Kert-Jan Ots (benched), Peter Saan (on loan)
 
-<h2 id="table-of-contents"> :book: Sisukord</h2>
+<h1 id="table-of-contents"> :book: Sisukord</h1>
 <details open="open">
   <summary>Sisukord</summary>
   <ol>
@@ -14,10 +14,10 @@
 
 <a href="https://github.com/tammmatTLU/suvepraktika_tiim2/wiki">Blogi<a>
 
-<h2 id="project-summary"> Eesmärk </h2>
+<h1 id="project-summary"> Eesmärk </h1>
 <p>Antud toote eesmärk on vahetada välja Tallinna ülikooli auditooriumites olev seadmete juhtimise tarkvara. Rakendus on mõelnud tahvelarvutile ja peab olema võimeline sisse ja välja lülitada kindlas auditooriumis olevaid seadmeid ja hõlpsustama suures auditooriumis erinevate seadmete kasutamist. Antud tahvleid võib olla rohkem kui üks mis võivad dubleerida üksteist või täiesti eraldi seisev seade, kuid peab olema võimeline samas ruumis seadmeid kontrollida. Rakenduse Administraatoril on õigus teha rakenduses uusi kasutajaid/vaateid, muuta tahvlis olevate nuppude asetus ja kujundust.</p>
 
-<h2 id="project-tech"> :desktop_computer: Tehnoloogiad </h2>
+<h1 id="project-tech"> :desktop_computer: Tehnoloogiad </h1>
 <p>
     <ul>
         <li>PHP 8.4.8</li>
@@ -33,7 +33,7 @@
 </p>
 <p>Arenduse jooksul kasutasime Dockerit versioon 28.1.1</p>
 
-<h2 id="instructions">Juhised</h2>
+<h1 id="instructions">Juhised</h1>
 # Projekti käivitamise juhend
 
 ## Eeltingimused
@@ -87,6 +87,6 @@ npm install
 npm run start
 ```
 
-<h2 id="application-tests">Testimine</h2>
+<h1 id="application-tests">Testimine</h1>
 <p>GitHub repositooriumis on fail nimega "Testplaan.pdf" kus on kirjas meie testplaan. Kindlaid testjuhtumeid me ei jõudnud teha, ega kontrollida, kuid arenduse jooksul kasutasime manuaalset ja uuritavat testimist.</p>
 <p><a href="https://github.com/tammmatTLU/suvepraktika_tiim2/blob/scripts/Testiplaan.pdf">Testplaan</a></p>
