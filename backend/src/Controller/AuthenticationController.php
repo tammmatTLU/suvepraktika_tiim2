@@ -112,7 +112,6 @@ class AuthenticationController extends AbstractController
 
             $entityManager->persist($token);
             $entityManager->flush();
-            $user->addToken($token);
 
             return new JsonResponse([
                 'username' => $user->getUserIdentifier(),
@@ -136,9 +135,6 @@ class AuthenticationController extends AbstractController
             ['value' => $request->getPayload()->getString('userToken')]
         );
 
-        $user = $security->getUser();
-        $user->removeToken($token);
-
         if (!$token) {
             return new JsonResponse([
                 'data' => 'Sent token was invalid'
@@ -155,17 +151,15 @@ class AuthenticationController extends AbstractController
         ], Response::HTTP_OK);
     }
 
-    public function verify(Security $security, Request $request): JsonResponse
+    public function verify(#[CurrentUser] ?User $user, Request $request): JsonResponse
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
 
-        $user = $security->getUser();
         $token = $request->getPayload()->getString('userToken');
 
         $tokenService = new TokenService($this->tokenRepository);
         $isVerified = $tokenService->verify($user, $token);
         $isAdmin = in_array("ROLE_ADMIN", $user->getRoles());
-
 
         if (!$isVerified) {
             return new JsonResponse([
