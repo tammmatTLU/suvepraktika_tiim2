@@ -16,28 +16,17 @@ class GroupInstanceRepository extends ServiceEntityRepository
         parent::__construct($registry, GroupInstance::class);
     }
 
-    //    /**
-    //     * @return GroupInstance[] Returns an array of GroupInstance objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('g')
-    //            ->andWhere('g.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('g.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+        public function findButtonInstancesByUserId(int $userId)
+    {
+        $conn = $this->getEntityManager()->getConnection();
 
-    //    public function findOneBySomeField($value): ?GroupInstance
-    //    {
-    //        return $this->createQueryBuilder('g')
-    //            ->andWhere('g.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+        $sql = '
+        SELECT * FROM group_instance
+        WHERE user_id = :userId
+        ';
+
+        $result = $conn->executeQuery($sql, ['userId' => $userId]);
+
+        return $result->fetchAllAssociative();
+    }
 }

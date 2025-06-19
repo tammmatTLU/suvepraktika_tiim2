@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Repository\ButtonInstanceRepository;
+use App\Repository\GroupInstanceRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,12 +16,14 @@ final class UserController extends AbstractController
     private UserRepository $userRepository;
     private ButtonInstanceRepository $buttonInstanceRepository;
     private EntityManagerInterface $entityManager;
+    private GroupInstanceRepository $groupInstanceRepository;
 
-    public function __construct(UserRepository $userRepository, ButtonInstanceRepository $buttonInstanceRepository, EntityManagerInterface $entityManager)
+    public function __construct(UserRepository $userRepository, ButtonInstanceRepository $buttonInstanceRepository, EntityManagerInterface $entityManager, GroupInstanceRepository $groupInstanceRepository)
     {
         $this->userRepository = $userRepository;
         $this->buttonInstanceRepository = $buttonInstanceRepository;
         $this->entityManager = $entityManager;
+        $this->groupInstanceRepository = $groupInstanceRepository;
     }
 
     public function findAllUsers(): JsonResponse
@@ -86,6 +89,22 @@ final class UserController extends AbstractController
         return new JsonResponse([
             'data' => $data
         ],200);
+    }
+
+    public function findGroupInstanceByUserName(string $userName): JsonResponse
+    {
+        $user = $this->userRepository->findOneBy(['name' => $userName]);
+        $groupInstance = $this->groupInstanceRepository->findButtonInstancesByUserId($user->getId());
+
+        $data = [];
+        foreach ($groupInstance as $groupInstance) {
+            $data[] = $groupInstance;
+        }
+
+        return new JsonResponse([
+            'data' => $data
+        ],200);
+
     }
 
     public function findReduxSpanByUserName(string $userName) : JsonResponse

@@ -15,6 +15,11 @@ user-button-instances:
     controller: App\Controller\UserController::findButtonInstancesByUserName
     methods: [GET]
 
+user-group-instance:
+    path: api/user/{userName}/group-instances
+    controller: App\Controller\UserController::findGroupInstanceByUserName
+    methods: [GET]
+
 create-user-button-instance:
     path: /api/user/{userName}/button-instances/save
     controller: App\Controller\ButtonInstanceController::saveButtonInstance
@@ -145,6 +150,6 @@ verify:
     methods: [POST]
 
 lights-test:
-    path: api/test/lights
-    controller: App\Controller\TestController::testPositiveOutput
-    methods: [POST]
+    path: api/execute-command
+    controller: App\Controller\TestController::testButtons
+    methods: [GET, POST]
