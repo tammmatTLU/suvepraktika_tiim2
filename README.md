@@ -34,6 +34,20 @@
 <p>Arenduse jooksul kasutasime Dockerit versioon 28.1.1</p>
 
 <h2 id="instructions">Juhised</h2>
+# Projekti käivitamise juhend
+
+## Eeltingimused
+- Node.js (v16+)
+- PHP (v8.1+)
+- Composer
+- MySQL
+- Git
+
+## 1. Paigaldus
+```bash
+git clone -b live-branch https://github.com/tammmatTLU/suvepraktika_tiim2.git
+cd suvepraktika_tiim2
+```
 <h2 id="application-tests">Testimine</h2>
 <p>GitHub repositooriumis on fail nimega "Testplaan.pdf" kus on kirjas meie testplaan. Kindlaid testjuhtumeid me ei jõudnud teha, ega kontrollida, kuid arenduse jooksul kasutasime manuaalset ja uuritavat testimist.</p>
 <p><a href="https://github.com/tammmatTLU/suvepraktika_tiim2/blob/scripts/Testiplaan.pdf">Testplaan</a></p>
