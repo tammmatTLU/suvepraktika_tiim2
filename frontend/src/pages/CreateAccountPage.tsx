@@ -32,11 +32,11 @@ export default function CreateAccountPage() {
 
 			if (password !== passwordAgain) throw new Error("Paroolid ei ühti");
 			if (!response.ok) {
-				throw new Error("Sisselogimine ebaõnnestus. Proovi uuesti!")
+				throw new Error("Registreerimine ebaõnnestus. Proovi uuesti!")
 			};
 
 			setErrorMsg("");
-			navigate("/");
+			navigate(`/ui-config/${username}`, { replace: true });
 		}
 		catch (error) {
 			setErrorMsg("Tundmatu viga registreerimisel");
