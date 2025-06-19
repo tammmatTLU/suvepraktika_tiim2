@@ -60,6 +60,23 @@ GRANT ALL PRIVILEGES ON suvepraktika.* TO 'suvekasutaja'@'localhost';
 FLUSH PRIVILEGES;
 EXIT;
 ```
+## 3. Backendi seadistamine
+```bash
+cd backend
+composer install
+```
+Muuda .env faili andmebaasi seaded:
+```ini
+DATABASE_URL="mysql://suvekasutaja:asd1@127.0.0.1:3306/suvepraktika?serverVersion=mariadb-versiooninumber"
+```
+Andmebaasi migratsioonid ja seedimine
+```bash
+php bin/console doctrine:migrations:migrate -n
+php bin/console doctrine:fixtures:load -n
+```
+## 4.Frontendi seadistamine
+
+
 <h2 id="application-tests">Testimine</h2>
 <p>GitHub repositooriumis on fail nimega "Testplaan.pdf" kus on kirjas meie testplaan. Kindlaid testjuhtumeid me ei jõudnud teha, ega kontrollida, kuid arenduse jooksul kasutasime manuaalset ja uuritavat testimist.</p>
 <p><a href="https://github.com/tammmatTLU/suvepraktika_tiim2/blob/scripts/Testiplaan.pdf">Testplaan</a></p>
