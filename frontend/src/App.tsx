@@ -6,19 +6,22 @@ import UIConfigPage from "./pages/UIConfigPage"
 import AutomationConfigPage from "./pages/AutomationConfigPage"
 import CreateAccountPage from "./pages/CreateAccountPage"
 import RoomSelectPage from "./pages/RoomSelectPage"
+import ProtectedRoutes from "./utils/ProtectedRoutes"
 
 
 function App() {
   return (
     <>
       <Routes>
-        <Route path='/' element={<LoginPage/>}/>
-        <Route path='/action-select' element={<ActionSelectPage/>}/>
-        <Route path='/room-selection/:action' element={<RoomSelectPage/>}/>
-        <Route path='/device-control/:userName' element={<DeviceControlPage />}/>
-        <Route path='/ui-config/:userName' element={<UIConfigPage/>}/>
-        <Route path='/automation-config' element={<AutomationConfigPage/>}/>
-        <Route path='/view-creation' element={<CreateAccountPage/>}/>
+        <Route index path='/' element={<LoginPage/>}/>
+				<Route element={<ProtectedRoutes/>}>
+					<Route path='/action-select' element={<ActionSelectPage/>}/>
+					<Route path='/room-selection/:action' element={<RoomSelectPage/>}/>
+					<Route path='/device-control/:userName' element={<DeviceControlPage />}/>
+					<Route path='/ui-config/:userName' element={<UIConfigPage/>}/>
+					<Route path='/automation-config' element={<AutomationConfigPage/>}/>
+					<Route path='/view-creation' element={<CreateAccountPage/>}/>
+				</Route>
       </Routes>
     </>
   )

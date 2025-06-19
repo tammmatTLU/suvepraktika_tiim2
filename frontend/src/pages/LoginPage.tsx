@@ -20,7 +20,8 @@ export default function LoginPage() {
 				{
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
-					body: JSON.stringify({ "username": username, "password": password })
+					body: JSON.stringify({ "username": username, "password": password }),
+					credentials: "include"
 				}
 			);
 
@@ -32,12 +33,13 @@ export default function LoginPage() {
 			const responseBody = await response.json();
 			localStorage.setItem('userToken', responseBody.token);
 			localStorage.setItem('userName', responseBody.username);
-			navigate(`/ui-config/${responseBody.username}`, { replace: true });
+			await navigate(`/ui-config/${responseBody.username}`, { replace: true });
 		}
 		catch (error) {
 			setErrorMsg("Tundmatu viga registreerimisel");
 
 			if (error instanceof Error) setErrorMsg(error.message);
+			if (error instanceof DOMException) setErrorMsg(error.message);
 		}
 	}
 

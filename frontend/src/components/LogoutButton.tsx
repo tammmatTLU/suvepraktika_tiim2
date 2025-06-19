@@ -5,18 +5,20 @@ export default function LogoutButton() {
 	const navigate = useNavigate();
 
 	async function handleLogout() {
-		const token = localStorage.getItem("userToken");
+		const token: string | null = localStorage.getItem("userToken");
 		const response = await fetch(`${apiUrl}/logout`,
 			{
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ "userToken": token })
+				body: JSON.stringify({ "userToken": token }),
+				credentials: "include"
 			}
 		);
 
+		console.log(token);
 		console.log(response.status);
-		localStorage.removeItem('userName');
-		localStorage.removeItem('userToken');
+		localStorage.removeItem("userName");
+		localStorage.removeItem("userToken");
 		navigate("/");
 	};
 
