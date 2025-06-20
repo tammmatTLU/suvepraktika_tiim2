@@ -30,12 +30,12 @@ class AuthenticationController extends AbstractController
     public function register(
         UserPasswordHasherInterface $passwordHasher,
         EntityManagerInterface $entityManager,
-        Request $request
+        Request $req
     ): JsonResponse
     {
-        $username = $request->getPayload()->getString('username');
-        $password = $request->getPayload()->getString('password');
-        $passwordAgain = $request->getPayload()->getString('passwordAgain');
+        $username = $req->getPayload()->getString('username');
+        $password = $req->getPayload()->getString('password');
+        $passwordAgain = $req->getPayload()->getString('passwordAgain');
 
         if (!trim($username) || !trim($password) || !trim($passwordAgain)) {
             return new JsonResponse([
@@ -83,7 +83,7 @@ class AuthenticationController extends AbstractController
     public function login(
         #[CurrentUser] ?User $user,
         EntityManagerInterface $entityManager,
-        Request $request
+        Request $req
     ): JsonResponse
     {
         if ($user === null) {
@@ -93,7 +93,7 @@ class AuthenticationController extends AbstractController
         }
 
         $tokenService = new TokenService($this->tokenRepository);
-        $userToken = $request->getPayload()->getString('userToken');
+        $userToken = $req->getPayload()->getString('userToken');
         $isVerified = $tokenService->verify($user, $userToken);
 
         if (!trim($userToken) | !$isVerified) {
@@ -128,11 +128,11 @@ class AuthenticationController extends AbstractController
     public function logout(
         Security $security,
         EntityManagerInterface $entityManager,
-        Request $request
+        Request $req
     ): JsonResponse
     {
         $token = $this->tokenRepository->findOneBy(
-            ['value' => $request->getPayload()->getString('userToken')]
+            ['value' => $req->getPayload()->getString('userToken')]
         );
 
         if (!$token) {
@@ -151,11 +151,57 @@ class AuthenticationController extends AbstractController
         ], Response::HTTP_OK);
     }
 
-    public function verify(#[CurrentUser] ?User $user, Request $request): JsonResponse
+    public function updatePassword(
+        #[CurrentUser] ?User $user,
+        UserPasswordHasherInterface $passwordHasher,
+        Request $req
+    ): JsonResponse
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
 
-        $token = $request->getPayload()->getString('userToken');
+        $isAdmin = in_array("ROLE_ADMIN", $user->getRoles());
+
+        if (!$isAdmin) {
+            return new JsonResponse([
+                "data" => "Can't change another user's password"
+            ], Response::HTTP_BAD_REQUEST);
+        }
+
+        $oldPass = $req->getPayload()->getString("oldPass");
+        $oldPassAgain = $req->getPayload()->getString("oldPassAgain");
+        $newPass = $req->getPayload()->getString("newPass");
+
+        if (!trim($oldPass) || !trim($oldPassAgain) || !trim($newPass)) {
+            return new JsonResponse([
+                "data" => "Invalid credentials"
+            ], Response::HTTP_BAD_REQUEST);
+        }
+
+        if ($oldPass !== $oldPassAgain) {
+            return new JsonResponse([
+                "data" => "Invalid credentials"
+            ], Response::HTTP_BAD_REQUEST);
+        }
+
+        if (!$passwordHasher->isPasswordValid($user, $oldPass)) {
+            return new JsonResponse([
+                "data" => "Invalid credentials"
+            ], Response::HTTP_BAD_REQUEST);
+        }
+
+        $hashedPass = $passwordHasher->hashPassword($user, $newPass);
+        $this->userRepository->upgradePassword($user, $hashedPass);
+
+        return new JsonResponse([
+            "data" => "Password updated successfully"
+        ], Response::HTTP_OK);
+    }
+
+    public function verify(#[CurrentUser] ?User $user, Request $req): JsonResponse
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
+
+        $token = $req->getPayload()->getString('userToken');
 
         $tokenService = new TokenService($this->tokenRepository);
         $isVerified = $tokenService->verify($user, $token);
