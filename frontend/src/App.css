@@ -184,10 +184,13 @@ header{
     align-items: center;
     justify-content: center;
     z-index: 1000;
+    height: 80vh;
 }
 
 /* Modal window centered */
 .modal-content {
+    position: fixed;
+    top: 10%;
     background: #530808;
     border-radius: 8px;
     padding: 32px 24px;
@@ -197,11 +200,17 @@ header{
     display: flex;
     flex-direction: column;
     color: #ffffff;
+    overflow-y:scroll;
+    height: 80%;
 }
 
 .modal-content *{
     padding: 1%;
     margin: 1%;
+}
+
+.modal-content-color-input{
+    min-height:30px;
 }
 
 .edit-panel {

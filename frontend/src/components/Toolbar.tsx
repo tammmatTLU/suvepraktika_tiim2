@@ -303,10 +303,10 @@ function ToolbarModal({ action, onClose }: { action: string, onClose: () => void
     content = (
         <div className="modal-content">
             <label>Lehe taustavärv:</label>
-            <input type="color" value={backgroundColor} onChange={e => setBackgroundColor(e.target.value)} />
+            <input type="color" className="modal-content-color-input" value={backgroundColor} onChange={e => setBackgroundColor(e.target.value)} />
 
             <label>Päise tekstivärv:</label>
-            <input type="color" value={color} onChange={e => setColor(e.target.value)} />
+            <input type="color" className="modal-content-color-input" value={color} onChange={e => setColor(e.target.value)} />
 
             <label>Päise font:</label>
             <input type="text" value={fontFamily} onChange={e => setFontFamily(e.target.value)} />
@@ -317,10 +317,10 @@ function ToolbarModal({ action, onClose }: { action: string, onClose: () => void
             <hr />
 
             <label>Nuppude taustavärv:</label>
-            <input type="color" value={btnBackgroundColor} onChange={e => setBtnBackgroundColor(e.target.value)} />
+            <input type="color" className="modal-content-color-input" value={btnBackgroundColor} onChange={e => setBtnBackgroundColor(e.target.value)} />
 
             <label>Nuppude tekstivärv:</label>
-            <input type="color" value={btnColor} onChange={e => setBtnColor(e.target.value)} />
+            <input type="color" className="modal-content-color-input" value={btnColor} onChange={e => setBtnColor(e.target.value)} />
 
             <label>Nuppude font:</label>
             <input type="text" value={btnFontFamily} onChange={e => setBtnFontFamily(e.target.value)} />
@@ -331,10 +331,10 @@ function ToolbarModal({ action, onClose }: { action: string, onClose: () => void
             <hr />
 
             <label>Tekstielementide taustavärv:</label>
-            <input type="color" value={spanBackgroundColor} onChange={e => setSpanBackgroundColor(e.target.value)} />
+            <input type="color" className="modal-content-color-input" value={spanBackgroundColor} onChange={e => setSpanBackgroundColor(e.target.value)} />
 
             <label>Tekstielementide tekstivärv:</label>
-            <input type="color" value={spanColor} onChange={e => setSpanColor(e.target.value)} />
+            <input type="color" className="modal-content-color-input" value={spanColor} onChange={e => setSpanColor(e.target.value)} />
 
             <label>Tekstielementide font:</label>
             <input type="text" value={spanFontFamily} onChange={e => setSpanFontFamily(e.target.value)} />

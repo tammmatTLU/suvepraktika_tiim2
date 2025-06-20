@@ -15,9 +15,6 @@ export default function ActionSelectPage() {
                 <Link to="/room-selection/ui-config">
                     <button className="btn-grad">Puldi vaate redigeerimine</button>
                 </Link>
-                <Link to="/automation-config">
-                    <button className="btn-grad">Ajapõhine automatiseerimine</button>
-                </Link>
                 <Link to="/view-creation">
                     <button className="btn-grad">Vaate loomine</button>
                 </Link>
